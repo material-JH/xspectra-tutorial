@@ -1,8 +1,8 @@
-# SrTiO3 O K-edge Walkthrough
+# SrTiO3 O K-edge 실습
 
-The O K-edge probes transitions from O 1s to unoccupied O 2p-projected states. In SrTiO3, those O 2p states hybridize strongly with Ti 3d states, so the edge is sensitive to Ti-O bonding and octahedral electronic structure.
+O K-edge는 O 1s 상태에서 비점유 O 2p 성분 상태로의 전이를 봅니다. SrTiO3에서는 이러한 O 2p 상태가 Ti 3d 상태와 강하게 hybridization하므로, 이 edge는 Ti-O 결합과 팔면체 전자 구조에 민감합니다.
 
-## Run
+## 실행
 
 ```bash
 cd SrTiO3/O_Kedge
@@ -10,45 +10,45 @@ bash run.sh
 cd ../..
 ```
 
-On a cluster, prefer:
+클러스터에서는 다음 방식이 더 좋습니다.
 
 ```bash
 sbatch scheduler/slurm_srtio3_okedge.sbatch
 ```
 
-## Important input choices
+## 중요한 입력 선택
 
-In the SCF input, one oxygen is labeled `Oh`:
+SCF 입력에서 산소 하나는 `Oh`로 레이블링되어 있습니다.
 
 ```fortran
 ATOMIC_SPECIES
 Sr  ...
 Ti  ...
-Oh  ...   ! absorber
-O   ...   ! spectator oxygens
+Oh  ...   ! 흡수 원자
+O   ...   ! 나머지 산소
 ```
 
-Therefore:
+따라서 다음처럼 설정합니다.
 
 ```fortran
 ntyp = 4
 xiabs = 3
 ```
 
-## TEM/EELS interpretation
+## TEM/EELS 해석
 
-- O K-edge: O 1s to O 2p-like unoccupied states.
-- In SrTiO3, early O K-edge features reflect hybridization with Ti t2g/eg-like conduction states.
-- Calculated spectra use a relative energy axis and must be aligned before comparison to experimental energy loss.
-- Broadening is chosen by `xgamma`; it is not a full instrument-response model.
+- O K-edge: O 1s에서 O 2p 성분의 비점유 상태로 가는 전이입니다.
+- SrTiO3에서 초기 O K-edge feature는 Ti t2g/eg 성분의 전도 상태와의 hybridization을 반영합니다.
+- 계산 스펙트럼은 상대 에너지 축을 사용하므로, 실험 에너지 손실과 비교하기 전에 energy alignment가 필요합니다.
+- Broadening은 `xgamma`로 정합니다. 이는 완전한 장비 응답 함수 모델은 아닙니다.
 
-## Output
+## 출력
 
 ```text
 SrTiO3/O_Kedge/O_Kedge.dat
 ```
 
-Plot with:
+그림은 다음처럼 그립니다.
 
 ```bash
 cd SrTiO3

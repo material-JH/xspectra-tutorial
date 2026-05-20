@@ -1,17 +1,17 @@
-# Troubleshooting
+# 문제 해결
 
 ## `env.sh not found`
 
-Create it from the template:
+템플릿에서 새로 만드세요.
 
 ```bash
 cp env.sh.example env.sh
 vim env.sh
 ```
 
-## `pw.x: command not found` or missing `pw.x`
+## `pw.x: command not found` 또는 `pw.x`가 없음
 
-Likely cause: wrong QE module or `BIN_DIR`.
+가능한 원인: QE module이 잘못되었거나 `BIN_DIR` 설정이 틀렸습니다.
 
 ```bash
 module avail quantum
@@ -19,34 +19,34 @@ module load quantum-espresso
 which pw.x
 ```
 
-Then update `env.sh`.
+그 다음 `env.sh`를 수정하세요.
 
-## `xspectra.x` missing
+## `xspectra.x`가 없음
 
-The loaded QE build may not include XSpectra. Ask the instructor for the XSpectra-enabled QE module.
+로드한 QE build에 XSpectra가 포함되어 있지 않을 수 있습니다. 강사에게 XSpectra가 활성화된 QE module을 문의하세요.
 
-## `upf2plotcore.sh` missing
+## `upf2plotcore.sh`가 없음
 
-Check `TOOLS_DIR`:
+`TOOLS_DIR`를 확인하세요.
 
 ```bash
 find "$QE_ROOT" -name upf2plotcore.sh
 ```
 
-Set `TOOLS_DIR` in `env.sh` to the directory containing that script.
+`env.sh`에서 `TOOLS_DIR`를 해당 script가 들어 있는 디렉터리로 설정하세요.
 
-## Cannot open pseudopotential file
+## 유사퍼텐셜 파일을 열 수 없음
 
-Check `pseudo_dir` in the generated `scf.in`, and verify the file exists:
+생성된 `scf.in`의 `pseudo_dir`를 확인하고, 파일이 실제로 있는지 확인하세요.
 
 ```bash
 ls SrTiO3/pseudo/
 ls "$EXAMPLE_PSEUDO_DIR"
 ```
 
-## Missing `O.wfc` or `Ti.wfc`
+## `O.wfc` 또는 `Ti.wfc`가 없음
 
-The revised scripts generate these automatically. If needed, regenerate manually:
+수정된 스크립트는 이 파일들을 자동으로 생성합니다. 필요하면 다음처럼 수동으로 다시 생성하세요.
 
 ```bash
 $TOOLS_DIR/upf2plotcore.sh SrTiO3/pseudo/O.pbe-n-kjpaw_psl.0.1.UPF > O.wfc
@@ -55,30 +55,30 @@ $TOOLS_DIR/upf2plotcore.sh SrTiO3/pseudo/Ti.pbe-spn-kjpaw_psl.1.0.0.UPF > Ti.wfc
 
 ## `xspectra.x did not produce xanes.dat`
 
-Read the end of the output:
+출력 파일의 마지막 부분을 읽어 보세요.
 
 ```bash
 tail -80 xspectra.out
 ```
 
-Common causes are wrong `xiabs`, missing `filecore`, missing SCF data in `outdir`, or an incompatible pseudopotential.
+흔한 원인은 잘못된 `xiabs`, 없는 `filecore`, `outdir` 안의 SCF 데이터 누락, 또는 호환되지 않는 유사퍼텐셜입니다.
 
-## MPI launcher fails
+## MPI launcher 실패
 
-On Slurm clusters, prefer inside jobs:
+Slurm 클러스터에서는 작업 안에서 다음 설정을 권장합니다.
 
 ```bash
 export MPI_RUN="srun -n $NPROCS"
 ```
 
-On other systems:
+다른 시스템에서는 다음처럼 설정합니다.
 
 ```bash
 export MPI_RUN="mpirun -np $NPROCS"
 ```
 
-If you see login-node policy errors, submit through the scheduler instead of running interactively.
+로그인 노드 정책 오류가 보이면, 대화형 실행 대신 스케줄러로 작업을 제출하세요.
 
-## Job exceeded wall time
+## 작업이 wall time을 초과함
 
-Use reference outputs during the tutorial, or ask the instructor to increase the wall time in the scheduler script.
+튜토리얼 중에는 reference output을 사용하거나, 강사에게 scheduler script의 wall time을 늘려 달라고 요청하세요.

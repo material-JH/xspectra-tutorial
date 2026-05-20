@@ -1,24 +1,24 @@
-# Instructor Checklist
+# 강사용 체크리스트
 
-Before the tutorial session:
+튜토리얼 세션 전 확인할 일:
 
-- Confirm all students have cluster accounts and can log in.
-- Confirm the QE module includes `pw.x`, `xspectra.x`, and `ld1.x`.
-- Confirm `upf2plotcore.sh` is available.
-- Prepare the correct `env.sh` for the local cluster.
-- Run `bash check_setup.sh` from a fresh clone.
-- Submit the Diamond Slurm/PBS test job.
-- Submit at least one SrTiO3 test job.
-- Confirm Python plotting works or prepare pre-generated plots.
-- Decide whether students run core-hole and supercell jobs live or inspect reference outputs.
-- Prepare fallback output files in case the queue is slow.
-- Remind students not to run large MPI jobs on login nodes.
-- Open `docs/xspectra_tutorial_presentation.html` locally in a browser for the tutorial introduction.
+- 모든 학생이 클러스터 계정을 가지고 있고 로그인할 수 있는지 확인합니다.
+- QE module에 `pw.x`, `xspectra.x`, `ld1.x`가 포함되어 있는지 확인합니다.
+- `upf2plotcore.sh`를 사용할 수 있는지 확인합니다.
+- 로컬 클러스터에 맞는 `env.sh`를 준비합니다.
+- 새로 clone한 저장소에서 `bash check_setup.sh`를 실행합니다.
+- Diamond Slurm/PBS 테스트 작업을 제출해 봅니다.
+- SrTiO3 테스트 작업을 최소 하나 제출해 봅니다.
+- Python plotting이 작동하는지 확인하거나 미리 생성한 plot을 준비합니다.
+- 학생들이 core-hole 및 supercell 작업을 실시간으로 실행할지, reference output을 볼지 결정합니다.
+- 큐가 느릴 경우를 대비해 fallback output 파일을 준비합니다.
+- 학생들에게 큰 MPI 작업을 로그인 노드에서 실행하지 말라고 안내합니다.
+- 튜토리얼 소개를 위해 `docs/xspectra_tutorial_presentation.html`을 로컬 브라우저에서 열어 둡니다.
 
-During the session:
+세션 중 진행 순서:
 
-1. Start with Diamond.
-2. Use SrTiO3 O K-edge for the main EELS-relevant example.
-3. Use Ti L-edge as a qualitative white-line interpretation example.
-4. Show reference outputs if jobs are still queued.
-5. Leave supercell and benchmarking as advanced material.
+1. Diamond부터 시작합니다.
+2. EELS와 가장 관련 있는 주요 예제로 SrTiO3 O K-edge를 사용합니다.
+3. Ti L-edge는 white-line 해석의 정성적 예제로 사용합니다.
+4. 작업이 아직 큐에 있으면 reference output을 보여 줍니다.
+5. Supercell과 benchmarking은 고급 내용으로 남겨 둡니다.

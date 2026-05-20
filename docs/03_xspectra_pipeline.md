@@ -1,53 +1,53 @@
-# XSpectra Pipeline
+# XSpectra 계산 흐름
 
-Every calculation follows the same three-step pipeline.
+모든 계산은 같은 3단계 흐름을 따릅니다.
 
-## Step 1: Extract the core wavefunction
+## 1단계: 코어 파동함수 추출
 
 ```bash
 $TOOLS_DIR/upf2plotcore.sh O.pbe-n-kjpaw_psl.0.1.UPF > O.wfc
 ```
 
-This creates the initial core orbital used by XSpectra.
+이 명령은 XSpectra가 사용할 초기 코어 오비탈을 만듭니다.
 
-Important: for FCH/HCH calculations, still extract `filecore` from the original non-core-hole pseudopotential.
+중요: FCH/HCH 계산에서도 `filecore`는 원래의 non-core-hole 유사퍼텐셜에서 추출합니다.
 
-## Step 2: Run SCF with `pw.x`
+## 2단계: `pw.x`로 SCF 계산 실행
 
 ```bash
 pw.x < scf.in > scf.out
 ```
 
-The SCF calculation creates the charge density and wavefunction data in `outdir`.
+SCF 계산은 `outdir`에 전하 밀도와 파동함수 데이터를 만듭니다.
 
-## Step 3: Run `xspectra.x`
+## 3단계: `xspectra.x` 실행
 
 ```bash
 xspectra.x < xspectra.in > xspectra.out
 ```
 
-The output spectrum is written as `xanes.dat`, which the scripts rename to a descriptive filename.
+출력 스펙트럼은 `xanes.dat`로 저장되고, 스크립트가 이를 더 설명적인 파일 이름으로 바꿉니다.
 
-## Key XSpectra variables
+## 주요 XSpectra 변수
 
-- `calculation='xanes_dipole'`: electric dipole transitions.
-- `edge='K'`, `edge='L2'`, or `edge='L3'`: selected edge.
-- `xepsilon(1:3)`: polarization direction.
-- `xiabs`: absorbing species index.
-- `filecore`: extracted core wavefunction file.
-- `xgamma`: Lorentzian broadening in eV.
-- `xemin`, `xemax`: plotted energy window.
-- `cut_occ_states`: removes occupied-state artifacts below the edge.
-- `xonly_plot`: replots from a saved Lanczos file without rerunning the expensive part.
+- `calculation='xanes_dipole'`: 전기 쌍극자 전이.
+- `edge='K'`, `edge='L2'`, 또는 `edge='L3'`: 선택한 edge.
+- `xepsilon(1:3)`: 편광 방향.
+- `xiabs`: 흡수 원자의 species index.
+- `filecore`: 추출한 코어 파동함수 파일.
+- `xgamma`: eV 단위 Lorentzian broadening.
+- `xemin`, `xemax`: 그림으로 볼 에너지 범위.
+- `cut_occ_states`: edge 아래의 점유 상태 artifact를 제거합니다.
+- `xonly_plot`: 비싼 계산을 다시 하지 않고 저장된 Lanczos 파일에서 다시 plot합니다.
 
-## Flow diagram
+## 흐름도
 
 ```text
-UPF pseudopotential
+UPF 유사퍼텐셜
    │
    ├── upf2plotcore.sh → O.wfc / Ti.wfc / C.wfc
    │
-SCF input → pw.x → charge density in tmp/
+SCF 입력 → pw.x → tmp/ 안의 전하 밀도
    │
-XSpectra input + core wavefunction → xspectra.x → xanes.dat
+XSpectra 입력 + 코어 파동함수 → xspectra.x → xanes.dat
 ```
