@@ -1,0 +1,35 @@
+ &control
+    calculation='scf',
+    pseudo_dir = '../pseudo/',
+    outdir='./tmp/',
+    prefix='SrTiO3_TiL_HCH',
+ /
+ &system
+    ibrav = 1,
+    celldm(1) = 7.38,
+    nat = 5,
+    ntyp = 3,
+    ecutwfc = 55.0,
+    ecutrho = 600.0,
+    nbnd = 30,
+    occupations = 'smearing',
+    smearing = 'mp',
+    degauss = 0.01,
+    tot_charge = +0.5,
+ /
+ &electrons
+    mixing_beta = 0.3,
+    conv_thr = 1.0d-8,
+ /
+ATOMIC_SPECIES
+Sr   87.62   Sr.pbe-spn-kjpaw_psl.1.0.0.UPF
+Tih  47.867  Ti.pbe-spn-kjpaw_psl.1.0.0-HCH.UPF
+O    15.999  O.pbe-n-kjpaw_psl.0.1.UPF
+ATOMIC_POSITIONS crystal
+Sr   0.00  0.00  0.00
+Tih  0.50  0.50  0.50
+O    0.50  0.50  0.00
+O    0.50  0.00  0.50
+O    0.00  0.50  0.50
+K_POINTS automatic
+4 4 4 1 1 1

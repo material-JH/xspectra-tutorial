@@ -1,0 +1,403 @@
+
+     Program PWSCF v.7.5 starts on 22Mar2026 at 13:36:31 
+
+     This program is part of the open-source Quantum ESPRESSO suite
+     for quantum simulation of materials; please cite
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 29 465901 (2017);
+         "P. Giannozzi et al., J. Chem. Phys. 152 154105 (2020);
+          URL http://www.quantum-espresso.org", 
+     in publications or presentations arising from this work. More details at
+     http://www.quantum-espresso.org/quote
+
+     Parallel version (MPI), running on    32 processors
+
+     MPI processes distributed on     1 nodes
+     8835 MiB available memory on the printing compute node when the environment starts
+
+     Waiting for input...
+     Reading input from standard input
+
+     Current dimensions of program PWSCF are:
+     Max number of different atomic species (ntypx) = 10
+     Max number of k-points (npk) =  40000
+     Max angular momentum in pseudopotentials (lmaxx) =  4
+     file Sr.pbe-spn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  4P renormalized
+     file Ti.pbe-spn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  3S 3P 3D renormalized
+     file O.pbe-n-kjpaw_psl.0.1.UPF: wavefunction(s)  2P renormalized
+
+     Exact exchange band parallelism type set to band_pairs
+
+
+     K-points division:     npool     =      32
+     Subspace diagonalization in iterative solution of the eigenvalue problem:
+     a serial algorithm will be used
+
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
+
+     G-vector sticks info
+     --------------------
+     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
+     Sum        2593     949    277                99873    22119    3407
+
+     Using Slab Decomposition
+
+
+
+     bravais-lattice index     =            1
+     lattice parameter (alat)  =       7.3800  a.u.
+     unit-cell volume          =     401.9473 (a.u.)^3
+     number of atoms/cell      =            5
+     number of atomic types    =            3
+     number of electrons       =        40.00
+     number of Kohn-Sham states=           30
+     kinetic-energy cutoff     =      55.0000  Ry
+     charge density cutoff     =     600.0000  Ry
+     scf convergence threshold =      1.0E-08
+     mixing beta               =       0.3000
+     number of iterations used =            8  plain     mixing
+     Exchange-correlation= SLA  PW   PBX  PBC
+                           (   1   4   3   4   0   0   0)
+
+     celldm(1)=   7.380000  celldm(2)=   0.000000  celldm(3)=   0.000000
+     celldm(4)=   0.000000  celldm(5)=   0.000000  celldm(6)=   0.000000
+
+     crystal axes: (cart. coord. in units of alat)
+               a(1) = (   1.000000   0.000000   0.000000 )  
+               a(2) = (   0.000000   1.000000   0.000000 )  
+               a(3) = (   0.000000   0.000000   1.000000 )  
+
+     reciprocal axes: (cart. coord. in units 2 pi/alat)
+               b(1) = (  1.000000  0.000000  0.000000 )  
+               b(2) = (  0.000000  1.000000  0.000000 )  
+               b(3) = (  0.000000  0.000000  1.000000 )  
+
+
+     PseudoPot. # 1 for Sr read from file:
+     /path/to/xspectra-tutorial/SrTiO3/Ti_Ledge/../pseudo/Sr.pbe-spn-kjpaw_psl.1.0.0.UPF
+     MD5 check sum: a3c6d0287e6b0f325c5350c23079ab60
+     Pseudo is Projector augmented-wave + core cor, Zval = 10.0
+     Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.2.2
+     Shape of augmentation charge: PSQ
+     Using radial grid of 1221 points,  6 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+                l(5) =   2
+                l(6) =   2
+     Q(r) pseudized with 0 coefficients 
+
+
+     PseudoPot. # 2 for Ti read from file:
+     /path/to/xspectra-tutorial/SrTiO3/Ti_Ledge/../pseudo/Ti.pbe-spn-kjpaw_psl.1.0.0.UPF
+     MD5 check sum: 01f69b0d8ba4438b2e03ac6ea4af1c0b
+     Pseudo is Projector augmented-wave + core cor, Zval = 12.0
+     Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.2.2
+     Shape of augmentation charge: PSQ
+     Using radial grid of 1177 points,  6 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+                l(5) =   2
+                l(6) =   2
+     Q(r) pseudized with 0 coefficients 
+
+
+     PseudoPot. # 3 for O  read from file:
+     /path/to/xspectra-tutorial/SrTiO3/Ti_Ledge/../pseudo/O.pbe-n-kjpaw_psl.0.1.UPF
+     MD5 check sum: 833c495a5d0f9b75bf046115549bffff
+     Pseudo is Projector augmented-wave + core cor, Zval =  6.0
+     Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3
+     Shape of augmentation charge: BESSEL
+     Using radial grid of 1095 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+     atomic species   valence    mass     pseudopotential
+     Sr               10.00    87.62000     Sr( 1.00)
+     Tih              12.00    47.86700     Ti( 1.00)
+     O                 6.00    15.99900     O ( 1.00)
+
+     48 Sym. Ops., with inversion, found
+
+
+
+   Cartesian axes
+
+     site n.     atom                  positions (alat units)
+         1        Sr     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        Tih    tau(   2) = (   0.5000000   0.5000000   0.5000000  )
+         3        O      tau(   3) = (   0.5000000   0.5000000   0.0000000  )
+         4        O      tau(   4) = (   0.5000000   0.0000000   0.5000000  )
+         5        O      tau(   5) = (   0.0000000   0.5000000   0.5000000  )
+
+     number of k points=     4  Methfessel-Paxton smearing, width (Ry)=  0.0100
+                       cart. coord. in units 2pi/alat
+        k(    1) = (   0.1250000   0.1250000   0.1250000), wk =   0.2500000
+        k(    2) = (   0.1250000   0.1250000   0.3750000), wk =   0.7500000
+        k(    3) = (   0.1250000   0.3750000   0.3750000), wk =   0.7500000
+        k(    4) = (   0.3750000   0.3750000   0.3750000), wk =   0.2500000
+
+     Dense  grid:    99873 G-vectors     FFT dimensions: (  60,  60,  60)
+
+     Smooth grid:    22119 G-vectors     FFT dimensions: (  36,  36,  36)
+
+     Estimated max dynamical RAM per process >      82.04 MB
+
+     Estimated total dynamical RAM >       1.83 GB
+
+     Check: negative core charge=   -0.000002
+
+     Initial potential from superposition of free atoms
+
+     starting charge      39.9909, renormalised to      40.0000
+     Starting wfcs are   30 randomized atomic wfcs
+     Checking if some PAW data can be deallocated... 
+
+     total cpu time spent up to now is        2.0 secs
+
+     Self-consistent Calculation
+
+     iteration #  1     ecut=    55.00 Ry     beta= 0.30
+     Davidson diagonalization with overlap
+     ethr =  1.00E-02,  avg # of iterations =  5.5
+
+     total cpu time spent up to now is        2.4 secs
+
+     total energy              =    -569.29498758 Ry
+     estimated scf accuracy    <       1.79432915 Ry
+
+     iteration #  2     ecut=    55.00 Ry     beta= 0.30
+     Davidson diagonalization with overlap
+     ethr =  4.49E-03,  avg # of iterations =  2.8
+
+     total cpu time spent up to now is        2.7 secs
+
+     total energy              =    -569.64262817 Ry
+     estimated scf accuracy    <       0.10989758 Ry
+
+     iteration #  3     ecut=    55.00 Ry     beta= 0.30
+     Davidson diagonalization with overlap
+     ethr =  2.75E-04,  avg # of iterations =  2.0
+
+     total cpu time spent up to now is        2.9 secs
+
+     total energy              =    -569.66077475 Ry
+     estimated scf accuracy    <       0.02535786 Ry
+
+     iteration #  4     ecut=    55.00 Ry     beta= 0.30
+     Davidson diagonalization with overlap
+     ethr =  6.34E-05,  avg # of iterations =  5.2
+
+     total cpu time spent up to now is        3.2 secs
+
+     total energy              =    -569.66230136 Ry
+     estimated scf accuracy    <       0.00774614 Ry
+
+     iteration #  5     ecut=    55.00 Ry     beta= 0.30
+     Davidson diagonalization with overlap
+     ethr =  1.94E-05,  avg # of iterations =  4.0
+
+     total cpu time spent up to now is        3.4 secs
+
+     total energy              =    -569.66288467 Ry
+     estimated scf accuracy    <       0.00086367 Ry
+
+     iteration #  6     ecut=    55.00 Ry     beta= 0.30
+     Davidson diagonalization with overlap
+     ethr =  2.16E-06,  avg # of iterations =  4.0
+
+     total cpu time spent up to now is        3.6 secs
+
+     total energy              =    -569.66305932 Ry
+     estimated scf accuracy    <       0.00049751 Ry
+
+     iteration #  7     ecut=    55.00 Ry     beta= 0.30
+     Davidson diagonalization with overlap
+     ethr =  1.24E-06,  avg # of iterations =  1.5
+
+     total cpu time spent up to now is        3.9 secs
+
+     total energy              =    -569.66315897 Ry
+     estimated scf accuracy    <       0.00002281 Ry
+
+     iteration #  8     ecut=    55.00 Ry     beta= 0.30
+     Davidson diagonalization with overlap
+     ethr =  5.70E-08,  avg # of iterations =  2.0
+
+     total cpu time spent up to now is        4.1 secs
+
+     total energy              =    -569.66316283 Ry
+     estimated scf accuracy    <       0.00000603 Ry
+
+     iteration #  9     ecut=    55.00 Ry     beta= 0.30
+     Davidson diagonalization with overlap
+     ethr =  1.51E-08,  avg # of iterations =  2.0
+
+     total cpu time spent up to now is        4.4 secs
+
+     total energy              =    -569.66316358 Ry
+     estimated scf accuracy    <       0.00000224 Ry
+
+     iteration # 10     ecut=    55.00 Ry     beta= 0.30
+     Davidson diagonalization with overlap
+     ethr =  5.60E-09,  avg # of iterations =  1.0
+
+     total cpu time spent up to now is        4.6 secs
+
+     total energy              =    -569.66316369 Ry
+     estimated scf accuracy    <       0.00000032 Ry
+
+     iteration # 11     ecut=    55.00 Ry     beta= 0.30
+     Davidson diagonalization with overlap
+     ethr =  7.96E-10,  avg # of iterations =  2.0
+
+     total cpu time spent up to now is        4.8 secs
+
+     total energy              =    -569.66316375 Ry
+     estimated scf accuracy    <       0.00000003 Ry
+
+     iteration # 12     ecut=    55.00 Ry     beta= 0.30
+     Davidson diagonalization with overlap
+     ethr =  7.42E-11,  avg # of iterations =  2.0
+
+     total cpu time spent up to now is        5.0 secs
+
+     End of self-consistent calculation
+
+          k = 0.1250 0.1250 0.1250 (  2788 PWs)   bands (ev):
+
+   -46.3344 -22.7070 -22.6116 -22.6116 -22.5674  -7.3334  -6.3915  -6.3915
+    -4.6139  -4.6139  -4.4682   6.7748   7.1595   7.1595   8.1591   8.1591
+     8.7959   9.0414   9.3042   9.3042  12.4823  12.5689  12.5689  15.1361
+    15.1361  16.2248  16.2248  17.1164  18.7476  18.7589
+
+          k = 0.1250 0.1250 0.3750 (  2757 PWs)   bands (ev):
+
+   -46.3333 -22.7463 -22.6133 -22.6094 -22.5590  -7.3756  -6.3167  -6.2458
+    -4.6565  -4.4912  -4.2136   5.9452   6.7527   7.1314   7.1821   7.3444
+     8.4531   8.8130   8.8761   9.0861  12.6380  13.6605  13.6671  15.1297
+    16.7261  17.3822  17.5400  18.4448  18.7612  19.1642
+
+          k = 0.1250 0.3750 0.3750 (  2777 PWs)   bands (ev):
+
+   -46.3322 -22.7016 -22.6606 -22.6089 -22.5909  -6.9497  -6.4409  -6.2528
+    -4.6465  -4.3873  -4.2914   5.7253   5.9786   6.1346   6.9735   7.1310
+     7.9421   8.7639   8.8465   9.7529  13.6970  13.7525  14.0984  15.8289
+    17.9086  17.9384  18.2799  18.7248  18.9262  19.5439
+
+          k = 0.3750 0.3750 0.3750 (  2755 PWs)   bands (ev):
+
+   -46.3312 -22.6722 -22.6581 -22.6581 -22.6063  -6.4876  -6.1498  -6.1498
+    -4.7827  -4.7827  -4.5378   5.7627   6.1554   6.1554   6.2699   6.4926
+     6.4926   9.6530   9.6530   9.8665  14.2253  14.2545  14.2545  17.5265
+    17.5265  17.5759  18.0444  18.0444  19.3744  19.3744
+
+     the Fermi energy is    11.2577 ev
+
+!    total energy              =    -569.66316377 Ry
+     total all-electron energy =     -8518.985999 Ry
+     estimated scf accuracy    <          4.2E-09 Ry
+     smearing contrib. (-TS)   =       0.00000000 Ry
+     internal energy E=F+TS    =    -569.66316377 Ry
+
+     The total energy is F=E-TS. E is the sum of the following terms:
+     one-electron contribution =     -72.79796104 Ry
+     hartree contribution      =      60.67050224 Ry
+     xc contribution           =     -59.50565787 Ry
+     ewald contribution        =    -212.48895711 Ry
+     one-center paw contrib.   =    -285.54108999 Ry
+
+     convergence has been achieved in  12 iterations
+
+     Writing all to output data dir ./tmp/SrTiO3_TiL.save/ :
+     XML data file, charge density, pseudopotentials, collected wavefunctions
+
+     init_run     :      1.47s CPU      1.58s WALL (       1 calls)
+     electrons    :      2.81s CPU      2.99s WALL (       1 calls)
+
+     Called by init_run:
+     wfcinit      :      0.02s CPU      0.02s WALL (       1 calls)
+     potinit      :      0.43s CPU      0.45s WALL (       1 calls)
+     hinit0       :      0.89s CPU      0.97s WALL (       1 calls)
+
+     Called by electrons:
+     c_bands      :      0.51s CPU      0.53s WALL (      12 calls)
+     sum_band     :      0.48s CPU      0.50s WALL (      12 calls)
+     v_of_rho     :      0.86s CPU      1.00s WALL (      13 calls)
+     newd         :      0.26s CPU      0.27s WALL (      13 calls)
+     PAW_pot      :      0.72s CPU      0.73s WALL (      13 calls)
+     mix_rho      :      0.06s CPU      0.07s WALL (      12 calls)
+
+     Called by c_bands:
+     init_us_2    :      0.03s CPU      0.03s WALL (      25 calls)
+     cegterg      :      0.43s CPU      0.45s WALL (      12 calls)
+
+     Called by *egterg:
+     cdiaghg      :      0.02s CPU      0.03s WALL (      41 calls)
+     h_psi        :      0.31s CPU      0.33s WALL (      42 calls)
+     s_psi        :      0.02s CPU      0.02s WALL (      42 calls)
+     g_psi        :      0.00s CPU      0.00s WALL (      29 calls)
+
+     Called by h_psi:
+     h_psi:calbec :      0.02s CPU      0.02s WALL (      42 calls)
+     vloc_psi     :      0.27s CPU      0.28s WALL (      42 calls)
+                                        0.00s GPU  (      42 calls)
+     add_vuspsi   :      0.02s CPU      0.02s WALL (      42 calls)
+
+     General routines
+     calbec       :      0.03s CPU      0.03s WALL (      54 calls)
+     fft          :      0.14s CPU      0.20s WALL (     167 calls)
+     ffts         :      0.00s CPU      0.00s WALL (      25 calls)
+     fftw         :      0.26s CPU      0.27s WALL (    2034 calls)
+     interpolate  :      0.03s CPU      0.03s WALL (      13 calls)
+
+     Parallel routines
+
+     PWSCF        :      4.75s CPU      5.05s WALL
+
+
+   This run was terminated on:  13:36:36  22Mar2026            
+
+=------------------------------------------------------------------------------=
+   JOB DONE.
+=------------------------------------------------------------------------------=
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_DIVIDE_BY_ZERO IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_DIVIDE_BY_ZERO IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_DIVIDE_BY_ZERO IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_DIVIDE_BY_ZERO IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL
+Note: The following floating-point exceptions are signalling: IEEE_UNDERFLOW_FLAG IEEE_DENORMAL

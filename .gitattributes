@@ -1,0 +1,3 @@
+# Preserve upstream scientific data/log formatting without whitespace lint noise.
+*.UPF -whitespace
+reference_output/** -whitespace

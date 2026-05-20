@@ -1,0 +1,41 @@
+# Quantum ESPRESSO temporary/scratch files
+tmp/
+*.sav
+
+# Core wavefunctions (regenerable via upf2plotcore.sh)
+*.wfc
+
+# ld1.x byproducts (regenerable from gen_*.in)
+ld1.test
+ld1.wfc
+ld1ps.wfc
+vx.pot
+gen_*.out
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local planning notes
+/REVISION_PLAN.md
+
+# Local tutorial configuration
+/env.sh
+
+# Scheduler outputs
+slurm-*.out
+*.o[0-9]*
+*.e[0-9]*
+
+# Additional QE generated files
+*.xml
+*.save/
+*.mix*
+*.hub
+*.occup
+CRASH
+
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,408 @@
+
+     Program XSpectra v.7.5 starts on 22Mar2026 at 15: 9:18 
+
+     This program is part of the open-source Quantum ESPRESSO suite
+     for quantum simulation of materials; please cite
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 21 395502 (2009);
+         "P. Giannozzi et al., J. Phys.:Condens. Matter 29 465901 (2017);
+         "P. Giannozzi et al., J. Chem. Phys. 152 154105 (2020);
+          URL http://www.quantum-espresso.org", 
+     in publications or presentations arising from this work. More details at
+     http://www.quantum-espresso.org/quote
+
+     Parallel version (MPI), running on    32 processors
+
+     MPI processes distributed on     1 nodes
+     K-points division:     npool     =       4
+     R & G space division:  proc/nbgrp/npool/nimage =       8
+     13896 MiB available memory on the printing compute node when the environment starts
+
+
+     -------------------------------------------------------------------------
+                    __  ____                 _
+                    \ \/ / _\_ __   ___  ___| |_ _ __ __ _
+                     \  /\ \| '_ \ / _ \/ __| __| \__/ _\ |
+                     /  \_\ \ |_) |  __/ (__| |_| | | (_| |
+                    /_/\_\__/ .__/ \___|\___|\__|_|  \__,_|
+                            |_|
+
+     In publications arising from the use of XSpectra, please cite:
+      - O. Bunau and M. Calandra,
+        Phys. Rev. B 87, 205105 (2013)
+      - Ch. Gougoussis, M. Calandra, A. P. Seitsonen, F. Mauri,
+        Phys. Rev. B 80, 075102 (2009)
+      - M. Taillefumier, D. Cabaret, A. M. Flank, and F. Mauri,
+        Phys. Rev. B 66, 195107 (2002)
+
+     -------------------------------------------------------------------------
+                                Reading input_file
+     -------------------------------------------------------------------------
+
+     calculation: xanes_dipole
+
+     xepsilon  [crystallographic coordinates]:   1.000000   0.000000   0.000000
+
+     xonly_plot: FALSE
+        => complete calculation: Lanczos + spectrum plot
+
+     filecore (core-wavefunction file): O.wfc               
+
+     main plot parameters:
+        cut_occ_states: TRUE
+        gamma_mode:  constant
+        -> using xgamma [eV]:  0.80
+        xemin [eV]: -10.00
+        xemax [eV]:  40.00
+        xnepoint: 1000
+        energy zero automatically set to the Fermi level
+
+     Fermi level determined from SCF save directory (SrTiO3_OK_HCH_super.save)
+     NB: For an insulator (SCF calculated with occupations="fixed")
+         the Fermi level will be placed at the position of HOMO.
+
+     WARNING: variable ef_r is obsolete
+
+     -------------------------------------------------------------------------
+                      Reading SCF save directory: SrTiO3_OK_HCH_super.save
+     -------------------------------------------------------------------------
+
+
+     Reading xml data from directory:
+
+     ./tmp/SrTiO3_OK_HCH_super.save/
+     file Sr.pbe-spn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  4P renormalized
+     file Ti.pbe-spn-kjpaw_psl.1.0.0.UPF: wavefunction(s)  3S 3P 3D renormalized
+     file O.pbe-n-kjpaw_psl.0.1-HCH.UPF: wavefunction(s)  2S 2P renormalized
+     file O.pbe-n-kjpaw_psl.0.1.UPF: wavefunction(s)  2P renormalized
+
+     IMPORTANT: XC functional enforced from input :
+     Exchange-correlation= PBE
+                           (   1   4   3   4   0   0   0)
+     Any further DFT definition will be discarded
+     Please, verify this is what you really want
+
+
+     Parallelization info
+     --------------------
+     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
+     Min        1300     476    124                99784    22188    2980
+     Max        1301     477    125                99789    22191    2983
+     Sum       10405    3809    997               798295   177509   23847
+
+     Using Slab Decomposition
+
+
+     Check: negative core charge=   -0.000002
+     Message from routine divide_et_impera:
+     suboptimal parallelization: some nodes have no k-points
+     Reading collected, re-writing distributed wavefunctions
+
+     -------------------------------------------------------------------------
+                           Getting the Fermi energy 
+     -------------------------------------------------------------------------
+
+     From SCF save directory:
+        ehomo [eV]:    9.9045 (highest occupied level)
+        elumo [eV]:   12.3807 (lowest occupied level)
+        ef    [eV]:    9.9045
+
+     -> ef (in eV) will be written in x_save_file
+
+     -------------------------------------------------------------------------
+                           Energy zero of the spectrum 
+     -------------------------------------------------------------------------
+
+     -> ef will be used as energy zero of the spectrum
+
+     Parallelization info
+     --------------------
+     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
+     Min        1300     476    137                99784    22188    3449
+     Max        1301     477    138                99789    22191    3452
+     Sum       10405    3809   1101               798295   177509   27609
+
+     Using Slab Decomposition
+
+
+
+     bravais-lattice index     =            1
+     lattice parameter (alat)  =      14.7600  a.u.
+     unit-cell volume          =    3215.5782 (a.u.)^3
+     number of atoms/cell      =           40
+     number of atomic types    =            4
+     number of electrons       =       320.00
+     number of Kohn-Sham states=          240
+     kinetic-energy cutoff     =      55.0000  Ry
+     charge density cutoff     =     600.0000  Ry
+     Exchange-correlation= PBE
+                           (   1   4   3   4   0   0   0)
+
+     celldm(1)=  14.760000  celldm(2)=   0.000000  celldm(3)=   0.000000
+     celldm(4)=   0.000000  celldm(5)=   0.000000  celldm(6)=   0.000000
+
+     crystal axes: (cart. coord. in units of alat)
+               a(1) = (   1.000000   0.000000   0.000000 )  
+               a(2) = (   0.000000   1.000000   0.000000 )  
+               a(3) = (   0.000000   0.000000   1.000000 )  
+
+     reciprocal axes: (cart. coord. in units 2 pi/alat)
+               b(1) = (  1.000000  0.000000  0.000000 )  
+               b(2) = (  0.000000  1.000000  0.000000 )  
+               b(3) = (  0.000000  0.000000  1.000000 )  
+
+
+     PseudoPot. # 1 for Sr read from file:
+     /path/to/xspectra-tutorial/SrTiO3/O_Kedge_HCH_super/../pseudo/Sr.pbe-spn-kjpaw_psl.1.0.0.UPF
+     MD5 check sum: a3c6d0287e6b0f325c5350c23079ab60
+     Pseudo is Projector augmented-wave + core cor, Zval = 10.0
+     Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.2.2
+     Shape of augmentation charge: PSQ
+     Using radial grid of 1221 points,  6 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+                l(5) =   2
+                l(6) =   2
+     Q(r) pseudized with 0 coefficients 
+
+
+     PseudoPot. # 2 for Ti read from file:
+     /path/to/xspectra-tutorial/SrTiO3/O_Kedge_HCH_super/../pseudo/Ti.pbe-spn-kjpaw_psl.1.0.0.UPF
+     MD5 check sum: 01f69b0d8ba4438b2e03ac6ea4af1c0b
+     Pseudo is Projector augmented-wave + core cor, Zval = 12.0
+     Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.2.2
+     Shape of augmentation charge: PSQ
+     Using radial grid of 1177 points,  6 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+                l(5) =   2
+                l(6) =   2
+     Q(r) pseudized with 0 coefficients 
+
+
+     PseudoPot. # 3 for O  read from file:
+     /path/to/xspectra-tutorial/SrTiO3/O_Kedge_HCH_super/../pseudo/O.pbe-n-kjpaw_psl.0.1-HCH.UPF
+     MD5 check sum: 9d8a1b889f11fc4f6cf4b18c1bbdb73a
+     Pseudo is Projector augmented-wave + core cor, Zval =  6.5
+     Generated using 'atomic' code by A. Dal Corso  v.7.5
+     Shape of augmentation charge: BESSEL
+     Using radial grid of 1095 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+     PseudoPot. # 4 for O  read from file:
+     /path/to/xspectra-tutorial/SrTiO3/O_Kedge_HCH_super/../pseudo/O.pbe-n-kjpaw_psl.0.1.UPF
+     MD5 check sum: 833c495a5d0f9b75bf046115549bffff
+     Pseudo is Projector augmented-wave + core cor, Zval =  6.0
+     Generated using &quot;atomic&quot; code by A. Dal Corso  v.6.3
+     Shape of augmentation charge: BESSEL
+     Using radial grid of 1095 points,  4 beta functions with: 
+                l(1) =   0
+                l(2) =   0
+                l(3) =   1
+                l(4) =   1
+     Q(r) pseudized with 0 coefficients 
+
+
+     atomic species   valence    mass     pseudopotential
+     Sr               10.00    87.62000     Sr( 1.00)
+     Ti               12.00    47.86700     Ti( 1.00)
+     Oh                6.50    15.99900     O ( 1.00)
+     O                 6.00    15.99900     O ( 1.00)
+
+     16 Sym. Ops., with inversion, found
+
+
+
+   Cartesian axes
+
+     site n.     atom                  positions (alat units)
+         1        Sr     tau(   1) = (   0.0000000   0.0000000   0.0000000  )
+         2        Sr     tau(   2) = (   0.5000000   0.0000000   0.0000000  )
+         3        Sr     tau(   3) = (   0.0000000   0.5000000   0.0000000  )
+         4        Sr     tau(   4) = (   0.0000000   0.0000000   0.5000000  )
+         5        Sr     tau(   5) = (   0.5000000   0.5000000   0.0000000  )
+         6        Sr     tau(   6) = (   0.5000000   0.0000000   0.5000000  )
+         7        Sr     tau(   7) = (   0.0000000   0.5000000   0.5000000  )
+         8        Sr     tau(   8) = (   0.5000000   0.5000000   0.5000000  )
+         9        Ti     tau(   9) = (   0.2500000   0.2500000   0.2500000  )
+        10        Ti     tau(  10) = (   0.7500000   0.2500000   0.2500000  )
+        11        Ti     tau(  11) = (   0.2500000   0.7500000   0.2500000  )
+        12        Ti     tau(  12) = (   0.2500000   0.2500000   0.7500000  )
+        13        Ti     tau(  13) = (   0.7500000   0.7500000   0.2500000  )
+        14        Ti     tau(  14) = (   0.7500000   0.2500000   0.7500000  )
+        15        Ti     tau(  15) = (   0.2500000   0.7500000   0.7500000  )
+        16        Ti     tau(  16) = (   0.7500000   0.7500000   0.7500000  )
+        17        Oh     tau(  17) = (   0.2500000   0.2500000   0.0000000  )
+        18        O      tau(  18) = (   0.2500000   0.0000000   0.2500000  )
+        19        O      tau(  19) = (   0.0000000   0.2500000   0.2500000  )
+        20        O      tau(  20) = (   0.7500000   0.2500000   0.0000000  )
+        21        O      tau(  21) = (   0.7500000   0.0000000   0.2500000  )
+        22        O      tau(  22) = (   0.5000000   0.2500000   0.2500000  )
+        23        O      tau(  23) = (   0.2500000   0.7500000   0.0000000  )
+        24        O      tau(  24) = (   0.2500000   0.5000000   0.2500000  )
+        25        O      tau(  25) = (   0.0000000   0.7500000   0.2500000  )
+        26        O      tau(  26) = (   0.2500000   0.2500000   0.5000000  )
+        27        O      tau(  27) = (   0.2500000   0.0000000   0.7500000  )
+        28        O      tau(  28) = (   0.0000000   0.2500000   0.7500000  )
+        29        O      tau(  29) = (   0.7500000   0.7500000   0.0000000  )
+        30        O      tau(  30) = (   0.7500000   0.5000000   0.2500000  )
+        31        O      tau(  31) = (   0.5000000   0.7500000   0.2500000  )
+        32        O      tau(  32) = (   0.7500000   0.2500000   0.5000000  )
+        33        O      tau(  33) = (   0.7500000   0.0000000   0.7500000  )
+        34        O      tau(  34) = (   0.5000000   0.2500000   0.7500000  )
+        35        O      tau(  35) = (   0.2500000   0.7500000   0.5000000  )
+        36        O      tau(  36) = (   0.2500000   0.5000000   0.7500000  )
+        37        O      tau(  37) = (   0.0000000   0.7500000   0.7500000  )
+        38        O      tau(  38) = (   0.7500000   0.7500000   0.5000000  )
+        39        O      tau(  39) = (   0.7500000   0.5000000   0.7500000  )
+        40        O      tau(  40) = (   0.5000000   0.7500000   0.7500000  )
+
+     number of k points=     8  Methfessel-Paxton smearing, width (Ry)=  0.0100
+                       cart. coord. in units 2pi/alat
+        k(    1) = (   0.2500000   0.2500000   0.2500000), wk =   0.2500000
+        k(    2) = (   0.2500000   0.2500000   0.7500000), wk =   0.2500000
+        k(    3) = (   0.2500000   0.7500000   0.2500000), wk =   0.2500000
+        k(    4) = (   0.2500000   0.7500000   0.7500000), wk =   0.2500000
+        k(    5) = (   0.7500000   0.2500000   0.2500000), wk =   0.2500000
+        k(    6) = (   0.7500000   0.2500000   0.7500000), wk =   0.2500000
+        k(    7) = (   0.7500000   0.7500000   0.2500000), wk =   0.2500000
+        k(    8) = (   0.7500000   0.7500000   0.7500000), wk =   0.2500000
+
+     Dense  grid:   798295 G-vectors     FFT dimensions: ( 120, 120, 120)
+
+     Smooth grid:   177509 G-vectors     FFT dimensions: (  72,  72,  72)
+
+     Estimated max dynamical RAM per process >     156.39 MB
+
+     Estimated total dynamical RAM >       4.89 GB
+
+     Check: negative core charge=   -0.000002
+
+     The potential is recalculated from file :
+     ./tmp/SrTiO3_OK_HCH_super.save/charge-density
+
+     Starting wfcs are  240 atomic wfcs
+     Checking if some PAW data can be deallocated... 
+
+     -------------------------------------------------------------------------
+               Reading core wavefunction file for the absorbing atom
+     -------------------------------------------------------------------------
+
+     O.wfc successfully read
+
+     -------------------------------------------------------------------------
+                              Attributing the PAW radii 
+                     for the absorbing atom [units: Bohr radius]
+     -------------------------------------------------------------------------
+
+        PAW proj 1: r_paw(l= 0)= 2.03  (1.5*r_cut)
+        PAW proj 2: r_paw(l= 0)= 2.03  (1.5*r_cut)
+
+        NB: The calculation will not necessary use all these r_paw values.
+            - For a edge in the electric-dipole approximation,
+              only the r_paw(l=1) values are used.
+            - For a K edge in the electric-quadrupole approximation,
+              only the r_paw(l=2) values are used.
+
+            - For a L2 or L3 edge in the electric-quadrupole approximation,
+
+              all projectors (s, p and d) are used.
+
+
+     init_gipaw_1: projectors nearly linearly dependent:
+     ntyp =  2, l/n1/n2 =  2 2 1  0.99156762
+     init_gipaw_1: projectors nearly linearly dependent:
+     ntyp =  3, l/n1/n2 =  1 2 1  0.99430431
+
+
+     -------------------------------------------------------------------------
+                          Starting XANES calculation
+                     in the electric dipole approximation
+     -------------------------------------------------------------------------
+
+     Method of calculation based on the Lanczos recursion algorithm
+     --------------------------------------------------------------
+        - STEP 1: Construction of a kpoint-dependent Lanczos basis,
+          in which the Hamiltonian is tridiagonal (each 'iter' 
+          corresponds to the calculation of one more Lanczos vector)
+        - STEP 2: Calculation of the cross-section as a continued fraction
+          averaged over the k-points.
+
+     ... Begin STEP 1 ...
+
+        Radial transition matrix element(s) used in the calculation of the
+        initial vector of the Lanczos basis (|tilde{phi}_abs> normalized)
+        | For PAW proj. (l=1) #1: radial matrix element =   0.213524307
+        | For PAW proj. (l=1) #2: radial matrix element =   0.237616609
+
+NB: the     2 k-point are not all listed below because npool=  4
+        |-------------------------------------------------------------
+        ! k-point #     1:  ( 0.2500,  0.2500,  0.2500),  0.2500,   1
+        |-------------------------------------------------------------
+ okvan= T
+        |   Norm of the initial Lanczos vector: 0.11258690E+00
+        |   Estimated error at iter     50:   1.00263590
+        |   Estimated error at iter    100:   0.14883682
+        |   Estimated error at iter    150:   0.04604573
+        |   Estimated error at iter    200:   0.01653449
+        |   Estimated error at iter    250:   0.01275153
+        |   Estimated error at iter    300:   0.00908436
+        |   Estimated error at iter    350:   0.00647026
+        |   Estimated error at iter    400:   0.00458260
+        |   Estimated error at iter    450:   0.00144696
+        !   => CONVERGED at iter    500 with error=  0.00073135
+        |-------------------------------------------------------------
+        ! k-point #     2:  ( 0.2500,  0.2500,  0.7500),  0.2500,   1
+        |-------------------------------------------------------------
+ okvan= T
+        |   Norm of the initial Lanczos vector: 0.11258690E+00
+        |   Estimated error at iter     50:   1.00263590
+        |   Estimated error at iter    100:   0.14883682
+        |   Estimated error at iter    150:   0.04604573
+        |   Estimated error at iter    200:   0.01653449
+        |   Estimated error at iter    250:   0.01458090
+        |   Estimated error at iter    300:   0.01136164
+        |   Estimated error at iter    350:   0.00563152
+        |   Estimated error at iter    400:   0.00445427
+        |   Estimated error at iter    450:   0.00185682
+        |   Estimated error at iter    500:   0.00106209
+        |   Estimated error at iter    550:   0.00105361
+        !   => CONVERGED at iter    600 with error=  0.00039412
+
+     Results of STEP 1 successfully written in x_save_file
+     x_save_file name: 
+     ->  O_Kedge_HCH_super.sav                                            
+     x_save_file version:  2
+
+     ... End STEP 1 ...
+
+     ... Begin STEP 2 ...
+
+     The spectrum is calculated using the following parameters:
+        energy-zero of the spectrum [eV]:    9.9045
+        the occupied states are elimintate from the spectrum
+        xemin [eV]: -10.00
+        xemax [eV]:  40.00
+        xnepoint: 1000
+        constant broadening parameter [eV]:    0.800
+        Core level energy [eV]:  -543.1    
+         (from electron binding energy of neutral atoms in X-ray data booklet)
+
+     Cross-section successfully written in xanes.dat                                                                                                                                                                                                                                                       
+
+     ... End STEP 2 ...
+
+     xanes        :     13.06s CPU     13.49s WALL (       1 calls)
+
+     -------------------------------------------------------------------------
+                                END JOB XSpectra
+     -------------------------------------------------------------------------
+
