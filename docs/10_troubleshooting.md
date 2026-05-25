@@ -11,29 +11,56 @@ vim env.sh
 
 ## `pw.x: command not found` 또는 `pw.x`가 없음
 
-가능한 원인: QE module이 잘못되었거나 `BIN_DIR` 설정이 틀렸습니다.
+가능한 원인: QE module이 아직 로드되지 않았거나, `env.sh`의 module 이름이 현재 클러스터와 맞지 않습니다. `/path/to/q-e`를 그대로 쓰면 안 됩니다.
+
+먼저 사용할 수 있는 module 이름을 찾아보세요.
 
 ```bash
 module avail quantum
-module load quantum-espresso
-which pw.x
+module avail qe
+module avail espresso
 ```
 
-그 다음 `env.sh`를 수정하세요.
+강사 또는 클러스터 문서가 알려준 이름으로 module을 로드한 뒤, 실행 파일 위치를 확인합니다.
+
+```bash
+module purge
+module load quantum-espresso/7.3   # 예시입니다. 실제 이름으로 바꾸세요.
+command -v pw.x
+```
+
+예를 들어 다음처럼 나오면,
+
+```text
+/apps/qe/7.3/bin/pw.x
+```
+
+`env.sh`에서는 보통 module line만 제대로 고치면 됩니다. 수동으로 써야 한다면 다음처럼 적습니다.
+
+```bash
+export BIN_DIR=/apps/qe/7.3/bin
+export QE_ROOT=/apps/qe/7.3
+```
 
 ## `xspectra.x`가 없음
 
-로드한 QE build에 XSpectra가 포함되어 있지 않을 수 있습니다. 강사에게 XSpectra가 활성화된 QE module을 문의하세요.
+로드한 QE build에 XSpectra가 포함되어 있지 않을 수 있습니다. 먼저 확인하세요.
+
+```bash
+command -v xspectra.x
+```
+
+아무것도 출력되지 않으면 강사에게 XSpectra가 활성화된 QE module을 문의하세요.
 
 ## `upf2plotcore.sh`가 없음
 
-`TOOLS_DIR`를 확인하세요.
+`upf2plotcore.sh`는 실행 파일 `pw.x`와 달리 QE source tree의 `XSpectra/tools/` 아래에 있는 경우가 많습니다. cluster module이 실행 파일만 제공하면 이 파일이 없을 수 있습니다.
 
 ```bash
 find "$QE_ROOT" -name upf2plotcore.sh
 ```
 
-`env.sh`에서 `TOOLS_DIR`를 해당 script가 들어 있는 디렉터리로 설정하세요.
+찾으면 `env.sh`에서 `TOOLS_DIR`를 해당 script가 들어 있는 디렉터리로 설정하세요. 찾지 못하면 강사에게 tutorial용 `TOOLS_DIR` 값을 문의하세요.
 
 ## 유사퍼텐셜 파일을 열 수 없음
 

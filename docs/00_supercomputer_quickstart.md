@@ -19,31 +19,65 @@ cd xspectra-tutorial
 
 ## 3. 환경 설정하기
 
+먼저 템플릿을 복사합니다.
+
 ```bash
 cp env.sh.example env.sh
 vim env.sh
 ```
 
-`env.sh`에 들어가는 일반적인 클러스터 설정 예시는 다음과 같습니다.
+`/path/to/q-e` 같은 문구를 그대로 입력하지 마세요. 초보자는 보통 QE가 어디 설치되어 있는지 모르기 때문에, 먼저 클러스터 module이 제공하는 실행 파일 위치를 확인합니다.
+
+```bash
+module avail quantum
+module avail qe
+module avail espresso
+```
+
+강사 또는 클러스터 문서가 알려준 module을 로드합니다. 이름은 사이트마다 다릅니다.
 
 ```bash
 module purge
-module load quantum-espresso
-module load openmpi
-module load python
-export QE_ROOT=/path/to/q-e
-export BIN_DIR=$QE_ROOT/bin
-export TOOLS_DIR=$QE_ROOT/XSpectra/tools
-export EXAMPLE_PSEUDO_DIR=$QE_ROOT/XSpectra/examples/pseudo
-export NPROCS=4
-export MPI_RUN="srun -n $NPROCS"      # Slurm 작업 내부에서 사용
+module load quantum-espresso/7.3   # 예시입니다. 실제 module 이름으로 바꾸세요.
+module load python/3.10             # 필요할 때만 사용하세요.
 ```
 
-사용하는 시스템이 `mpirun`을 쓴다면 다음처럼 설정하세요.
+그 다음 QE 실행 파일이 보이는지 확인합니다.
+
+```bash
+command -v pw.x
+command -v xspectra.x
+command -v ld1.x
+```
+
+예를 들어 첫 번째 명령이 다음처럼 출력되면,
+
+```text
+/apps/qe/7.3/bin/pw.x
+```
+
+`BIN_DIR`는 `/apps/qe/7.3/bin`, `QE_ROOT`는 `/apps/qe/7.3`입니다. 새 `env.sh.example`은 module을 제대로 로드하면 이 값을 자동으로 찾도록 되어 있습니다. 따라서 대부분의 학생은 `env.sh`에서 module 이름만 자기 클러스터에 맞게 고치면 됩니다.
+
+```bash
+# env.sh 안에서 보통 고칠 부분
+module purge
+module load quantum-espresso/7.3
+module load python/3.10
+```
+
+Slurm 작업 안에서는 MPI 실행 명령을 다음처럼 쓰는 경우가 많습니다.
+
+```bash
+export MPI_RUN="srun -n $NPROCS"
+```
+
+Slurm이 아니라 `mpirun`을 쓰는 시스템이라면 다음처럼 설정하세요.
 
 ```bash
 export MPI_RUN="mpirun -np $NPROCS"
 ```
+
+주의: 어떤 클러스터는 `pw.x`, `xspectra.x` 실행 파일만 설치하고 `XSpectra/tools/upf2plotcore.sh` 또는 예제 유사퍼텐셜 폴더는 설치하지 않습니다. 이 경우에는 `bash check_setup.sh`가 어느 경로가 빠졌는지 알려 줍니다. 강사에게 `TOOLS_DIR`와 `EXAMPLE_PSEUDO_DIR` 값을 문의해서 `env.sh`에 적으세요.
 
 ## 4. 설정 확인 실행하기
 

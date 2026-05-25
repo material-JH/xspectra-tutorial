@@ -41,14 +41,47 @@ check_exec() {
 : "${EXAMPLE_PSEUDO_DIR:=}"
 : "${NPROCS:=4}"
 : "${MPI_RUN:=mpirun -np $NPROCS}"
+: "${PW_BIN:=${BIN_DIR:+$BIN_DIR/pw.x}}"
+: "${XSPECTRA_BIN:=${BIN_DIR:+$BIN_DIR/xspectra.x}}"
+: "${LD1_BIN:=${BIN_DIR:+$BIN_DIR/ld1.x}}"
 
-check_exec "pw.x" "$BIN_DIR/pw.x"
-check_exec "xspectra.x" "$BIN_DIR/xspectra.x"
-check_exec "ld1.x" "$BIN_DIR/ld1.x"
-check_exec "upf2plotcore.sh" "$TOOLS_DIR/upf2plotcore.sh"
+if [ -z "$BIN_DIR" ]; then
+    fail "BIN_DIR: not set"
+    echo "  Fix: edit env.sh, load the QE module, then run 'command -v pw.x' to find the path."
+fi
 
-check_file "example C pseudo" "$EXAMPLE_PSEUDO_DIR/C_PBE_TM_2pj.UPF"
-check_file "example core-hole C pseudo" "$EXAMPLE_PSEUDO_DIR/Ch_PBE_TM_2pj.UPF"
+if [ -n "$PW_BIN" ]; then
+    check_exec "pw.x" "$PW_BIN"
+else
+    fail "pw.x path: not set"
+fi
+
+if [ -n "$XSPECTRA_BIN" ]; then
+    check_exec "xspectra.x" "$XSPECTRA_BIN"
+else
+    fail "xspectra.x path: not set"
+fi
+
+if [ -n "$LD1_BIN" ]; then
+    check_exec "ld1.x" "$LD1_BIN"
+else
+    fail "ld1.x path: not set"
+fi
+
+if [ -n "$TOOLS_DIR" ]; then
+    check_exec "upf2plotcore.sh" "$TOOLS_DIR/upf2plotcore.sh"
+else
+    fail "TOOLS_DIR: not set"
+    echo "  Fix: ask the instructor for the XSpectra tools directory, then set TOOLS_DIR in env.sh."
+fi
+
+if [ -n "$EXAMPLE_PSEUDO_DIR" ]; then
+    check_file "example C pseudo" "$EXAMPLE_PSEUDO_DIR/C_PBE_TM_2pj.UPF"
+    check_file "example core-hole C pseudo" "$EXAMPLE_PSEUDO_DIR/Ch_PBE_TM_2pj.UPF"
+else
+    fail "EXAMPLE_PSEUDO_DIR: not set"
+    echo "  Fix: ask the instructor for the XSpectra example pseudo directory, then set EXAMPLE_PSEUDO_DIR in env.sh."
+fi
 check_file "SrTiO3 Sr pseudo" "$PROJECT_ROOT/SrTiO3/pseudo/Sr.pbe-spn-kjpaw_psl.1.0.0.UPF"
 check_file "SrTiO3 Ti pseudo" "$PROJECT_ROOT/SrTiO3/pseudo/Ti.pbe-spn-kjpaw_psl.1.0.0.UPF"
 check_file "SrTiO3 O pseudo" "$PROJECT_ROOT/SrTiO3/pseudo/O.pbe-n-kjpaw_psl.0.1.UPF"

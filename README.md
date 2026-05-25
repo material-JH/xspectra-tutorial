@@ -8,7 +8,7 @@ TEM/EELS 학생과 포닥을 위한 Quantum ESPRESSO + XSpectra 한국어 실습
 git clone https://github.com/material-JH/xspectra-tutorial.git
 cd xspectra-tutorial
 cp env.sh.example env.sh
-vim env.sh
+vim env.sh        # 클러스터 module 이름만 먼저 맞추세요. QE 경로는 pw.x에서 자동 감지됩니다.
 bash check_setup.sh
 ```
 

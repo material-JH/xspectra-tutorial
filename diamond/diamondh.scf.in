@@ -1,6 +1,7 @@
+! Template note: run_all_examples.sh rewrites pseudo_dir from EXAMPLE_PSEUDO_DIR in env.sh.
  &control
     calculation='scf',
-    pseudo_dir = '/path/to/q-e/XSpectra/examples/pseudo/',
+    pseudo_dir = './pseudo-set-by-run-script/',
     outdir='./tmp/',
     prefix='diamondh',
  /
