@@ -9,6 +9,25 @@ cp env.sh.example env.sh
 vim env.sh
 ```
 
+## `env.sh`를 실행했는데 아무것도 안 보임
+
+설정 파일이 아무 메시지도 출력하지 않으면 초보자는 성공인지 실패인지 알기 어렵습니다. 최신 `env.sh.example`은 다음 명령을 실행했을 때 상태 요약을 출력합니다.
+
+```bash
+bash env.sh.example     # 빠른 확인용: 현재 shell 환경은 바꾸지 않습니다.
+```
+
+실제 튜토리얼에서는 복사한 `env.sh`를 수정한 뒤, 현재 shell에 적용해 봅니다.
+
+```bash
+cp env.sh.example env.sh
+vim env.sh
+source env.sh           # 감지된 pw.x, xspectra.x, QE_ROOT 등이 출력됩니다.
+bash check_setup.sh
+```
+
+`bash env.sh`처럼 실행하면 화면에는 상태가 보이지만, 그 안에서 설정한 환경변수는 명령이 끝난 뒤 현재 shell에 남지 않습니다. 그래서 직접 확인할 때는 `source env.sh`, 최종 검사는 `bash check_setup.sh`를 사용하세요.
+
 ## `pw.x: command not found` 또는 `pw.x`가 없음
 
 가능한 원인: QE module이 아직 로드되지 않았거나, `env.sh`의 module 이름이 현재 클러스터와 맞지 않습니다. `/path/to/q-e`를 그대로 쓰면 안 됩니다.

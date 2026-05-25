@@ -24,6 +24,7 @@ cd xspectra-tutorial
 ```bash
 cp env.sh.example env.sh
 vim env.sh
+source env.sh       # 감지된 QE 경로와 경고가 화면에 출력됩니다.
 ```
 
 `/path/to/q-e` 같은 문구를 그대로 입력하지 마세요. 초보자는 보통 QE가 어디 설치되어 있는지 모르기 때문에, 먼저 클러스터 module이 제공하는 실행 파일 위치를 확인합니다.

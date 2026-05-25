@@ -9,6 +9,7 @@ git clone https://github.com/material-JH/xspectra-tutorial.git
 cd xspectra-tutorial
 cp env.sh.example env.sh
 vim env.sh        # 클러스터 module 이름만 먼저 맞추세요. QE 경로는 pw.x에서 자동 감지됩니다.
+source env.sh     # 감지된 경로와 경고가 화면에 출력됩니다.
 bash check_setup.sh
 ```
 
