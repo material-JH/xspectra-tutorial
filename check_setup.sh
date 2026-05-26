@@ -39,6 +39,10 @@ check_exec() {
 : "${BIN_DIR:=}"
 : "${TOOLS_DIR:=}"
 : "${EXAMPLE_PSEUDO_DIR:=}"
+BUNDLED_DIAMOND_PSEUDO_DIR="$PROJECT_ROOT/diamond/pseudo"
+if [ -z "$EXAMPLE_PSEUDO_DIR" ] && [ -f "$BUNDLED_DIAMOND_PSEUDO_DIR/C_PBE_TM_2pj.UPF" ]; then
+    EXAMPLE_PSEUDO_DIR="$BUNDLED_DIAMOND_PSEUDO_DIR"
+fi
 : "${NPROCS:=4}"
 : "${MPI_RUN:=mpirun -np $NPROCS}"
 : "${PW_BIN:=${BIN_DIR:+$BIN_DIR/pw.x}}"
@@ -72,15 +76,15 @@ if [ -n "$TOOLS_DIR" ]; then
     check_exec "upf2plotcore.sh" "$TOOLS_DIR/upf2plotcore.sh"
 else
     fail "TOOLS_DIR: not set"
-    echo "  Fix: ask the instructor for the XSpectra tools directory, then set TOOLS_DIR in env.sh."
+    echo "  Fix: download QEF/q-e for XSpectra/tools or ask the instructor for TOOLS_DIR, then set TOOLS_DIR in env.sh."
 fi
 
 if [ -n "$EXAMPLE_PSEUDO_DIR" ]; then
-    check_file "example C pseudo" "$EXAMPLE_PSEUDO_DIR/C_PBE_TM_2pj.UPF"
-    check_file "example core-hole C pseudo" "$EXAMPLE_PSEUDO_DIR/Ch_PBE_TM_2pj.UPF"
+    check_file "Diamond C pseudo" "$EXAMPLE_PSEUDO_DIR/C_PBE_TM_2pj.UPF"
+    check_file "Diamond core-hole C pseudo" "$EXAMPLE_PSEUDO_DIR/Ch_PBE_TM_2pj.UPF"
 else
     fail "EXAMPLE_PSEUDO_DIR: not set"
-    echo "  Fix: ask the instructor for the XSpectra example pseudo directory, then set EXAMPLE_PSEUDO_DIR in env.sh."
+    echo "  Fix: use the bundled diamond/pseudo directory, download QEF/q-e, or ask the instructor for the XSpectra example pseudo directory."
 fi
 check_file "SrTiO3 Sr pseudo" "$PROJECT_ROOT/SrTiO3/pseudo/Sr.pbe-spn-kjpaw_psl.1.0.0.UPF"
 check_file "SrTiO3 Ti pseudo" "$PROJECT_ROOT/SrTiO3/pseudo/Ti.pbe-spn-kjpaw_psl.1.0.0.UPF"

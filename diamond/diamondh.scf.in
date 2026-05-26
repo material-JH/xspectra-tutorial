@@ -1,4 +1,4 @@
-! Template note: run_all_examples.sh rewrites pseudo_dir from EXAMPLE_PSEUDO_DIR in env.sh.
+! Template note: run_all_examples.sh rewrites pseudo_dir from EXAMPLE_PSEUDO_DIR (defaults to diamond/pseudo).
  &control
     calculation='scf',
     pseudo_dir = './pseudo-set-by-run-script/',

@@ -16,8 +16,9 @@ Create it from the template and edit it for your cluster:
   vim env.sh
 
 At minimum, load the QE module in env.sh so that 'command -v pw.x' works.
-If your cluster does not provide the XSpectra tools/examples, also set
-TOOLS_DIR and EXAMPLE_PSEUDO_DIR from the values provided by the instructor.
+Diamond pseudopotentials are bundled in diamond/pseudo/. If your cluster does
+not provide XSpectra/tools/upf2plotcore.sh, download QEF/q-e or ask the
+instructor for TOOLS_DIR.
 EOF
         exit 1
     fi

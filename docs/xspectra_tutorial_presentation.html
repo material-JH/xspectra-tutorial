@@ -513,7 +513,7 @@
 <div class="slide-header"><span class="section-tag">저장소</span><span>여러분이 보게 될 파일</span></div>
 <h2>몇 개의 파일만 이해하면 전체 실습 흐름을 따라갈 수 있습니다</h2>
 <div class="flow-list">
-<div class="flow-row"><div class="label">env.sh.example</div><div class="text">클러스터별 경로를 적는 템플릿입니다: `QE_ROOT`, `BIN_DIR`, `TOOLS_DIR`, MPI launcher.</div></div>
+<div class="flow-row"><div class="label">env.sh.example</div><div class="text">클러스터별 module과 `TOOLS_DIR`를 적는 템플릿입니다. Diamond pseudo는 기본적으로 `diamond/pseudo/`를 사용합니다.</div></div>
 <div class="flow-row"><div class="label">check_setup.sh</div><div class="text">가벼운 사전 점검 스크립트입니다. QE 실행 파일, pseudopotential, Python package, launcher를 확인합니다.</div></div>
 <div class="flow-row"><div class="label">scheduler/</div><div class="text">Slurm/PBS 작업 제출 템플릿입니다. 로그인 노드에서 실수로 계산하지 않도록 도와줍니다.</div></div>
 <div class="flow-row"><div class="label">SrTiO3/</div><div class="text">EELS와 연결되는 대표 예제입니다: O K-edge, Ti L-edge, core-hole 변형, plot.</div></div>
@@ -525,7 +525,8 @@
 <div class="terminal" style="margin-top:48px"><span class="prompt">$</span> git clone https://github.com/material-JH/xspectra-tutorial.git
 <span class="prompt">$</span> cd xspectra-tutorial
 <span class="prompt">$</span> cp env.sh.example env.sh
-<span class="prompt">$</span> vim env.sh        <span class="comment"># 강사가 알려준 클러스터 경로/모듈을 입력</span>
+<span class="prompt">$</span> vim env.sh        <span class="comment"># 강사가 알려준 module 이름/TOOLS_DIR 입력</span>
+<span class="prompt">$</span> source env.sh     <span class="comment"># 감지된 경로와 경고 확인</span>
 <span class="prompt">$</span> bash check_setup.sh</div>
 <p class="subtitle">여기서 실패하면 물리 해석으로 넘어가지 말고 설정부터 고치세요. 초보자의 대부분 실패는 경로, module, 또는 누락된 `upf2plotcore.sh`에서 나옵니다.</p>
 </section>

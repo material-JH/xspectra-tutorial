@@ -79,15 +79,30 @@ command -v xspectra.x
 find "$QE_ROOT" -name upf2plotcore.sh
 ```
 
-찾으면 `env.sh`에서 `TOOLS_DIR`를 해당 script가 들어 있는 디렉터리로 설정하세요. 찾지 못하면 강사에게 tutorial용 `TOOLS_DIR` 값을 문의하세요.
+찾으면 `env.sh`에서 `TOOLS_DIR`를 해당 script가 들어 있는 디렉터리로 설정하세요. 찾지 못하면 QE source tree를 내려받아 `TOOLS_DIR`로 사용할 수 있습니다.
+
+```bash
+cd ~
+git clone --depth 1 --branch develop https://github.com/QEF/q-e.git q-e
+export TOOLS_DIR=$HOME/q-e/XSpectra/tools
+```
+
+자세한 설명은 [QE source tree와 유사퍼텐셜 준비](00_qe_source_and_pseudopotentials.md)를 참고하세요.
 
 ## 유사퍼텐셜 파일을 열 수 없음
 
-생성된 `scf.in`의 `pseudo_dir`를 확인하고, 파일이 실제로 있는지 확인하세요.
+생성된 `scf.in`의 `pseudo_dir`를 확인하고, 파일이 실제로 있는지 확인하세요. Diamond 예제의 Carbon 유사퍼텐셜은 이제 `diamond/pseudo/`에 포함되어 있습니다.
 
 ```bash
+ls diamond/pseudo/
 ls SrTiO3/pseudo/
 ls "$EXAMPLE_PSEUDO_DIR"
+```
+
+`EXAMPLE_PSEUDO_DIR`가 비어 있거나 잘못되었다면, 보통 다음처럼 저장소 안의 Diamond pseudo 폴더를 사용하면 됩니다.
+
+```bash
+export EXAMPLE_PSEUDO_DIR=$PWD/diamond/pseudo
 ```
 
 ## `O.wfc` 또는 `Ti.wfc`가 없음

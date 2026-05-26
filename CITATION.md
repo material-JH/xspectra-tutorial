@@ -20,7 +20,7 @@ C. Gougoussis et al., "Theoretical study of the x-ray absorption near-edge struc
 
 ## Pseudopotentials
 
-The SrTiO3 examples use PAW pseudopotentials from PSLibrary. Cite PSLibrary and the Quantum ESPRESSO pseudopotential sources appropriate for the exact files used.
+The Diamond example uses Carbon pseudopotentials from the Quantum ESPRESSO XSpectra example distribution. The SrTiO3 examples use PAW pseudopotentials from PSLibrary. Cite PSLibrary, Quantum ESPRESSO, XSpectra, and the pseudopotential sources appropriate for the exact files used.
 
 ## Experimental EELS data
 

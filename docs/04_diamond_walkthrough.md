@@ -23,7 +23,7 @@ python3 plot_spectra.py
 
 ## 파일
 
-`bash run_all_examples.sh diamond-only`를 실행하면 `env.sh`의 `EXAMPLE_PSEUDO_DIR` 값으로 `diamond/*.in` 파일의 `pseudo_dir`가 다시 작성됩니다. 따라서 학생이 `/path/to/q-e` 같은 경로를 직접 입력할 필요가 없습니다.
+`bash run_all_examples.sh diamond-only`를 실행하면 기본적으로 저장소에 포함된 `diamond/pseudo/`의 Carbon 유사퍼텐셜을 사용합니다. `env.sh`에서 `EXAMPLE_PSEUDO_DIR`를 따로 지정하면 그 값으로 `diamond/*.in` 파일의 `pseudo_dir`가 다시 작성됩니다. 따라서 학생이 `/path/to/q-e` 같은 경로를 직접 입력할 필요가 없습니다.
 
 - `diamond/diamond.scf.in`
 - `diamond/diamond.xspectra.in`

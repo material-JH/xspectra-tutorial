@@ -10,7 +10,27 @@ WORK_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_ROOT="$WORK_DIR"
 source "$PROJECT_ROOT/scripts/common.sh"
 load_xspectra_env "$PROJECT_ROOT"
-PSEUDO_DIR="${EXAMPLE_PSEUDO_DIR:?EXAMPLE_PSEUDO_DIR is not set. Edit env.sh.}"
+BUNDLED_DIAMOND_PSEUDO_DIR="$PROJECT_ROOT/diamond/pseudo"
+PSEUDO_DIR="${EXAMPLE_PSEUDO_DIR:-}"
+if [ -z "$PSEUDO_DIR" ] && [ -f "$BUNDLED_DIAMOND_PSEUDO_DIR/C_PBE_TM_2pj.UPF" ]; then
+    PSEUDO_DIR="$BUNDLED_DIAMOND_PSEUDO_DIR"
+fi
+if [ -z "$PSEUDO_DIR" ] || [ ! -f "$PSEUDO_DIR/C_PBE_TM_2pj.UPF" ] || [ ! -f "$PSEUDO_DIR/Ch_PBE_TM_2pj.UPF" ]; then
+    cat >&2 <<EOF
+ERROR: Diamond pseudopotentials were not found.
+
+Expected these files in EXAMPLE_PSEUDO_DIR or diamond/pseudo/:
+  C_PBE_TM_2pj.UPF
+  Ch_PBE_TM_2pj.UPF
+
+Fix options:
+  1. Use the bundled repo copy: export EXAMPLE_PSEUDO_DIR="$BUNDLED_DIAMOND_PSEUDO_DIR"
+  2. Download QE source: git clone --depth 1 --branch develop https://github.com/QEF/q-e.git ~/q-e
+     then set: export EXAMPLE_PSEUDO_DIR="$HOME/q-e/XSpectra/examples/pseudo"
+EOF
+    exit 1
+fi
+PSEUDO_DIR="$(cd "$PSEUDO_DIR" && pwd)"
 set_qe_commands "${KPOOLS:-$NPROCS}"
 PW_COMMAND="$PW_CMD"
 X_COMMAND="$XS_CMD"

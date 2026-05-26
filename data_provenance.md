@@ -4,13 +4,20 @@ This tutorial contains input files, plotting scripts, reference outputs, pseudop
 
 ## Quantum ESPRESSO Diamond example pseudopotentials
 
-The Diamond example expects the standard pseudopotentials from the Quantum ESPRESSO XSpectra example distribution, typically under:
+The Diamond example uses two small Carbon pseudopotentials from the Quantum ESPRESSO XSpectra example distribution. They are bundled in this repository so the first tutorial example does not depend on a separate QE source-tree download:
 
 ```text
-$QE_ROOT/XSpectra/examples/pseudo/
+diamond/pseudo/C_PBE_TM_2pj.UPF
+diamond/pseudo/Ch_PBE_TM_2pj.UPF
 ```
 
-These files are not bundled in this repository; configure `EXAMPLE_PSEUDO_DIR` in `env.sh`.
+Original Quantum ESPRESSO source path:
+
+```text
+XSpectra/examples/pseudo/
+```
+
+When these files were added, the local source checkout was `QEF/q-e` `develop` at commit `8b164e93c`. See `diamond/pseudo/README.md` for checksums and the QE GPL license note. If an instructor wants to use the copy from a local QE source tree instead, set `EXAMPLE_PSEUDO_DIR` in `env.sh`.
 
 ## SrTiO3 pseudopotentials
 
