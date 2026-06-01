@@ -23,6 +23,7 @@ Patched on 2026-06-01 in `docs/xspectra_tutorial_presentation.html`.
 - The scheduler slide now points PBS/Torque users to `scheduler/pbs_examples.md`.
 - A dedicated Supercell/MPI slide now includes HCH supercell, `tot_charge = +0.5`, `-nk 4`, `-nd 1`, and scheduler-only execution guidance.
 - Screen footer alignment now uses shared slide constants. The footer bar extends by its horizontal padding so the footer text/count align to the same slide grid as the header/body text.
+- Follow-up screen cleanup hides the right-side header context label and the footer title/count text in browser presentation mode. The footer now keeps only the progress bar, so labels like `학생용 실습 가이드`, `시작`, and `1 / 23` no longer create a visible header/footer alignment mismatch.
 - Print/PDF CSS now defines a 16:9 page with `@page { size: 16in 9in; margin: 0; }`, exact color printing, `zoom: .8`, and a final-slide `last-of-type` page-break rule.
 
 The notes below are kept as the original review record.
@@ -32,7 +33,7 @@ The notes below are kept as the original review record.
 1. Footer alignment is patched for screen presentation.
    - The deck now defines `--slide-margin-x` and `--footer-pad-x` once.
    - The footer bar starts at `slide margin - footer padding`, so the padded footer text/count land on the same visual grid as the slide header/body.
-   - The footer is still hidden in print/PDF, matching the previous deck behavior.
+   - After the follow-up cleanup, the footer title/count are hidden in screen mode and the footer is still hidden in print/PDF, matching the previous print behavior.
 
 2. 16:9 print/PDF export is patched.
    - Verified on 2026-06-01 with Chromium through Playwright's Python API using `prefer_css_page_size=True`.
