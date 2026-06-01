@@ -30,6 +30,12 @@
       --shadow: 0 26px 70px rgba(0, 45, 90, .16);
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --sans: Roboto, "Noto Sans KR", NanumSquare, Arial, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --slide-width: 1920px;
+      --slide-height: 1080px;
+      --slide-margin-x: 110px;
+      --slide-margin-y: 86px;
+      --footer-pad-x: 18px;
+      --print-scale: .8;
     }
 
     * { box-sizing: border-box; }
@@ -59,8 +65,8 @@
       position: absolute;
       left: 50%;
       top: 50%;
-      width: 1920px;
-      height: 1080px;
+      width: var(--slide-width);
+      height: var(--slide-height);
       transform-origin: center center;
       border-radius: 10px;
       background: var(--surface);
@@ -105,7 +111,7 @@
     .slide {
       position: absolute;
       inset: 0;
-      padding: 86px 110px 86px;
+      padding: var(--slide-margin-y) var(--slide-margin-x) var(--slide-margin-y);
       display: none;
       isolation: isolate;
       background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(246,250,254,.96));
@@ -384,8 +390,8 @@
 
     .footer {
       position: absolute;
-      left: 110px;
-      right: 110px;
+      left: calc(var(--slide-margin-x) - var(--footer-pad-x));
+      right: calc(var(--slide-margin-x) - var(--footer-pad-x));
       bottom: 34px;
       display: flex;
       justify-content: space-between;
@@ -393,7 +399,7 @@
       color: rgba(255,255,255,.86);
       background: #202832;
       border-top: 4px solid var(--accent);
-      padding: 14px 18px;
+      padding: 14px var(--footer-pad-x);
       font-size: 20px;
       letter-spacing: .05em;
       text-transform: uppercase;
@@ -421,10 +427,44 @@
     }
 
     @media print {
-      body { overflow: visible; background: white; }
-      .viewport { display: block; width: auto; height: auto; padding: 0; }
-      .deck { position: relative; left: auto; top: auto; transform: none !important; width: 1920px; height: auto; border: 0; box-shadow: none; border-radius: 0; }
-      .slide { display: block !important; position: relative; width: 1920px; height: 1080px; page-break-after: always; background: var(--surface); }
+      @page { size: 16in 9in; margin: 0; }
+      html { width: 16in; margin: 0; background: white; }
+      body {
+        width: 16in;
+        min-height: 9in;
+        margin: 0;
+        overflow: visible;
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .viewport { display: block; width: 16in; height: auto; padding: 0; overflow: visible; }
+      .deck {
+        position: relative;
+        left: auto;
+        top: auto;
+        transform: none !important;
+        transform-origin: top left;
+        width: var(--slide-width);
+        height: auto;
+        border: 0;
+        box-shadow: none;
+        border-radius: 0;
+        overflow: visible;
+        zoom: var(--print-scale);
+      }
+      .slide {
+        display: block !important;
+        position: relative;
+        inset: auto;
+        width: var(--slide-width);
+        height: var(--slide-height);
+        page-break-after: always;
+        break-after: page;
+        background: var(--surface);
+        overflow: hidden;
+      }
+      .slide:last-of-type { page-break-after: auto; break-after: auto; }
       .footer, .controls, .nav-help { display: none; }
     }
   </style>
@@ -465,6 +505,17 @@
 <div class="time">2:00–2:40</div><div class="time-item"><h3>코어홀과 Ti L-edge</h3><p>no-hole, FCH, HCH의 정성 비교와 Ti L-edge 해석 한계를 확인합니다.</p></div>
 <div class="time">2:40–end</div><div class="time-item"><h3>문제 해결 + reference output</h3><p>대기열이 느리면 미리 계산된 스펙트럼을 사용합니다. 무엇이 변했고 무엇이 변하지 않았는지 비교하세요.</p></div>
 </div>
+</section>
+<section class="slide" data-title="문서 읽는 순서">
+<div class="slide-header"><span class="section-tag">문서 지도</span><span>README와 슬라이드 관계</span></div>
+<h2>Markdown 튜토리얼이 기준이고, 이 슬라이드는 live session용 압축 순서입니다.</h2>
+<div class="flow-list" style="margin-top:42px">
+<div class="flow-row"><div class="label">docs/00_*</div><div class="text">슈퍼컴퓨터 접속, QE source tree, bundled pseudopotential 준비를 먼저 확인합니다.</div></div>
+<div class="flow-row"><div class="label">docs/01-03</div><div class="text">리눅스 기본 명령, QE 입력 파일 구조, XSpectra pipeline은 수업 전 읽기 자료입니다.</div></div>
+<div class="flow-row"><div class="label">docs/04-08</div><div class="text">README 순서: Diamond → SrTiO3 O K-edge → Ti L-edge → core-hole 비교 → EELS 비교.</div></div>
+<div class="flow-row"><div class="label">docs/09-10</div><div class="text">Supercell/MPI와 문제 해결은 계산 자원이 준비된 뒤 따라갈 참고 자료입니다.</div></div>
+</div>
+<p class="subtitle">라이브 슬라이드는 O K-edge 해석 흐름을 끊지 않기 위해 core-hole/EELS를 먼저 묶고, Ti L-edge를 두 번째 edge로 짧게 확인합니다.</p>
 </section>
 <section class="slide" data-title="왜 스펙트럼을 계산하나">
 <div class="slide-header"><span class="section-tag">배경</span><span>목적</span></div>
@@ -513,10 +564,19 @@
 <div class="slide-header"><span class="section-tag">저장소</span><span>여러분이 보게 될 파일</span></div>
 <h2>몇 개의 파일만 이해하면 전체 실습 흐름을 따라갈 수 있습니다</h2>
 <div class="flow-list">
-<div class="flow-row"><div class="label">env.sh.example</div><div class="text">클러스터별 module과 `TOOLS_DIR`를 적는 템플릿입니다. Diamond pseudo는 기본적으로 `diamond/pseudo/`를 사용합니다.</div></div>
+<div class="flow-row"><div class="label">env.sh.example</div><div class="text">먼저 클러스터 module 줄만 맞춥니다. `pw.x`, `xspectra.x`, `BIN_DIR`, `QE_ROOT`는 가능한 경우 자동 감지됩니다.</div></div>
 <div class="flow-row"><div class="label">check_setup.sh</div><div class="text">가벼운 사전 점검 스크립트입니다. QE 실행 파일, pseudopotential, Python package, launcher를 확인합니다.</div></div>
 <div class="flow-row"><div class="label">scheduler/</div><div class="text">Slurm/PBS 작업 제출 템플릿입니다. 로그인 노드에서 실수로 계산하지 않도록 도와줍니다.</div></div>
 <div class="flow-row"><div class="label">SrTiO3/</div><div class="text">EELS와 연결되는 대표 예제입니다: O K-edge, Ti L-edge, core-hole 변형, plot.</div></div>
+</div>
+</section>
+<section class="slide" data-title="QE source와 UPF">
+<div class="slide-header"><span class="section-tag">사전 준비</span><span>source tree와 pseudopotential</span></div>
+<h2>대부분의 학생은 QE를 직접 clone하지 않고 시작합니다.</h2>
+<div class="grid-3" style="margin-top:54px">
+<div class="card strong"><h3>UPF는 이미 포함</h3><p class="small">Diamond C K-edge pseudo는 `diamond/pseudo/`에 있고, SrTiO3 예제 pseudo는 `SrTiO3/pseudo/`에 있습니다.</p></div>
+<div class="card"><h3>실행 파일은 module 우선</h3><p class="small">클러스터 module을 load한 뒤 `source env.sh`를 실행하면 `pw.x`, `xspectra.x`, `ld1.x` 경로를 먼저 자동으로 찾습니다.</p></div>
+<div class="card warn"><h3>`~/q-e`는 필요할 때만</h3><p class="small">`upf2plotcore.sh`가 module 설치에 없을 때만 QE source tree를 `~/q-e` 등에 받습니다. 이 tutorial repo 안에 `q-e/`를 clone하거나 commit하지 마세요.</p></div>
 </div>
 </section>
 <section class="slide" data-title="첫 명령">
@@ -525,13 +585,14 @@
 <div class="terminal" style="margin-top:48px"><span class="prompt">$</span> git clone https://github.com/material-JH/xspectra-tutorial.git
 <span class="prompt">$</span> cd xspectra-tutorial
 <span class="prompt">$</span> cp env.sh.example env.sh
-<span class="prompt">$</span> vim env.sh        <span class="comment"># 강사가 알려준 module 이름/TOOLS_DIR 입력</span>
-<span class="prompt">$</span> source env.sh     <span class="comment"># 감지된 경로와 경고 확인</span>
+<span class="prompt">$</span> vim env.sh        <span class="comment"># 먼저 module load 줄만 맞추세요</span>
+<span class="prompt">$</span> source env.sh     <span class="comment"># QE 경로 자동 감지와 경고 확인</span>
+<span class="comment"># TOOLS_DIR는 upf2plotcore.sh 경고가 날 때만 직접 지정합니다</span>
 <span class="prompt">$</span> bash check_setup.sh</div>
 <p class="subtitle">여기서 실패하면 물리 해석으로 넘어가지 말고 설정부터 고치세요. 초보자의 대부분 실패는 경로, module, 또는 누락된 `upf2plotcore.sh`에서 나옵니다.</p>
 </section>
 <section class="slide" data-title="작업 제출">
-<div class="slide-header"><span class="section-tag">스케줄러</span><span>Slurm 예시</span></div>
+<div class="slide-header"><span class="section-tag">스케줄러</span><span>Slurm / PBS 예시</span></div>
 <h2>튜토리얼 계산은 스케줄러를 통해 실행합니다</h2>
 <div class="grid-2" style="margin-top:48px">
 <div class="terminal"><span class="prompt">$</span> sbatch scheduler/slurm_diamond.sbatch
@@ -545,6 +606,7 @@
 <li>필요할 때 `srun -n $NPROCS`를 사용합니다</li>
 <li>먼저 Diamond 예제만 실행합니다</li>
 </ol>
+<p class="small" style="margin-top:20px">PBS/Torque 클러스터에서는 `scheduler/pbs_examples.md`를 보고 `qsub job.pbs`, `qstat -u "$USER"` 흐름으로 바꿉니다.</p>
 </div>
 </div>
 </section>
@@ -642,9 +704,11 @@ Oh  0.50 0.50 0.00</div>
 <div class="slide-header"><span class="section-tag">출력</span><span>성공했을 때 보이는 것</span></div>
 <h2>그림만 기다리지 말고 출력 파일을 먼저 읽으세요.</h2>
 <div class="grid-2" style="margin-top:48px">
-<div class="terminal"><span class="prompt">$</span> more scf.out
+<div class="terminal"><span class="prompt">$</span> cd SrTiO3/O_Kedge
+<span class="prompt">$</span> more scf.out
 <span class="prompt">$</span> tail -80 xspectra.out
 <span class="prompt">$</span> ls *.dat
+<span class="prompt">$</span> cd ../..        <span class="comment"># repo root로 돌아와 reference와 비교</span>
 <span class="prompt">$</span> python3 scripts/compare_reference.py \
     SrTiO3/O_Kedge/O_Kedge.dat \
     reference_output/SrTiO3/O_Kedge/O_Kedge.dat</div>
@@ -658,6 +722,15 @@ Oh  0.50 0.50 0.00</div>
 <li>`tmp/`: scratch 데이터이며 보통 보관하지 않습니다</li>
 </ul>
 </div>
+</div>
+</section>
+<section class="slide" data-title="Supercell과 MPI">
+<div class="slide-header"><span class="section-tag">심화 실습</span><span>docs/09_supercell_and_mpi.md</span></div>
+<h2>Supercell 예제는 계산 자원과 병렬 설정을 먼저 확인한 뒤 실행합니다.</h2>
+<div class="grid-3" style="margin-top:54px">
+<div class="card strong"><h3>HCH supercell</h3><p class="small">SrTiO3 2x2x2 supercell은 원자 40개입니다. 흡수 원자 하나는 HCH UPF를 쓰고 `tot_charge = +0.5`를 유지합니다.</p></div>
+<div class="card"><h3>MPI 옵션</h3><p class="small">XSpectra는 k-point pool 병렬화로 `-nk 4`를 사용합니다. SCF 예제는 이 튜토리얼 환경에서 `-nd 1`로 diagonalization 실패를 피합니다.</p></div>
+<div class="card warn"><h3>스케줄러 전용</h3><p class="small">Supercell은 로그인 노드에서 실행하지 않습니다. Slurm은 `scheduler/slurm_srtio3_okedge.sbatch`, PBS는 `scheduler/pbs_examples.md`를 기준으로 조정하세요.</p></div>
 </div>
 </section>
 <section class="slide" data-title="문제 해결">
@@ -697,7 +770,8 @@ Oh  0.50 0.50 0.00</div>
 <div class="slide-header"><span class="section-tag">실습 시작</span><span>저장소 열기</span></div>
 <h2>이제 슬라이드에서 터미널로 이동합니다.</h2>
 <div class="terminal" style="margin-top:54px"><span class="prompt">$</span> cp env.sh.example env.sh
-<span class="prompt">$</span> vim env.sh
+<span class="prompt">$</span> vim env.sh        <span class="comment"># module load 줄부터 확인</span>
+<span class="prompt">$</span> source env.sh
 <span class="prompt">$</span> bash check_setup.sh
 <span class="prompt">$</span> sbatch scheduler/slurm_diamond.sbatch</div>
 <div class="grid-3" style="margin-top:42px">
@@ -709,7 +783,7 @@ Oh  0.50 0.50 0.00</div>
 <div class="footer">
 <span id="slideTitle">Title</span>
 <div aria-hidden="true" class="progress"><span id="progressBar"></span></div>
-<span id="slideCount">1 / 20</span>
+<span id="slideCount">1 / 23</span>
 </div>
 </main>
 </div>
