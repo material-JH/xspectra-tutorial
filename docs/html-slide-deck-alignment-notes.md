@@ -24,6 +24,7 @@ Patched on 2026-06-01 in `docs/xspectra_tutorial_presentation.html`.
 - A dedicated Supercell/MPI slide now includes HCH supercell, `tot_charge = +0.5`, `-nk 4`, `-nd 1`, and scheduler-only execution guidance.
 - Screen footer alignment now uses shared slide constants. The footer bar extends by its horizontal padding so the footer text/count align to the same slide grid as the header/body text.
 - Follow-up screen cleanup hides the right-side header context label and the footer title/count text in browser presentation mode. The footer now keeps only the progress bar, so labels like `학생용 실습 가이드`, `시작`, and `1 / 23` no longer create a visible header/footer alignment mismatch.
+- Header typography now uses a Korean-first font stack with normal case and tighter letter spacing so mixed labels like `XSpectra 튜토리얼` do not look like two different font sizes.
 - Print/PDF CSS now defines a 16:9 page with `@page { size: 16in 9in; margin: 0; }`, exact color printing, `zoom: .8`, and a final-slide `last-of-type` page-break rule.
 
 The notes below are kept as the original review record.
