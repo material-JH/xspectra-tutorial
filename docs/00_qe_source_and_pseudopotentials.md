@@ -5,7 +5,7 @@
 1. **QE/XSpectra 실행 파일**: `pw.x`, `xspectra.x`, `ld1.x`
 2. **QE source tree 안의 보조 파일**: 특히 `XSpectra/tools/upf2plotcore.sh`
 
-초보자는 보통 QE 전체를 직접 빌드하지 않습니다. 먼저 클러스터 module로 실행 파일을 쓰고, source tree는 `upf2plotcore.sh` 같은 보조 파일을 찾을 때만 내려받으면 됩니다.
+초보자는 보통 QE 전체를 직접 빌드하지 않습니다. 실행 파일은 클러스터 module을 쓰고, source tree는 `upf2plotcore.sh` 같은 XSpectra 보조 파일을 얻기 위해 홈 디렉터리에 한 번 내려받습니다.
 
 ## 이 저장소에 이미 들어 있는 유사퍼텐셜
 
@@ -23,11 +23,11 @@ SrTiO3 예제 유사퍼텐셜도 저장소에 포함되어 있습니다.
 SrTiO3/pseudo/
 ```
 
-따라서 일반 학생은 유사퍼텐셜만 받기 위해 QE source tree를 찾을 필요가 없습니다. `env.sh.example`은 기본적으로 `diamond/pseudo/`를 `EXAMPLE_PSEUDO_DIR`로 사용합니다.
+따라서 일반 학생은 유사퍼텐셜만 받기 위해 QE source tree를 찾을 필요는 없습니다. 그래도 새 계정에서는 `upf2plotcore.sh`를 안정적으로 쓰기 위해 QE source tree를 `$HOME/q-e`에 clone합니다. `env.sh.example`은 기본적으로 `diamond/pseudo/`를 `EXAMPLE_PSEUDO_DIR`로 사용합니다.
 
 ## QE source tree 내려받기
 
-클러스터 module에 `upf2plotcore.sh`가 없거나, QE의 원래 XSpectra 예제 파일을 직접 확인하고 싶을 때만 다음을 실행하세요.
+새 계정에서는 다음을 먼저 실행해서 QE source tree를 `$HOME/q-e`에 받으세요. 이미 `$HOME/q-e`가 있다면 다시 받을 필요는 없습니다.
 
 ```bash
 cd "$HOME"

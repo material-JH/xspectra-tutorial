@@ -4,7 +4,7 @@
 
 - 모든 학생이 클러스터 계정을 가지고 있고 로그인할 수 있는지 확인합니다.
 - QE module에 `pw.x`, `xspectra.x`, `ld1.x`가 포함되어 있는지 확인합니다.
-- `upf2plotcore.sh`를 사용할 수 있는지 확인합니다. 클러스터 module에 없으면 `git clone --depth 1 --branch develop https://github.com/QEF/q-e.git q-e`로 받은 QE source tree의 `XSpectra/tools/` 경로를 `TOOLS_DIR`로 안내합니다.
+- 새 학생 계정에서 `$HOME/q-e`가 준비되는지 확인합니다. `git clone --depth 1 --branch develop https://github.com/QEF/q-e.git ~/q-e`로 받은 QE source tree의 `XSpectra/tools/` 경로를 `TOOLS_DIR`로 사용합니다.
 - Diamond Carbon 유사퍼텐셜은 `diamond/pseudo/`에 포함되어 있으므로 별도 배포가 필요 없는지 확인합니다.
 - 로컬 클러스터에 맞는 `env.sh`를 준비합니다.
 - 새로 clone한 저장소에서 `bash check_setup.sh`를 실행합니다.

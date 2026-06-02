@@ -553,11 +553,11 @@
 </section>
 <section class="slide" data-title="QE source와 UPF">
 <div class="slide-header"><span class="section-tag">사전 준비</span><span>source tree와 pseudopotential</span></div>
-<h2>대부분의 학생은 QE를 직접 clone하지 않고 시작합니다.</h2>
+<h2>새 계정에서는 QE source tree를 홈 디렉터리에 한 번 clone합니다.</h2>
 <div class="grid-3" style="margin-top:54px">
 <div class="card strong"><h3>UPF는 이미 포함</h3><p class="small">Diamond C K-edge pseudo는 `diamond/pseudo/`에 있고, SrTiO3 예제 pseudo는 `SrTiO3/pseudo/`에 있습니다.</p></div>
 <div class="card"><h3>실행 파일은 module 우선</h3><p class="small">클러스터 module을 load한 뒤 `source env.sh`를 실행하면 `pw.x`, `xspectra.x`, `ld1.x` 경로를 먼저 자동으로 찾습니다.</p></div>
-<div class="card warn"><h3>`~/q-e`는 필요할 때만</h3><p class="small">`upf2plotcore.sh`가 module 설치에 없을 때만 QE source tree를 `~/q-e` 등에 받습니다. 이 tutorial repo 안에 `q-e/`를 clone하거나 commit하지 마세요.</p></div>
+<div class="card warn"><h3>`~/q-e`는 source 전용</h3><p class="small">새 학생 계정은 `~/q-e`를 clone해서 `XSpectra/tools/upf2plotcore.sh`를 사용합니다. 이 tutorial repo 안에 `q-e/`를 clone하거나 commit하지 마세요.</p></div>
 </div>
 </section>
 <section class="slide" data-title="첫 명령">
@@ -568,10 +568,10 @@
 <span class="prompt">$</span> cd xspectra-tutorial
 <span class="prompt">$</span> cp env.sh.example env.sh
 <span class="prompt">$</span> vim env.sh        <span class="comment"># 먼저 module load 줄만 맞추세요</span>
-<span class="prompt">$</span> source env.sh     <span class="comment"># QE 경로 자동 감지와 경고 확인</span>
-<span class="comment"># upf2plotcore.sh 경고가 날 때만 아래 두 줄을 실행합니다</span>
+<span class="comment"># 새 계정은 QE source tree를 홈 디렉터리에 한 번 받습니다</span>
 <span class="prompt">$</span> git clone --depth 1 --branch develop https://github.com/QEF/q-e.git ~/q-e
 <span class="prompt">$</span> export TOOLS_DIR="$HOME/q-e/XSpectra/tools"
+<span class="prompt">$</span> source env.sh     <span class="comment"># QE 실행 파일과 TOOLS_DIR 확인</span>
 <span class="prompt">$</span> bash check_setup.sh</div>
 <p class="subtitle">여기서 실패하면 물리 해석으로 넘어가지 말고 설정부터 고치세요. 초보자의 대부분 실패는 경로, module, 또는 누락된 `upf2plotcore.sh`에서 나옵니다.</p>
 </section>

@@ -79,7 +79,7 @@ command -v xspectra.x
 find "$QE_ROOT" -name upf2plotcore.sh
 ```
 
-찾으면 `env.sh`에서 `TOOLS_DIR`를 해당 script가 들어 있는 디렉터리로 설정하세요. 찾지 못하면 QE source tree를 내려받아 `TOOLS_DIR`로 사용할 수 있습니다.
+찾으면 `env.sh`에서 `TOOLS_DIR`를 해당 script가 들어 있는 디렉터리로 설정하세요. 새 계정이거나 찾지 못하면 QE source tree를 `$HOME/q-e`에 내려받아 `TOOLS_DIR`로 사용합니다.
 
 ```bash
 cd ~
