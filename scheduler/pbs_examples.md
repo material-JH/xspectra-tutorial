@@ -34,7 +34,6 @@ export NPROCS=4
 export MPI_RUN="mpirun -np $NPROCS"
 
 bash run_all_examples.sh diamond-only
-python3 plot_spectra.py
 ```
 
 Submit with:
@@ -44,3 +43,11 @@ cd /scratch/$USER/xspectra-tutorial
 qsub job.pbs
 qstat -u "$USER"
 ```
+
+After the PBS job finishes, make plots as a separate post-processing step:
+
+```bash
+python3 plot_spectra.py
+```
+
+Keeping plotting outside the PBS calculation job avoids failing a completed QE/XSpectra job because a compute-node Python or matplotlib library is different from the login-node environment.
