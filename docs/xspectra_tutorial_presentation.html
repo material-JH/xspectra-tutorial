@@ -767,23 +767,22 @@ Oh  0.50 0.50 0.00</div>
 </div>
 <p class="subtitle">이 네 가지를 설명할 수 있으면 오늘 실습의 핵심을 이해한 것입니다.</p>
 </section>
-<section class="slide" data-title="실습 시작">
-<div class="slide-header"><span class="section-tag">실습 시작</span><span>저장소 열기</span></div>
-<h2>이제 슬라이드에서 터미널로 이동합니다.</h2>
-<div class="terminal" style="margin-top:54px"><span class="prompt">$</span> cd /scratch/$USER/xspectra-tutorial
-<span class="prompt">$</span> cp env.sh.example env.sh
-<span class="prompt">$</span> vim env.sh        <span class="comment"># module load 줄부터 확인</span>
-<span class="prompt">$</span> source env.sh
-<span class="prompt">$</span> bash check_setup.sh
-<span class="prompt">$</span> qsub scheduler/pbs_diamond.pbs
+<section class="slide" data-title="진행 확인">
+<div class="slide-header"><span class="section-tag">진행 확인</span><span>각 단계에서 점검</span></div>
+<h2>실습은 각 슬라이드의 명령을 따라가며 진행합니다.</h2>
+<div class="terminal" style="margin-top:54px"><span class="prompt">$</span> bash check_setup.sh
 <span class="prompt">$</span> qstat -u "$USER"
-<span class="comment"># 작업 완료 뒤</span>
+<span class="prompt">$</span> tail -80 diamond/diamond.xspectra.out
+<span class="prompt">$</span> tail -80 SrTiO3/O_Kedge/xspectra.out
+<span class="prompt">$</span> cd SrTiO3
 <span class="prompt">$</span> python3 plot_spectra.py
-<span class="prompt">$</span> ls xanes_spectra.png</div>
+<span class="prompt">$</span> python3 plot_corehole_comparison.py
+<span class="prompt">$</span> python3 plot_all_comparison.py
+<span class="prompt">$</span> ls SrTiO3_*.png</div>
 <div class="grid-3" style="margin-top:42px">
-<div class="card"><h3>도움 자료</h3><p class="small">계산이 늦어지면 `reference_output/`과 비교하세요.</p></div>
-<div class="card"><h3>여러분</h3><p class="small">“왜 그림이 없지?”라고 묻기 전에 출력 파일부터 읽어 보세요.</p></div>
-<div class="card"><h3>모두</h3><p class="small">무거운 MPI 작업은 로그인 노드에서 실행하지 마세요.</p></div>
+<div class="card"><h3>계산</h3><p class="small">작업 제출과 대기열 확인은 해당 실습 슬라이드에서 바로 수행합니다.</p></div>
+<div class="card"><h3>출력</h3><p class="small">그림을 보기 전에 `scf.out`과 `xspectra.out`의 마지막 부분을 확인합니다.</p></div>
+<div class="card"><h3>대안</h3><p class="small">계산이 늦어지면 `reference_output/`으로 같은 해석 단계를 계속합니다.</p></div>
 </div>
 </section>
 <div class="footer">
