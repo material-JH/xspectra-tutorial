@@ -720,53 +720,58 @@ Oh  0.50 0.50 0.00</div>
 <h2>Core-hole은 국소적인 final-state perturbation이므로, 주기적 복사본과의 상호작용을 줄여야 합니다.</h2>
 <div class="grid-2" style="margin-top:44px">
 <div class="image-frame">
-<svg aria-label="Core-hole and supercell schematic" viewBox="0 0 900 560" width="100%" height="100%" role="img">
+<svg aria-label="Core-hole image interaction schematic" viewBox="0 0 900 560" width="100%" height="100%" role="img">
 <rect x="0" y="0" width="900" height="560" fill="#f8fafc"/>
-<text x="55" y="55" font-size="30" font-weight="700" fill="#14213d">Unit cell</text>
-<text x="505" y="55" font-size="30" font-weight="700" fill="#14213d">2x2x2 supercell</text>
+<text x="55" y="55" font-size="30" font-weight="700" fill="#14213d">Unit cell repeated</text>
+<text x="505" y="55" font-size="30" font-weight="700" fill="#14213d">2x2 supercell repeated</text>
+
 <g transform="translate(54 90)">
 <rect x="0" y="0" width="310" height="310" fill="#ffffff" stroke="#2f3e46" stroke-width="4"/>
-<g stroke="#cbd5e1" stroke-width="2">
-<line x1="103" y1="0" x2="103" y2="310"/><line x1="206" y1="0" x2="206" y2="310"/>
-<line x1="0" y1="103" x2="310" y2="103"/><line x1="0" y1="206" x2="310" y2="206"/>
-</g>
+<line x1="155" y1="0" x2="155" y2="310" stroke="#cbd5e1" stroke-width="3"/>
+<line x1="0" y1="155" x2="310" y2="155" stroke="#cbd5e1" stroke-width="3"/>
 <g fill="#94a3b8">
-<circle cx="52" cy="52" r="12"/><circle cx="155" cy="52" r="12"/><circle cx="258" cy="52" r="12"/>
-<circle cx="52" cy="155" r="12"/><circle cx="258" cy="155" r="12"/>
-<circle cx="52" cy="258" r="12"/><circle cx="155" cy="258" r="12"/><circle cx="258" cy="258" r="12"/>
+<circle cx="77.5" cy="77.5" r="12"/><circle cx="232.5" cy="77.5" r="12"/>
+<circle cx="77.5" cy="232.5" r="12"/><circle cx="232.5" cy="232.5" r="12"/>
 </g>
 <g>
-<circle cx="155" cy="155" r="28" fill="#fee2e2" stroke="#dc2626" stroke-width="4"/>
-<text x="143" y="165" font-size="26" font-weight="700" fill="#dc2626">h</text>
+<circle cx="77.5" cy="77.5" r="25" fill="#fee2e2" stroke="#dc2626" stroke-width="4"/>
+<circle cx="232.5" cy="77.5" r="25" fill="#fee2e2" stroke="#dc2626" stroke-width="4"/>
+<circle cx="77.5" cy="232.5" r="25" fill="#fee2e2" stroke="#dc2626" stroke-width="4"/>
+<circle cx="232.5" cy="232.5" r="25" fill="#fee2e2" stroke="#dc2626" stroke-width="4"/>
+<text x="68" y="87" font-size="24" font-weight="700" fill="#dc2626">h</text>
+<text x="223" y="87" font-size="24" font-weight="700" fill="#dc2626">h</text>
+<text x="68" y="242" font-size="24" font-weight="700" fill="#dc2626">h</text>
+<text x="223" y="242" font-size="24" font-weight="700" fill="#dc2626">h</text>
 </g>
-<path d="M155 155 C95 110, 95 205, 155 155 C215 110, 215 205, 155 155" fill="none" stroke="#dc2626" stroke-width="4" stroke-dasharray="8 8"/>
-<text x="4" y="356" font-size="21" fill="#334155">Core-hole repeats every unit cell</text>
-<text x="4" y="386" font-size="21" fill="#dc2626">artificial image interaction is large</text>
+<path d="M77.5 77.5 L232.5 77.5 M77.5 77.5 L77.5 232.5 M232.5 77.5 L232.5 232.5 M77.5 232.5 L232.5 232.5" stroke="#dc2626" stroke-width="4" stroke-dasharray="8 8"/>
+<text x="0" y="356" font-size="21" fill="#334155">Periodic image in every unit cell</text>
+<text x="0" y="386" font-size="21" fill="#dc2626">short core-hole image distance</text>
 </g>
+
 <g transform="translate(505 90)">
+<rect x="-22" y="-22" width="354" height="354" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="8 8"/>
 <rect x="0" y="0" width="310" height="310" fill="#ffffff" stroke="#2f3e46" stroke-width="4"/>
-<g stroke="#cbd5e1" stroke-width="2">
-<line x1="155" y1="0" x2="155" y2="310"/><line x1="0" y1="155" x2="310" y2="155"/>
-</g>
+<line x1="155" y1="0" x2="155" y2="310" stroke="#cbd5e1" stroke-width="3"/>
+<line x1="0" y1="155" x2="310" y2="155" stroke="#cbd5e1" stroke-width="3"/>
 <g fill="#94a3b8">
-<circle cx="52" cy="52" r="12"/><circle cx="155" cy="52" r="12"/><circle cx="258" cy="52" r="12"/>
-<circle cx="52" cy="155" r="12"/><circle cx="258" cy="155" r="12"/>
-<circle cx="52" cy="258" r="12"/><circle cx="155" cy="258" r="12"/><circle cx="258" cy="258" r="12"/>
+<circle cx="77.5" cy="77.5" r="12"/><circle cx="232.5" cy="77.5" r="12"/>
+<circle cx="77.5" cy="232.5" r="12"/><circle cx="232.5" cy="232.5" r="12"/>
 </g>
-<circle cx="155" cy="155" r="28" fill="#fee2e2" stroke="#dc2626" stroke-width="4"/>
-<text x="143" y="165" font-size="26" font-weight="700" fill="#dc2626">h</text>
-<circle cx="15" cy="15" r="18" fill="#fee2e2" stroke="#dc2626" stroke-width="3" opacity="0.28"/>
-<circle cx="295" cy="15" r="18" fill="#fee2e2" stroke="#dc2626" stroke-width="3" opacity="0.28"/>
-<circle cx="15" cy="295" r="18" fill="#fee2e2" stroke="#dc2626" stroke-width="3" opacity="0.28"/>
-<circle cx="295" cy="295" r="18" fill="#fee2e2" stroke="#dc2626" stroke-width="3" opacity="0.28"/>
-<path d="M155 155 L15 15 M155 155 L295 15 M155 155 L15 295 M155 155 L295 295" stroke="#64748b" stroke-width="3" stroke-dasharray="7 9"/>
-<text x="4" y="356" font-size="21" fill="#334155">Same core-hole, farther periodic images</text>
-<text x="4" y="386" font-size="21" fill="#0f766e">more realistic isolated excitation</text>
+<circle cx="77.5" cy="77.5" r="25" fill="#fee2e2" stroke="#dc2626" stroke-width="4"/>
+<text x="68" y="87" font-size="24" font-weight="700" fill="#dc2626">h</text>
+<circle cx="-22" cy="-22" r="18" fill="#fee2e2" stroke="#dc2626" stroke-width="3" opacity="0.34"/>
+<circle cx="332" cy="-22" r="18" fill="#fee2e2" stroke="#dc2626" stroke-width="3" opacity="0.34"/>
+<circle cx="-22" cy="332" r="18" fill="#fee2e2" stroke="#dc2626" stroke-width="3" opacity="0.34"/>
+<circle cx="332" cy="332" r="18" fill="#fee2e2" stroke="#dc2626" stroke-width="3" opacity="0.34"/>
+<path d="M77.5 77.5 L-22 -22 M77.5 77.5 L332 -22 M77.5 77.5 L-22 332 M77.5 77.5 L332 332" stroke="#64748b" stroke-width="3" stroke-dasharray="7 9"/>
+<text x="0" y="356" font-size="21" fill="#334155">One core-hole per 2x2 supercell image</text>
+<text x="0" y="386" font-size="21" fill="#0f766e">larger image distance, weaker artifact</text>
 </g>
-<g transform="translate(260 450)">
-<line x1="0" y1="45" x2="420" y2="45" stroke="#14213d" stroke-width="5" marker-end="url(#arrowhead)"/>
-<text x="78" y="30" font-size="24" font-weight="700" fill="#14213d">increase cell size</text>
-<text x="8" y="92" font-size="20" fill="#475569">less artificial core-hole image interaction</text>
+
+<g transform="translate(258 450)">
+<line x1="0" y1="45" x2="424" y2="45" stroke="#14213d" stroke-width="5" marker-end="url(#arrowhead)"/>
+<text x="95" y="30" font-size="24" font-weight="700" fill="#14213d">increase periodic cell</text>
+<text x="10" y="92" font-size="20" fill="#475569">same periodic-boundary idea, farther core-hole images</text>
 </g>
 <defs><marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#14213d"/></marker></defs>
 </svg>
