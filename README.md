@@ -4,6 +4,12 @@ TEM/EELS 학생과 포닥을 위한 Quantum ESPRESSO + XSpectra 한국어 실습
 
 ## 빠른 시작
 
+PBS/Nurion처럼 home 디렉터리에서 `qsub`가 막힌 시스템에서는 먼저 자기 scratch 디렉터리에서 저장소를 받으세요.
+
+```bash
+cd /scratch/$USER
+```
+
 ```bash
 git clone https://github.com/material-JH/xspectra-tutorial.git
 cd xspectra-tutorial
@@ -12,6 +18,8 @@ vim env.sh        # 클러스터 module 이름만 먼저 맞추세요. QE 경로
 source env.sh     # 감지된 경로와 경고가 화면에 출력됩니다.
 bash check_setup.sh
 ```
+
+QE source tree는 이 튜토리얼 repo 안에 넣지 않습니다. 보조 도구가 필요하면 각자 `$HOME/q-e` 같은 별도 위치에 내려받고 `TOOLS_DIR`만 `env.sh`에 적습니다.
 
 Slurm 클러스터에서는 첫 예제를 작업으로 제출합니다.
 

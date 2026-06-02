@@ -10,6 +10,12 @@ ssh username@cluster.example.edu
 
 ## 2. 튜토리얼 파일 받기
 
+PBS/Nurion처럼 home 디렉터리에서 `qsub`가 막힌 시스템에서는 `/scratch/$USER` 아래에서 clone하거나, 이미 home에 받은 복사본을 scratch로 복사한 뒤 그곳에서 작업합니다.
+
+```bash
+cd /scratch/$USER
+```
+
 ```bash
 git clone https://github.com/material-JH/xspectra-tutorial.git
 cd xspectra-tutorial
@@ -104,6 +110,14 @@ scancel <jobid>
 ```
 
 PBS/Torque를 사용하는 경우에는 `scheduler/pbs_examples.md`를 참고하세요.
+
+PBS/Nurion 예시:
+
+```bash
+cd /scratch/$USER/xspectra-tutorial
+qsub scheduler/pbs_diamond.pbs
+qstat -u "$USER"
+```
 
 ## 6. 로그인 노드와 계산 노드
 

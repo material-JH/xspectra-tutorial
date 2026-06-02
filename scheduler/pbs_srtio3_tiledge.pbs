@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #PBS -N xspectra-sto-til
 #PBS -A qe
+#PBS -q norm_skl
 #PBS -l select=1:ncpus=4:mpiprocs=4
 #PBS -l walltime=00:30:00
 #PBS -j oe
@@ -10,8 +11,10 @@ set -euo pipefail
 cd "$PBS_O_WORKDIR"
 source ./env.sh
 
-export NPROCS="${PBS_NP:-${NPROCS:-4}}"
-export MPI_RUN="${MPI_RUN:-mpirun -np $NPROCS}"
+# Keep the tutorial examples at 4 MPI ranks. Some PBS systems allocate a full
+# node even for this request, so do not derive the tutorial rank count from PBS_NP.
+export NPROCS=4
+export MPI_RUN="mpirun -np $NPROCS"
 
 cd SrTiO3/Ti_Ledge
 bash run.sh

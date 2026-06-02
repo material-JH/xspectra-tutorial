@@ -585,7 +585,8 @@
 <section class="slide" data-title="첫 명령">
 <div class="slide-header"><span class="section-tag">실습</span><span>첫 명령</span></div>
 <h2>모두 같은 환경에서 시작하세요</h2>
-<div class="terminal" style="margin-top:48px"><span class="prompt">$</span> git clone https://github.com/material-JH/xspectra-tutorial.git
+<div class="terminal" style="margin-top:48px"><span class="prompt">$</span> cd /scratch/$USER
+<span class="prompt">$</span> git clone https://github.com/material-JH/xspectra-tutorial.git
 <span class="prompt">$</span> cd xspectra-tutorial
 <span class="prompt">$</span> cp env.sh.example env.sh
 <span class="prompt">$</span> vim env.sh        <span class="comment"># 먼저 module load 줄만 맞추세요</span>
@@ -598,15 +599,16 @@
 <div class="slide-header"><span class="section-tag">스케줄러</span><span>PBS 예시</span></div>
 <h2>튜토리얼 계산은 스케줄러를 통해 실행합니다</h2>
 <div class="grid-2" style="margin-top:48px">
-<div class="terminal"><span class="prompt">$</span> qsub scheduler/pbs_diamond.pbs
+<div class="terminal"><span class="prompt">$</span> cd /scratch/$USER/xspectra-tutorial
+<span class="prompt">$</span> qsub scheduler/pbs_diamond.pbs
 <span class="prompt">$</span> qstat -u "$USER"
 <span class="prompt">$</span> more xspectra-diamond.o&lt;jobid&gt;</div>
 <div class="card">
 <h3>이 스크립트가 하는 일</h3>
 <ol class="clean" style="margin-top:22px">
 <li>`env.sh`를 불러옵니다</li>
-<li>PBS가 배정한 `PBS_NP`로 `NPROCS`를 정합니다</li>
-<li>필요할 때 `mpirun -np $NPROCS`를 사용합니다</li>
+<li>`norm_skl` queue에 작업을 제출합니다</li>
+<li>튜토리얼 기본값인 4 MPI rank를 사용합니다</li>
 <li>먼저 Diamond 예제만 실행합니다</li>
 </ol>
 <p class="small" style="margin-top:20px">Slurm 클러스터에서는 `scheduler/slurm_diamond.sbatch`와 `sbatch`/`squeue` 흐름으로 바꿉니다.</p>
@@ -772,7 +774,8 @@ Oh  0.50 0.50 0.00</div>
 <section class="slide" data-title="실습 시작">
 <div class="slide-header"><span class="section-tag">실습 시작</span><span>저장소 열기</span></div>
 <h2>이제 슬라이드에서 터미널로 이동합니다.</h2>
-<div class="terminal" style="margin-top:54px"><span class="prompt">$</span> cp env.sh.example env.sh
+<div class="terminal" style="margin-top:54px"><span class="prompt">$</span> cd /scratch/$USER/xspectra-tutorial
+<span class="prompt">$</span> cp env.sh.example env.sh
 <span class="prompt">$</span> vim env.sh        <span class="comment"># module load 줄부터 확인</span>
 <span class="prompt">$</span> source env.sh
 <span class="prompt">$</span> bash check_setup.sh
