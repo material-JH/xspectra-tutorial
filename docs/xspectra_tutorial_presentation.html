@@ -515,7 +515,7 @@
 <div class="flow-list" style="margin-top:42px">
 <div class="flow-row"><div class="label">docs/00_*</div><div class="text">슈퍼컴퓨터 접속, QE source tree, bundled pseudopotential 준비를 먼저 확인합니다.</div></div>
 <div class="flow-row"><div class="label">docs/01-03</div><div class="text">리눅스 기본 명령, QE 입력 파일 구조, XSpectra pipeline은 수업 전 읽기 자료입니다.</div></div>
-<div class="flow-row"><div class="label">docs/04-08</div><div class="text">README 순서: Diamond → SrTiO3 O K-edge → core-hole 비교 → EELS 비교.</div></div>
+<div class="flow-row"><div class="label">docs/04-08</div><div class="text">Live 순서: core-hole 개념 → Diamond → SrTiO3 O K-edge → supercell → EELS 비교.</div></div>
 <div class="flow-row"><div class="label">docs/09-10</div><div class="text">Supercell/MPI와 문제 해결은 계산 자원이 준비된 뒤 따라갈 참고 자료입니다.</div></div>
 </div>
 <p class="subtitle">라이브 슬라이드는 O K-edge 해석 흐름에만 집중하도록 core-hole/EELS 비교까지 한 번에 묶습니다.</p>
@@ -619,6 +619,65 @@
 </div>
 </div>
 </section>
+<section class="slide" data-title="왜 core-hole인가">
+<div class="slide-header"><span class="section-tag">물리 모델</span><span>Core-hole approximation</span></div>
+<h2>흡수 edge 계산은 core electron을 비어 있는 상태로 올리는 과정이므로, 남은 core-hole이 주변 전자를 끌어당깁니다.</h2>
+<div class="grid-2" style="margin-top:44px">
+<div class="image-frame">
+<svg aria-label="Core-hole approximation schematic" viewBox="0 0 900 560" width="100%" height="100%" role="img">
+<rect x="0" y="0" width="900" height="560" fill="#f8fafc"/>
+<text x="72" y="55" font-size="30" font-weight="700" fill="#14213d">Initial state</text>
+<text x="545" y="55" font-size="30" font-weight="700" fill="#14213d">Final-state model</text>
+<g transform="translate(72 105)">
+<line x1="70" y1="300" x2="300" y2="300" stroke="#64748b" stroke-width="4"/>
+<line x1="70" y1="165" x2="300" y2="165" stroke="#64748b" stroke-width="4"/>
+<line x1="70" y1="70" x2="300" y2="70" stroke="#94a3b8" stroke-width="4" stroke-dasharray="10 10"/>
+<text x="12" y="308" font-size="22" fill="#334155">core</text>
+<text x="12" y="173" font-size="22" fill="#334155">valence</text>
+<text x="12" y="78" font-size="22" fill="#334155">empty</text>
+<circle cx="135" cy="300" r="15" fill="#2166ac"/><circle cx="178" cy="300" r="15" fill="#2166ac"/>
+<circle cx="122" cy="165" r="12" fill="#94a3b8"/><circle cx="158" cy="165" r="12" fill="#94a3b8"/><circle cx="194" cy="165" r="12" fill="#94a3b8"/><circle cx="230" cy="165" r="12" fill="#94a3b8"/>
+<path d="M178 285 C210 225, 250 155, 260 78" fill="none" stroke="#dc2626" stroke-width="5" marker-end="url(#exciteArrow)"/>
+<text x="88" y="380" font-size="22" fill="#334155">ground-state electrons</text>
+</g>
+<g transform="translate(515 105)">
+<line x1="70" y1="300" x2="300" y2="300" stroke="#64748b" stroke-width="4"/>
+<line x1="70" y1="165" x2="300" y2="165" stroke="#64748b" stroke-width="4"/>
+<line x1="70" y1="70" x2="300" y2="70" stroke="#94a3b8" stroke-width="4" stroke-dasharray="10 10"/>
+<text x="12" y="308" font-size="22" fill="#334155">core</text>
+<text x="12" y="173" font-size="22" fill="#334155">valence</text>
+<text x="12" y="78" font-size="22" fill="#334155">empty</text>
+<circle cx="135" cy="300" r="18" fill="#fee2e2" stroke="#dc2626" stroke-width="4"/>
+<text x="126" y="309" font-size="22" font-weight="700" fill="#dc2626">h</text>
+<circle cx="260" cy="70" r="15" fill="#2166ac"/>
+<circle cx="118" cy="165" r="12" fill="#94a3b8"/><circle cx="155" cy="155" r="12" fill="#94a3b8"/><circle cx="192" cy="150" r="12" fill="#94a3b8"/><circle cx="230" cy="160" r="12" fill="#94a3b8"/>
+<path d="M135 300 C125 245, 138 205, 155 165 M135 300 C170 245, 200 205, 230 165" fill="none" stroke="#0f766e" stroke-width="4" stroke-dasharray="8 8"/>
+<text x="84" y="380" font-size="22" fill="#334155">screened core-hole potential</text>
+</g>
+<defs><marker id="exciteArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#dc2626"/></marker></defs>
+</svg>
+</div>
+<div class="card strong">
+<h3>왜 근사가 필요한가</h3>
+<ul class="clean" style="margin-top:24px">
+<li>Ground-state DOS만 보면 core-hole이 만든 final-state potential을 빠뜨립니다.</li>
+<li>Core-hole은 unoccupied state의 에너지와 모양을 바꾸고, 특히 onset 근처 피크를 움직일 수 있습니다.</li>
+<li>FCH/HCH/no-hole 비교는 “흡수 뒤 screening을 얼마나 넣었는가”를 비교하는 실습입니다.</li>
+<li>이 근사는 완전한 excited-state 동역학이 아니라, 스펙트럼 해석을 위한 계산 가능한 final-state 모델입니다.</li>
+</ul>
+</div>
+</div>
+</section>
+<section class="slide" data-title="코어홀 비교">
+<div class="slide-header"><span class="section-tag">물리 모델 선택</span><span>코어홀 근사</span></div>
+<h2>코어홀 모델은 final-state interaction을 바꿉니다</h2>
+<div class="grid-3" style="margin-top:54px">
+<div class="card"><h3>코어홀 없음</h3><p class="metric-label">빠른 기준 계산입니다. 배우기에는 좋지만 강한 final-state effect를 놓칠 수 있습니다.</p><div class="metric warm" style="margin-top:24px">0</div><p class="tiny">`tot_charge = 0`</p></div>
+<div class="card"><h3>전체 코어홀</h3><p class="metric-label">흡수 원자에서 core electron 하나를 제거한 모델입니다. perturbation이 더 큽니다.</p><div class="metric warm" style="margin-top:24px">+1</div><p class="tiny">`tot_charge = +1.0`</p></div>
+<div class="card strong"><h3>절반 코어홀</h3><p class="metric-label">튜토리얼 비교와 screening을 위한 흔한 절충 모델입니다.</p><div class="metric warm" style="margin-top:24px">+0.5</div><p class="tiny">`tot_charge = +0.5`</p></div>
+</div>
+<p class="subtitle">중요: `filecore` wavefunction은 원래의 non-core-hole pseudopotential에서 추출합니다.</p>
+</section>
 <section class="slide plot-slide" data-title="다이아몬드 예제">
 <div class="slide-header"><span class="section-tag">예제 1</span><span>Diamond C K-edge</span></div>
 <h2>Diamond는 재료과학 결론을 내기 위한 예제가 아니라, 계산 흐름을 익히기 위한 예제입니다.</h2>
@@ -676,66 +735,7 @@ Oh  0.50 0.50 0.00</div>
 <span class="prompt">$</span> python3 scripts/make_presentation_plots.py
 <span class="prompt">$</span> ls docs/assets/presentation_srtio3_eels_comparison.png</div>
 </div>
-<p class="subtitle">`pbs_srtio3_okedge.pbs`는 O K-edge no-core-hole, FCH, HCH unit-cell 계산을 모두 제출합니다. 작업이 도는 동안 다음 물리 모델 슬라이드를 읽고, 완료 뒤 `scripts/make_presentation_plots.py`로 EELS 비교 그림을 갱신합니다.</p>
-</section>
-<section class="slide" data-title="왜 core-hole인가">
-<div class="slide-header"><span class="section-tag">물리 모델</span><span>Core-hole approximation</span></div>
-<h2>O K-edge는 O 1s 전자를 비어 있는 상태로 올리는 과정이므로, 남은 core-hole이 주변 전자를 끌어당깁니다.</h2>
-<div class="grid-2" style="margin-top:44px">
-<div class="image-frame">
-<svg aria-label="Core-hole approximation schematic" viewBox="0 0 900 560" width="100%" height="100%" role="img">
-<rect x="0" y="0" width="900" height="560" fill="#f8fafc"/>
-<text x="72" y="55" font-size="30" font-weight="700" fill="#14213d">Initial state</text>
-<text x="545" y="55" font-size="30" font-weight="700" fill="#14213d">Final-state model</text>
-<g transform="translate(72 105)">
-<line x1="70" y1="300" x2="300" y2="300" stroke="#64748b" stroke-width="4"/>
-<line x1="70" y1="165" x2="300" y2="165" stroke="#64748b" stroke-width="4"/>
-<line x1="70" y1="70" x2="300" y2="70" stroke="#94a3b8" stroke-width="4" stroke-dasharray="10 10"/>
-<text x="12" y="308" font-size="22" fill="#334155">O 1s</text>
-<text x="12" y="173" font-size="22" fill="#334155">valence</text>
-<text x="12" y="78" font-size="22" fill="#334155">empty</text>
-<circle cx="135" cy="300" r="15" fill="#2166ac"/><circle cx="178" cy="300" r="15" fill="#2166ac"/>
-<circle cx="122" cy="165" r="12" fill="#94a3b8"/><circle cx="158" cy="165" r="12" fill="#94a3b8"/><circle cx="194" cy="165" r="12" fill="#94a3b8"/><circle cx="230" cy="165" r="12" fill="#94a3b8"/>
-<path d="M178 285 C210 225, 250 155, 260 78" fill="none" stroke="#dc2626" stroke-width="5" marker-end="url(#exciteArrow)"/>
-<text x="88" y="380" font-size="22" fill="#334155">ground-state electrons</text>
-</g>
-<g transform="translate(515 105)">
-<line x1="70" y1="300" x2="300" y2="300" stroke="#64748b" stroke-width="4"/>
-<line x1="70" y1="165" x2="300" y2="165" stroke="#64748b" stroke-width="4"/>
-<line x1="70" y1="70" x2="300" y2="70" stroke="#94a3b8" stroke-width="4" stroke-dasharray="10 10"/>
-<text x="12" y="308" font-size="22" fill="#334155">O 1s</text>
-<text x="12" y="173" font-size="22" fill="#334155">valence</text>
-<text x="12" y="78" font-size="22" fill="#334155">empty</text>
-<circle cx="135" cy="300" r="18" fill="#fee2e2" stroke="#dc2626" stroke-width="4"/>
-<text x="126" y="309" font-size="22" font-weight="700" fill="#dc2626">h</text>
-<circle cx="260" cy="70" r="15" fill="#2166ac"/>
-<circle cx="118" cy="165" r="12" fill="#94a3b8"/><circle cx="155" cy="155" r="12" fill="#94a3b8"/><circle cx="192" cy="150" r="12" fill="#94a3b8"/><circle cx="230" cy="160" r="12" fill="#94a3b8"/>
-<path d="M135 300 C125 245, 138 205, 155 165 M135 300 C170 245, 200 205, 230 165" fill="none" stroke="#0f766e" stroke-width="4" stroke-dasharray="8 8"/>
-<text x="84" y="380" font-size="22" fill="#334155">screened core-hole potential</text>
-</g>
-<defs><marker id="exciteArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#dc2626"/></marker></defs>
-</svg>
-</div>
-<div class="card strong">
-<h3>왜 근사가 필요한가</h3>
-<ul class="clean" style="margin-top:24px">
-<li>Ground-state DOS만 보면 core-hole이 만든 final-state potential을 빠뜨립니다.</li>
-<li>Core-hole은 unoccupied state의 에너지와 모양을 바꾸고, 특히 onset 근처 피크를 움직일 수 있습니다.</li>
-<li>FCH/HCH/no-hole 비교는 “흡수 뒤 screening을 얼마나 넣었는가”를 비교하는 실습입니다.</li>
-<li>이 근사는 완전한 excited-state 동역학이 아니라, 스펙트럼 해석을 위한 계산 가능한 final-state 모델입니다.</li>
-</ul>
-</div>
-</div>
-</section>
-<section class="slide" data-title="코어홀 비교">
-<div class="slide-header"><span class="section-tag">물리 모델 선택</span><span>코어홀 근사</span></div>
-<h2>코어홀 모델은 final-state interaction을 바꿉니다</h2>
-<div class="grid-3" style="margin-top:54px">
-<div class="card"><h3>코어홀 없음</h3><p class="metric-label">빠른 기준 계산입니다. 배우기에는 좋지만 강한 final-state effect를 놓칠 수 있습니다.</p><div class="metric warm" style="margin-top:24px">0</div><p class="tiny">`tot_charge = 0`</p></div>
-<div class="card"><h3>전체 코어홀</h3><p class="metric-label">흡수 원자에서 core electron 하나를 제거한 모델입니다. perturbation이 더 큽니다.</p><div class="metric warm" style="margin-top:24px">+1</div><p class="tiny">`tot_charge = +1.0`</p></div>
-<div class="card strong"><h3>절반 코어홀</h3><p class="metric-label">튜토리얼 비교와 screening을 위한 흔한 절충 모델입니다.</p><div class="metric warm" style="margin-top:24px">+0.5</div><p class="tiny">`tot_charge = +0.5`</p></div>
-</div>
-<p class="subtitle">중요: `filecore` wavefunction은 원래의 non-core-hole pseudopotential에서 추출합니다.</p>
+<p class="subtitle">`pbs_srtio3_okedge.pbs`는 O K-edge no-core-hole, FCH, HCH unit-cell 계산을 모두 제출합니다. 작업이 도는 동안 supercell과 EELS 정렬 슬라이드를 읽고, 완료 뒤 `scripts/make_presentation_plots.py`로 EELS 비교 그림을 갱신합니다.</p>
 </section>
 <section class="slide" data-title="Core-hole과 supercell">
 <div class="slide-header"><span class="section-tag">물리 모델</span><span>왜 큰 cell이 필요한가</span></div>
