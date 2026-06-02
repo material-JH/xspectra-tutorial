@@ -1,6 +1,15 @@
 # PBS/Torque Examples
 
-If your cluster uses PBS/Torque instead of Slurm, adapt this template.
+This tutorial environment uses PBS/Torque. Ready-to-submit templates are:
+
+```bash
+qsub scheduler/pbs_diamond.pbs
+qsub scheduler/pbs_srtio3_okedge.pbs
+qsub scheduler/pbs_srtio3_tiledge.pbs
+qstat -u "$USER"
+```
+
+The Diamond template is:
 
 ```bash
 #!/usr/bin/env bash

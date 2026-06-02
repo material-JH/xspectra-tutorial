@@ -561,7 +561,7 @@
 <div class="card warn"><h3>로그인 노드</h3><ul class="clean" style="margin-top:22px"><li>파일 편집</li><li>`git`, `more`, `vim` 실행</li><li>`bash check_setup.sh` 실행</li><li>작은 출력 파일 확인</li></ul></div>
 <div class="card strong"><h3>계산 노드 / 스케줄러</h3><ul class="clean" style="margin-top:22px"><li>`pw.x` 실행</li><li>`xspectra.x` 실행</li><li>MPI rank 사용</li><li>SrTiO3와 supercell 예제 실행</li></ul></div>
 </div>
-<p class="subtitle"><span class="danger">큰 MPI 계산은 로그인 노드에서 실행하지 마세요.</span> `sbatch`, `qsub` 또는 대화형 계산 노드를 사용하세요.</p>
+<p class="subtitle"><span class="danger">큰 MPI 계산은 로그인 노드에서 실행하지 마세요.</span> 이 환경에서는 PBS `qsub`/`qstat` 또는 대화형 계산 노드를 사용하세요.</p>
 </section>
 <section class="slide" data-title="저장소 구조">
 <div class="slide-header"><span class="section-tag">저장소</span><span>여러분이 보게 될 파일</span></div>
@@ -569,7 +569,7 @@
 <div class="flow-list">
 <div class="flow-row"><div class="label">env.sh.example</div><div class="text">먼저 클러스터 module 줄만 맞춥니다. `pw.x`, `xspectra.x`, `BIN_DIR`, `QE_ROOT`는 가능한 경우 자동 감지됩니다.</div></div>
 <div class="flow-row"><div class="label">check_setup.sh</div><div class="text">가벼운 사전 점검 스크립트입니다. QE 실행 파일, pseudopotential, Python package, launcher를 확인합니다.</div></div>
-<div class="flow-row"><div class="label">scheduler/</div><div class="text">Slurm/PBS 작업 제출 템플릿입니다. 로그인 노드에서 실수로 계산하지 않도록 도와줍니다.</div></div>
+<div class="flow-row"><div class="label">scheduler/</div><div class="text">PBS/Slurm 작업 제출 템플릿입니다. 로그인 노드에서 실수로 계산하지 않도록 도와줍니다.</div></div>
 <div class="flow-row"><div class="label">SrTiO3/</div><div class="text">EELS와 연결되는 대표 예제입니다: O K-edge, Ti L-edge, core-hole 변형, plot.</div></div>
 </div>
 </section>
@@ -595,21 +595,21 @@
 <p class="subtitle">여기서 실패하면 물리 해석으로 넘어가지 말고 설정부터 고치세요. 초보자의 대부분 실패는 경로, module, 또는 누락된 `upf2plotcore.sh`에서 나옵니다.</p>
 </section>
 <section class="slide" data-title="작업 제출">
-<div class="slide-header"><span class="section-tag">스케줄러</span><span>Slurm / PBS 예시</span></div>
+<div class="slide-header"><span class="section-tag">스케줄러</span><span>PBS 예시</span></div>
 <h2>튜토리얼 계산은 스케줄러를 통해 실행합니다</h2>
 <div class="grid-2" style="margin-top:48px">
-<div class="terminal"><span class="prompt">$</span> sbatch scheduler/slurm_diamond.sbatch
-<span class="prompt">$</span> squeue -u "$USER"
-<span class="prompt">$</span> more slurm-xspectra-diamond-&lt;jobid&gt;.out</div>
+<div class="terminal"><span class="prompt">$</span> qsub scheduler/pbs_diamond.pbs
+<span class="prompt">$</span> qstat -u "$USER"
+<span class="prompt">$</span> more xspectra-diamond.o&lt;jobid&gt;</div>
 <div class="card">
 <h3>이 스크립트가 하는 일</h3>
 <ol class="clean" style="margin-top:22px">
 <li>`env.sh`를 불러옵니다</li>
-<li>스케줄러가 배정한 자원으로 `NPROCS`를 정합니다</li>
-<li>필요할 때 `srun -n $NPROCS`를 사용합니다</li>
+<li>PBS가 배정한 `PBS_NP`로 `NPROCS`를 정합니다</li>
+<li>필요할 때 `mpirun -np $NPROCS`를 사용합니다</li>
 <li>먼저 Diamond 예제만 실행합니다</li>
 </ol>
-<p class="small" style="margin-top:20px">PBS/Torque 클러스터에서는 `scheduler/pbs_examples.md`를 보고 `qsub job.pbs`, `qstat -u "$USER"` 흐름으로 바꿉니다.</p>
+<p class="small" style="margin-top:20px">Slurm 클러스터에서는 `scheduler/slurm_diamond.sbatch`와 `sbatch`/`squeue` 흐름으로 바꿉니다.</p>
 </div>
 </div>
 </section>
@@ -733,7 +733,7 @@ Oh  0.50 0.50 0.00</div>
 <div class="grid-3" style="margin-top:54px">
 <div class="card strong"><h3>HCH supercell</h3><p class="small">SrTiO3 2x2x2 supercell은 원자 40개입니다. 흡수 원자 하나는 HCH UPF를 쓰고 `tot_charge = +0.5`를 유지합니다.</p></div>
 <div class="card"><h3>MPI 옵션</h3><p class="small">XSpectra는 k-point pool 병렬화로 `-nk 4`를 사용합니다. SCF 예제는 이 튜토리얼 환경에서 `-nd 1`로 diagonalization 실패를 피합니다.</p></div>
-<div class="card warn"><h3>스케줄러 전용</h3><p class="small">Supercell은 로그인 노드에서 실행하지 않습니다. Slurm은 `scheduler/slurm_srtio3_okedge.sbatch`, PBS는 `scheduler/pbs_examples.md`를 기준으로 조정하세요.</p></div>
+<div class="card warn"><h3>스케줄러 전용</h3><p class="small">Supercell은 로그인 노드에서 실행하지 않습니다. 이 환경에서는 PBS `qsub` 템플릿을 기준으로 조정하고, Slurm 클러스터에서는 Slurm 템플릿으로 바꿉니다.</p></div>
 </div>
 </section>
 <section class="slide" data-title="문제 해결">
@@ -776,7 +776,7 @@ Oh  0.50 0.50 0.00</div>
 <span class="prompt">$</span> vim env.sh        <span class="comment"># module load 줄부터 확인</span>
 <span class="prompt">$</span> source env.sh
 <span class="prompt">$</span> bash check_setup.sh
-<span class="prompt">$</span> sbatch scheduler/slurm_diamond.sbatch</div>
+<span class="prompt">$</span> qsub scheduler/pbs_diamond.pbs</div>
 <div class="grid-3" style="margin-top:42px">
 <div class="card"><h3>도움 자료</h3><p class="small">계산이 늦어지면 `reference_output/`과 비교하세요.</p></div>
 <div class="card"><h3>여러분</h3><p class="small">“왜 그림이 없지?”라고 묻기 전에 출력 파일부터 읽어 보세요.</p></div>

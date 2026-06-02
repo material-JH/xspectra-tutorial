@@ -92,7 +92,7 @@ print_cluster_warning() {
         cat >&2 <<EOF
 WARNING: NPROCS=$NPROCS and no scheduler job ID was detected.
 On a supercomputer, do not run large MPI jobs on the login node.
-Use sbatch/qsub or start an interactive allocation first.
+Use qsub/sbatch or start an interactive allocation first.
 EOF
     fi
 }
