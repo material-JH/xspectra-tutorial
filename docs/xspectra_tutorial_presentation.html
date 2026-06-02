@@ -591,7 +591,9 @@
 <span class="prompt">$</span> cp env.sh.example env.sh
 <span class="prompt">$</span> vim env.sh        <span class="comment"># 먼저 module load 줄만 맞추세요</span>
 <span class="prompt">$</span> source env.sh     <span class="comment"># QE 경로 자동 감지와 경고 확인</span>
-<span class="comment"># TOOLS_DIR는 upf2plotcore.sh 경고가 날 때만 직접 지정합니다</span>
+<span class="comment"># upf2plotcore.sh 경고가 나면 QE source tree의 tools 경로를 지정합니다</span>
+<span class="prompt">$</span> git clone --depth 1 --branch develop https://github.com/QEF/q-e.git ~/q-e
+<span class="prompt">$</span> export TOOLS_DIR="$HOME/q-e/XSpectra/tools"
 <span class="prompt">$</span> bash check_setup.sh</div>
 <p class="subtitle">여기서 실패하면 물리 해석으로 넘어가지 말고 설정부터 고치세요. 초보자의 대부분 실패는 경로, module, 또는 누락된 `upf2plotcore.sh`에서 나옵니다.</p>
 </section>
@@ -613,7 +615,7 @@
 <li>Nurion PBS 기본값인 16 MPI rank를 사용합니다</li>
 <li>먼저 Diamond 예제만 실행합니다</li>
 </ol>
-<p class="small" style="margin-top:20px">작업이 끝난 뒤 로그인 노드에서 `plot_spectra.py`를 실행합니다. 계산 결과가 있으면 `diamond/*.dat`를 그리고, 없으면 `reference_output/diamond/`를 사용합니다.</p>
+<p class="small" style="margin-top:20px">작업이 끝난 뒤 로그인 노드에서 `plot_spectra.py`를 실행합니다. 계산 결과가 있으면 `diamond/*.dat`를 그리고, 없으면 `reference_output/diamond/`를 사용한다고 출력합니다. Python 그림 명령이 실패하면 `env.sh`의 Python module을 먼저 확인하세요.</p>
 </div>
 </div>
 </section>
@@ -667,13 +669,17 @@ Oh  0.50 0.50 0.00</div>
 </ul>
 </div>
 <div class="terminal"><span class="prompt">$</span> cd /scratch/$USER/xspectra-tutorial
-<span class="prompt">$</span> bash run_all_examples.sh srtio3
+<span class="prompt">$</span> qsub scheduler/pbs_srtio3_okedge.pbs
+<span class="prompt">$</span> qstat -u "$USER"
+<span class="prompt">$</span> more xspectra-sto-ok.o&lt;jobid&gt;
+<span class="comment"># 작업 완료 뒤 로그인 노드에서 그림을 만듭니다</span>
 <span class="prompt">$</span> cd SrTiO3
 <span class="prompt">$</span> python3 plot_spectra.py
 <span class="prompt">$</span> python3 plot_corehole_comparison.py
 <span class="prompt">$</span> python3 plot_all_comparison.py
 <span class="prompt">$</span> ls SrTiO3_*.png</div>
 </div>
+<p class="subtitle">`pbs_srtio3_okedge.pbs`는 O K-edge no-core-hole 계산만 제출합니다. core-hole와 EELS 비교 그림은 실습 시간 절약을 위해 `reference_output/`을 함께 사용합니다.</p>
 </section>
 <section class="slide" data-title="코어홀 비교">
 <div class="slide-header"><span class="section-tag">물리 모델 선택</span><span>코어홀 근사</span></div>
@@ -695,6 +701,7 @@ Oh  0.50 0.50 0.00</div>
 <ul class="clean" style="margin-top:24px">
 <li>계산 스펙트럼은 상대적인 에너지 기준을 사용합니다.</li>
 <li>실험 EELS는 보통 background 처리와 calibration이 필요합니다.</li>
+<li>이 그림은 δ≈0 O K-edge 실험 곡선과 HCH reference 계산을 비교합니다.</li>
 <li>먼저 피크 순서, onset shift, core-hole 경향을 정성적으로 비교하세요.</li>
 <li>XSpectra의 broadening은 실제 장비 응답 전체를 의미하지 않습니다.</li>
 </ul>
@@ -705,7 +712,8 @@ Oh  0.50 0.50 0.00</div>
 <div class="slide-header"><span class="section-tag">출력</span><span>성공했을 때 보이는 것</span></div>
 <h2>그림만 기다리지 말고 출력 파일을 먼저 읽으세요.</h2>
 <div class="grid-2" style="margin-top:48px">
-<div class="terminal"><span class="prompt">$</span> cd SrTiO3/O_Kedge
+<div class="terminal"><span class="comment"># PBS 작업이 끝난 뒤 확인합니다</span>
+<span class="prompt">$</span> cd SrTiO3/O_Kedge
 <span class="prompt">$</span> more scf.out
 <span class="prompt">$</span> tail -80 xspectra.out
 <span class="prompt">$</span> ls *.dat
@@ -718,8 +726,8 @@ Oh  0.50 0.50 0.00</div>
 <ul class="clean" style="margin-top:24px">
 <li>`scf.out`: QE SCF 로그</li>
 <li>`xspectra.out`: XSpectra 로그</li>
-<li>`O.wfc` / `Ti.wfc`: 추출된 core wavefunction</li>
-<li>`O_Kedge.dat`, `Ti_Ledge.dat`: 스펙트럼</li>
+<li>`O.wfc`: 추출된 O 1s core wavefunction</li>
+<li>`O_Kedge.dat`: O K-edge 스펙트럼</li>
 <li>`tmp/`: scratch 데이터이며 보통 보관하지 않습니다</li>
 </ul>
 </div>
@@ -731,7 +739,7 @@ Oh  0.50 0.50 0.00</div>
 <div class="grid-3" style="margin-top:54px">
 <div class="card strong"><h3>HCH supercell</h3><p class="small">SrTiO3 2x2x2 supercell은 원자 40개입니다. 흡수 원자 하나는 HCH UPF를 쓰고 `tot_charge = +0.5`를 유지합니다.</p></div>
 <div class="card"><h3>MPI 옵션</h3><p class="small">XSpectra는 k-point pool 병렬화로 `-nk 4`를 사용합니다. SCF 예제는 이 튜토리얼 환경에서 `-nd 1`로 diagonalization 실패를 피합니다.</p></div>
-<div class="card warn"><h3>스케줄러 전용</h3><p class="small">Supercell은 로그인 노드에서 실행하지 않습니다. 이 환경에서는 PBS `qsub` 템플릿을 기준으로 조정하고, Slurm 클러스터에서는 Slurm 템플릿으로 바꿉니다.</p></div>
+<div class="card warn"><h3>스케줄러 전용</h3><p class="small">Supercell은 로그인 노드에서 실행하지 않습니다. 첫 실습에서는 제출하지 않고 `reference_output/`의 결과로 비교합니다.</p></div>
 </div>
 </section>
 <section class="slide" data-title="문제 해결">
@@ -772,8 +780,10 @@ Oh  0.50 0.50 0.00</div>
 <h2>실습은 각 슬라이드의 명령을 따라가며 진행합니다.</h2>
 <div class="terminal" style="margin-top:54px"><span class="prompt">$</span> bash check_setup.sh
 <span class="prompt">$</span> qstat -u "$USER"
+<span class="comment"># 작업이 qstat에서 사라지고 출력 파일이 생기면 읽습니다</span>
 <span class="prompt">$</span> tail -80 diamond/diamond.xspectra.out
 <span class="prompt">$</span> tail -80 SrTiO3/O_Kedge/xspectra.out
+<span class="comment"># 작업이 아직 대기 중이면 reference_output으로 그림 비교를 계속합니다</span>
 <span class="prompt">$</span> cd SrTiO3
 <span class="prompt">$</span> python3 plot_spectra.py
 <span class="prompt">$</span> python3 plot_corehole_comparison.py
