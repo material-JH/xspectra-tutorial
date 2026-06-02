@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#PBS -N xspectra-sto-ok
+#PBS -N xspectra-sto-ok-ch
 #PBS -A qe
 #PBS -q norm_skl
 #PBS -l select=1:ncpus=16:mpiprocs=16
@@ -17,5 +17,11 @@ source ./env.sh
 export NPROCS=16
 export MPI_RUN="mpirun -np $NPROCS"
 
-cd SrTiO3/O_Kedge
-bash run.sh
+echo "Running SrTiO3 O K-edge unit-cell examples:"
+echo "  1. no core-hole"
+echo "  2. full core-hole (FCH)"
+echo "  3. half core-hole (HCH)"
+
+bash SrTiO3/O_Kedge/run.sh
+bash SrTiO3/O_Kedge_FCH/run.sh
+bash SrTiO3/O_Kedge_HCH/run.sh

@@ -671,15 +671,14 @@ Oh  0.50 0.50 0.00</div>
 <div class="terminal"><span class="prompt">$</span> cd /scratch/$USER/xspectra-tutorial
 <span class="prompt">$</span> qsub scheduler/pbs_srtio3_okedge.pbs
 <span class="prompt">$</span> qstat -u "$USER"
-<span class="prompt">$</span> more xspectra-sto-ok.o&lt;jobid&gt;
+<span class="prompt">$</span> more xspectra-sto-ok-ch.o&lt;jobid&gt;
 <span class="comment"># 작업 완료 뒤 로그인 노드에서 그림을 만듭니다</span>
 <span class="prompt">$</span> cd SrTiO3
-<span class="prompt">$</span> python3 plot_spectra.py
-<span class="prompt">$</span> python3 plot_corehole_comparison.py
-<span class="prompt">$</span> python3 plot_all_comparison.py
+<span class="prompt">$</span> python3 plot_corehole_comparison.py    <span class="comment"># no-hole / FCH / HCH</span>
+<span class="prompt">$</span> python3 plot_all_comparison.py         <span class="comment"># HCH vs δ≈0 EELS</span>
 <span class="prompt">$</span> ls SrTiO3_*.png</div>
 </div>
-<p class="subtitle">`pbs_srtio3_okedge.pbs`는 O K-edge no-core-hole 계산만 제출합니다. core-hole와 EELS 비교 그림은 실습 시간 절약을 위해 `reference_output/`을 함께 사용합니다.</p>
+<p class="subtitle">`pbs_srtio3_okedge.pbs`는 O K-edge no-core-hole, FCH, HCH unit-cell 계산을 모두 제출합니다. `plot_all_comparison.py`의 supercell 곡선은 첫 실습 시간 절약을 위해 `reference_output/`을 사용합니다.</p>
 </section>
 <section class="slide" data-title="코어홀 비교">
 <div class="slide-header"><span class="section-tag">물리 모델 선택</span><span>코어홀 근사</span></div>
@@ -717,6 +716,8 @@ Oh  0.50 0.50 0.00</div>
 <span class="prompt">$</span> more scf.out
 <span class="prompt">$</span> tail -80 xspectra.out
 <span class="prompt">$</span> ls *.dat
+<span class="prompt">$</span> tail -80 ../O_Kedge_FCH/xspectra.out
+<span class="prompt">$</span> tail -80 ../O_Kedge_HCH/xspectra.out
 <span class="prompt">$</span> cd ../..        <span class="comment"># repo root로 돌아와 reference와 비교</span>
 <span class="prompt">$</span> python3 scripts/compare_reference.py \
     SrTiO3/O_Kedge/O_Kedge.dat \
@@ -727,7 +728,7 @@ Oh  0.50 0.50 0.00</div>
 <li>`scf.out`: QE SCF 로그</li>
 <li>`xspectra.out`: XSpectra 로그</li>
 <li>`O.wfc`: 추출된 O 1s core wavefunction</li>
-<li>`O_Kedge.dat`: O K-edge 스펙트럼</li>
+<li>`O_Kedge.dat`, `O_Kedge_FCH.dat`, `O_Kedge_HCH.dat`: O K-edge 스펙트럼</li>
 <li>`tmp/`: scratch 데이터이며 보통 보관하지 않습니다</li>
 </ul>
 </div>
@@ -783,9 +784,9 @@ Oh  0.50 0.50 0.00</div>
 <span class="comment"># 작업이 qstat에서 사라지고 출력 파일이 생기면 읽습니다</span>
 <span class="prompt">$</span> tail -80 diamond/diamond.xspectra.out
 <span class="prompt">$</span> tail -80 SrTiO3/O_Kedge/xspectra.out
+<span class="prompt">$</span> tail -80 SrTiO3/O_Kedge_HCH/xspectra.out
 <span class="comment"># 작업이 아직 대기 중이면 reference_output으로 그림 비교를 계속합니다</span>
 <span class="prompt">$</span> cd SrTiO3
-<span class="prompt">$</span> python3 plot_spectra.py
 <span class="prompt">$</span> python3 plot_corehole_comparison.py
 <span class="prompt">$</span> python3 plot_all_comparison.py
 <span class="prompt">$</span> ls SrTiO3_*.png</div>
