@@ -602,7 +602,9 @@
 <div class="terminal"><span class="prompt">$</span> cd /scratch/$USER/xspectra-tutorial
 <span class="prompt">$</span> qsub scheduler/pbs_diamond.pbs
 <span class="prompt">$</span> qstat -u "$USER"
-<span class="prompt">$</span> more xspectra-diamond.o&lt;jobid&gt;</div>
+<span class="prompt">$</span> more xspectra-diamond.o&lt;jobid&gt;
+<span class="prompt">$</span> python3 plot_spectra.py
+<span class="prompt">$</span> ls xanes_spectra.png</div>
 <div class="card">
 <h3>이 스크립트가 하는 일</h3>
 <ol class="clean" style="margin-top:22px">
@@ -611,7 +613,7 @@
 <li>튜토리얼 기본값인 4 MPI rank를 사용합니다</li>
 <li>먼저 Diamond 예제만 실행합니다</li>
 </ol>
-<p class="small" style="margin-top:20px">Slurm 클러스터에서는 `scheduler/slurm_diamond.sbatch`와 `sbatch`/`squeue` 흐름으로 바꿉니다.</p>
+<p class="small" style="margin-top:20px">작업이 끝난 뒤 로그인 노드에서 `plot_spectra.py`를 실행합니다. 계산 결과가 있으면 `diamond/*.dat`를 그리고, 없으면 `reference_output/diamond/`를 사용합니다.</p>
 </div>
 </div>
 </section>
@@ -779,7 +781,11 @@ Oh  0.50 0.50 0.00</div>
 <span class="prompt">$</span> vim env.sh        <span class="comment"># module load 줄부터 확인</span>
 <span class="prompt">$</span> source env.sh
 <span class="prompt">$</span> bash check_setup.sh
-<span class="prompt">$</span> qsub scheduler/pbs_diamond.pbs</div>
+<span class="prompt">$</span> qsub scheduler/pbs_diamond.pbs
+<span class="prompt">$</span> qstat -u "$USER"
+<span class="comment"># 작업 완료 뒤</span>
+<span class="prompt">$</span> python3 plot_spectra.py
+<span class="prompt">$</span> ls xanes_spectra.png</div>
 <div class="grid-3" style="margin-top:42px">
 <div class="card"><h3>도움 자료</h3><p class="small">계산이 늦어지면 `reference_output/`과 비교하세요.</p></div>
 <div class="card"><h3>여러분</h3><p class="small">“왜 그림이 없지?”라고 묻기 전에 출력 파일부터 읽어 보세요.</p></div>

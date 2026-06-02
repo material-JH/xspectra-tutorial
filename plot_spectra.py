@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-"""Plot the curated Diamond XSpectra reference output.
+"""Plot the Diamond XSpectra output.
 
 Run from the repository root:
 
     python3 plot_spectra.py
+
+The script plots generated files in diamond/ when they exist. If the Diamond
+calculation has not been run yet, it falls back to reference_output/diamond/.
 
 The SrTiO3 plots are generated separately with:
 
@@ -17,6 +20,12 @@ import numpy as np
 
 BASE = Path(__file__).resolve().parent
 
+DIAMOND_FILES = (
+    "diamond.xspectra.dat",
+    "diamond.xspectra_replot.dat",
+    "diamondh.xspectra.dat",
+)
+
 
 def load_xanes(filepath: Path) -> np.ndarray:
     if not filepath.exists():
@@ -27,10 +36,14 @@ def load_xanes(filepath: Path) -> np.ndarray:
 
 
 def main() -> None:
+    generated = BASE / "diamond"
     ref = BASE / "reference_output" / "diamond"
-    raw = load_xanes(ref / "diamond.xspectra.dat")
-    no_hole = load_xanes(ref / "diamond.xspectra_replot.dat")
-    full_hole = load_xanes(ref / "diamondh.xspectra.dat")
+    source = generated if all((generated / name).exists() for name in DIAMOND_FILES) else ref
+    print(f"Using Diamond spectra from: {source}")
+
+    raw = load_xanes(source / "diamond.xspectra.dat")
+    no_hole = load_xanes(source / "diamond.xspectra_replot.dat")
+    full_hole = load_xanes(source / "diamondh.xspectra.dat")
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4.8), constrained_layout=True)
 

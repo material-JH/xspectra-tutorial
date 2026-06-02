@@ -47,7 +47,22 @@ qstat -u "$USER"
 After the PBS job finishes, make plots as a separate post-processing step:
 
 ```bash
+cd /scratch/$USER/xspectra-tutorial
 python3 plot_spectra.py
+ls xanes_spectra.png
 ```
 
-Keeping plotting outside the PBS calculation job avoids failing a completed QE/XSpectra job because a compute-node Python or matplotlib library is different from the login-node environment.
+`plot_spectra.py` uses the generated Diamond files in `diamond/` when they are
+present:
+
+```text
+diamond/diamond.xspectra.dat
+diamond/diamond.xspectra_replot.dat
+diamond/diamondh.xspectra.dat
+```
+
+If those files are not present yet, it falls back to `reference_output/diamond/`.
+The figure is written as `xanes_spectra.png` in the repository root. Keeping
+plotting outside the PBS calculation job avoids failing a completed QE/XSpectra
+job because a compute-node Python or matplotlib library is different from the
+login-node environment.
