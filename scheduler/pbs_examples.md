@@ -6,7 +6,6 @@ This tutorial environment uses PBS/Torque. Ready-to-submit templates are:
 cd /scratch/$USER/xspectra-tutorial
 qsub scheduler/pbs_diamond.pbs
 qsub scheduler/pbs_srtio3_okedge.pbs
-qsub scheduler/pbs_srtio3_tiledge.pbs
 qstat -u "$USER"
 ```
 

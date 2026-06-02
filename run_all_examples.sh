@@ -294,37 +294,37 @@ run_srtio3_okedge() {
     echo "  SrTiO3 O K-edge"
     echo "============================================"
     bash "$WORK_DIR/SrTiO3/O_Kedge/run.sh"
+    bash "$WORK_DIR/SrTiO3/O_Kedge_FCH/run.sh"
+    bash "$WORK_DIR/SrTiO3/O_Kedge_HCH/run.sh"
 }
 
-run_srtio3_tiledge() {
+run_srtio3_okedge_super() {
     echo ""
     echo "============================================"
-    echo "  SrTiO3 Ti L-edge"
+    echo "  SrTiO3 O K-edge HCH supercell"
     echo "============================================"
-    bash "$WORK_DIR/SrTiO3/Ti_Ledge/run.sh"
+    bash "$WORK_DIR/SrTiO3/O_Kedge_HCH_super/run.sh"
 }
 
 case "$MODE" in
     all)
         run_srtio3_okedge
-        run_srtio3_tiledge
         ;;
     srtio3)
         run_srtio3_okedge
-        run_srtio3_tiledge
         ;;
     srtio3-okedge)
         run_srtio3_okedge
         ;;
-    srtio3-tiledge)
-        run_srtio3_tiledge
+    srtio3-okedge-super)
+        run_srtio3_okedge_super
         ;;
     diamond-only)
         # Already handled above.
         ;;
     *)
         echo "Unknown mode: $MODE" >&2
-        echo "Usage: bash run_all_examples.sh [all|diamond-only|srtio3|srtio3-okedge|srtio3-tiledge]" >&2
+        echo "Usage: bash run_all_examples.sh [all|diamond-only|srtio3|srtio3-okedge|srtio3-okedge-super]" >&2
         exit 2
         ;;
 esac

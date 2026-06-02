@@ -16,7 +16,7 @@ XSpectra 계산 결과와 실험 EELS 스펙트럼은 자동으로 같은 에너
 - 대략적인 peak 순서.
 - No-core-hole, FCH, HCH 사이의 정성적 변화.
 - O K-edge의 hybridization feature.
-- 정성적 수준의 Ti L-edge white-line 모양.
+- δ≈0 실험 EELS 곡선과 계산 HCH 스펙트럼의 정성적 일치.
 
 ## 이 튜토리얼에서 완전히 모델링하지 않는 것
 

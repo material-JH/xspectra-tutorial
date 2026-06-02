@@ -87,80 +87,36 @@ def save_diamond_plot() -> Path:
 
 
 def save_srtio3_comparison_plot() -> Path:
-    o_expt = {
-        key: load_experiment(ROOT / "SrTiO3" / "O-K" / f"data_{key}_clean.csv")
-        for key in ("blue", "red", "black")
-    }
-    ti_expt = {
-        key: load_experiment(ROOT / "SrTiO3" / "Ti-L" / f"data_{key}_clean.csv")
-        for key in ("blue", "red", "black")
-    }
+    o_expt = load_experiment(ROOT / "SrTiO3" / "O-K" / "data_blue_clean.csv")
 
     o_hch_uc = load_xanes(ROOT / "reference_output/SrTiO3/O_Kedge_HCH/O_Kedge_HCH.dat")
     o_hch_sc = load_xanes(ROOT / "reference_output/SrTiO3/O_Kedge_HCH_super/O_Kedge_HCH_super.dat")
-    ti_hch_uc = load_xanes(ROOT / "reference_output/SrTiO3/Ti_Ledge_HCH/Ti_Ledge_HCH.dat")
-    ti_hch_sc = load_xanes(ROOT / "reference_output/SrTiO3/Ti_Ledge_HCH_super/Ti_Ledge_HCH_super.dat")
 
-    for arr in (o_hch_uc, o_hch_sc, ti_hch_uc, ti_hch_sc):
+    for arr in (o_hch_uc, o_hch_sc):
         arr[:, 1] = normalize(arr[:, 1])
 
-    expt_peak_o = find_first_peak(*o_expt["blue"])
+    expt_peak_o = find_first_peak(*o_expt)
     shift_o_uc = expt_peak_o - find_first_peak(o_hch_uc[:, 0], o_hch_uc[:, 1])
     shift_o_sc = expt_peak_o - find_first_peak(o_hch_sc[:, 0], o_hch_sc[:, 1])
 
-    expt_ti_l2_eg = 465.1
-    shift_ti_uc = expt_ti_l2_eg - ti_hch_uc[np.argmax(ti_hch_uc[:, 1]), 0]
-    shift_ti_sc = expt_ti_l2_eg - ti_hch_sc[np.argmax(ti_hch_sc[:, 1]), 0]
+    fig, ax = plt.subplots(1, 1, figsize=(9.6, 5.3), constrained_layout=True)
 
-    expt_labels = {
-        "blue": r"Expt. $\delta\approx0$",
-        "red": r"Expt. $\delta\approx0.13$",
-        "black": r"Expt. $\delta\approx0.25$",
-    }
-    expt_colors = {"blue": "#8b0000", "red": "#cc4400", "black": "#e69500"}
-    expt_styles = {
-        "blue": dict(lw=1.8, ls="-"),
-        "red": dict(lw=1.5, ls="--"),
-        "black": dict(lw=1.3, ls=":"),
-    }
-
-    fig, axes = plt.subplots(1, 2, figsize=(11.8, 5.5), constrained_layout=True)
-
-    ax = axes[0]
-    for key in ("blue", "red", "black"):
-        energy, intensity = o_expt[key]
-        ax.plot(energy, intensity, color=expt_colors[key], label=expt_labels[key],
-                **expt_styles[key])
+    energy, intensity = o_expt
+    ax.plot(energy, intensity, color="#8b0000", lw=2.0,
+            label=r"Expt. EELS $\delta\approx0$")
     ax.plot(o_hch_uc[:, 0] + shift_o_uc, o_hch_uc[:, 1], color="#2166ac", lw=2.2,
             label="Calc. HCH unit cell")
     ax.plot(o_hch_sc[:, 0] + shift_o_sc, o_hch_sc[:, 1], color="#2ca02c", lw=2.2,
             ls="--", label="Calc. HCH 2×2×2")
-    ax.set_title("(a) SrTiO3 O K-edge", loc="left", fontweight="bold")
+    ax.set_title("SrTiO3 O K-edge", loc="left", fontweight="bold")
     ax.set_xlim(525, 555)
     ax.set_ylim(-0.05, 1.15)
     ax.set_xlabel("Energy loss (eV)")
     ax.set_ylabel("Normalized intensity")
-    ax.legend(loc="upper right", fontsize=7.3, frameon=True)
+    ax.legend(loc="upper right", fontsize=8.5, frameon=True)
     ax.grid(True, alpha=0.22)
 
-    ax = axes[1]
-    for key in ("blue", "red", "black"):
-        energy, intensity = ti_expt[key]
-        ax.plot(energy, intensity, color=expt_colors[key], label=expt_labels[key],
-                **expt_styles[key])
-    ax.plot(ti_hch_uc[:, 0] + shift_ti_uc, ti_hch_uc[:, 1], color="#2166ac", lw=2.2,
-            label="Calc. HCH unit cell")
-    ax.plot(ti_hch_sc[:, 0] + shift_ti_sc, ti_hch_sc[:, 1], color="#2ca02c", lw=2.2,
-            ls="--", label="Calc. HCH 2×2×2")
-    ax.set_title("(b) SrTiO3 Ti L-edge", loc="left", fontweight="bold")
-    ax.set_xlim(450, 470)
-    ax.set_ylim(-0.05, 1.15)
-    ax.set_xlabel("Energy loss (eV)")
-    ax.set_ylabel("Normalized intensity")
-    ax.legend(loc="upper right", fontsize=7.3, frameon=True)
-    ax.grid(True, alpha=0.22)
-
-    fig.suptitle(r"SrTiO$_{3-\delta}$ — calculated HCH XANES vs experimental EELS",
+    fig.suptitle(r"SrTiO$_3$ O K-edge — calculated HCH XANES vs experimental EELS ($\delta\approx0$)",
                  fontsize=14, fontweight="bold")
     OUTDIR.mkdir(parents=True, exist_ok=True)
     outpath = OUTDIR / "presentation_srtio3_eels_comparison.png"

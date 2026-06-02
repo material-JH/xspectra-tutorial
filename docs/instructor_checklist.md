@@ -20,6 +20,6 @@
 
 1. Diamond부터 시작합니다.
 2. EELS와 가장 관련 있는 주요 예제로 SrTiO3 O K-edge를 사용합니다.
-3. Ti L-edge는 white-line 해석의 정성적 예제로 사용합니다.
+3. O K-edge에서 no-hole, FCH, HCH 차이를 비교합니다.
 4. 작업이 아직 큐에 있으면 reference output을 보여 줍니다.
 5. Supercell과 benchmarking은 고급 내용으로 남겨 둡니다.
