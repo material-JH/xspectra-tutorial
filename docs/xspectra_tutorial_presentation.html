@@ -673,12 +673,10 @@ Oh  0.50 0.50 0.00</div>
 <span class="prompt">$</span> qstat -u "$USER"
 <span class="prompt">$</span> more xspectra-sto-ok-ch.o&lt;jobid&gt;
 <span class="comment"># 작업 완료 뒤 로그인 노드에서 그림을 만듭니다</span>
-<span class="prompt">$</span> cd SrTiO3
-<span class="prompt">$</span> python3 plot_corehole_comparison.py    <span class="comment"># no-hole / FCH / HCH</span>
-<span class="prompt">$</span> python3 plot_all_comparison.py         <span class="comment"># HCH vs δ≈0 EELS</span>
-<span class="prompt">$</span> ls SrTiO3_*.png</div>
+<span class="prompt">$</span> python3 scripts/make_presentation_plots.py
+<span class="prompt">$</span> ls docs/assets/presentation_srtio3_eels_comparison.png</div>
 </div>
-<p class="subtitle">`pbs_srtio3_okedge.pbs`는 O K-edge no-core-hole, FCH, HCH unit-cell 계산을 모두 제출합니다. `plot_all_comparison.py`의 supercell 곡선은 첫 실습 시간 절약을 위해 `reference_output/`을 사용합니다.</p>
+<p class="subtitle">`pbs_srtio3_okedge.pbs`는 O K-edge no-core-hole, FCH, HCH unit-cell 계산을 모두 제출합니다. 슬라이드에 보이는 EELS 비교 그림은 `scripts/make_presentation_plots.py`로 갱신합니다.</p>
 </section>
 <section class="slide" data-title="코어홀 비교">
 <div class="slide-header"><span class="section-tag">물리 모델 선택</span><span>코어홀 근사</span></div>
@@ -786,10 +784,8 @@ Oh  0.50 0.50 0.00</div>
 <span class="prompt">$</span> tail -80 SrTiO3/O_Kedge/xspectra.out
 <span class="prompt">$</span> tail -80 SrTiO3/O_Kedge_HCH/xspectra.out
 <span class="comment"># 작업이 아직 대기 중이면 reference_output으로 그림 비교를 계속합니다</span>
-<span class="prompt">$</span> cd SrTiO3
-<span class="prompt">$</span> python3 plot_corehole_comparison.py
-<span class="prompt">$</span> python3 plot_all_comparison.py
-<span class="prompt">$</span> ls SrTiO3_*.png</div>
+<span class="prompt">$</span> python3 scripts/make_presentation_plots.py
+<span class="prompt">$</span> ls docs/assets/presentation_srtio3_eels_comparison.png</div>
 <div class="grid-3" style="margin-top:42px">
 <div class="card"><h3>계산</h3><p class="small">작업 제출과 대기열 확인은 해당 실습 슬라이드에서 바로 수행합니다.</p></div>
 <div class="card"><h3>출력</h3><p class="small">그림을 보기 전에 `scf.out`과 `xspectra.out`의 마지막 부분을 확인합니다.</p></div>
