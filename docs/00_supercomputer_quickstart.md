@@ -64,7 +64,7 @@ command -v ld1.x
 /apps/qe/7.3/bin/pw.x
 ```
 
-`BIN_DIR`는 `/apps/qe/7.3/bin`, `QE_ROOT`는 `/apps/qe/7.3`입니다. 새 `env.sh.example`은 module을 제대로 로드하면 이 값을 자동으로 찾도록 되어 있습니다. 따라서 대부분의 학생은 `env.sh`에서 module 이름만 자기 클러스터에 맞게 고치면 됩니다.
+`BIN_DIR`는 `/apps/qe/7.3/bin`, `QE_ROOT`는 `/apps/qe/7.3`입니다. 새 `env.sh.example`은 module을 제대로 로드하면 이 값을 자동으로 찾도록 되어 있습니다. Nurion 실습 환경의 module 줄은 기본으로 들어 있으므로 확인만 하고, 다른 클러스터에서 실행할 때만 module 이름을 수정하세요.
 
 ```bash
 # env.sh 안에서 보통 고칠 부분
