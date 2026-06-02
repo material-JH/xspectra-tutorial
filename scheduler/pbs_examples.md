@@ -12,8 +12,9 @@ qstat -u "$USER"
 
 On systems that reject jobs from home directories, clone or copy this tutorial
 under `/scratch/$USER` before running `qsub`. The PBS templates use the
-`norm_skl` queue and run 4 MPI ranks with `mpirun -np 4`, matching the QE module
-stack used in this tutorial environment.
+`norm_skl` queue and run 16 MPI ranks with `mpirun -np 16`. On Nurion this queue
+can allocate a full 40-core SKL node, so 16 ranks is a better tutorial default
+than 4 ranks for the charged allocation.
 
 The Diamond template is:
 
@@ -22,7 +23,7 @@ The Diamond template is:
 #PBS -N xspectra-diamond
 #PBS -A qe
 #PBS -q norm_skl
-#PBS -l select=1:ncpus=4:mpiprocs=4
+#PBS -l select=1:ncpus=16:mpiprocs=16
 #PBS -l walltime=00:30:00
 #PBS -j oe
 
@@ -30,7 +31,7 @@ set -euo pipefail
 cd "$PBS_O_WORKDIR"
 source ./env.sh
 
-export NPROCS=4
+export NPROCS=16
 export MPI_RUN="mpirun -np $NPROCS"
 
 bash run_all_examples.sh diamond-only
