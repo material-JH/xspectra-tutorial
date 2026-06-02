@@ -688,6 +688,73 @@ Oh  0.50 0.50 0.00</div>
 </div>
 <p class="subtitle">중요: `filecore` wavefunction은 원래의 non-core-hole pseudopotential에서 추출합니다.</p>
 </section>
+<section class="slide" data-title="Core-hole과 supercell">
+<div class="slide-header"><span class="section-tag">물리 모델</span><span>왜 큰 cell이 필요한가</span></div>
+<h2>Core-hole은 국소적인 final-state perturbation이므로, 주기적 복사본과의 상호작용을 줄여야 합니다.</h2>
+<div class="grid-2" style="margin-top:44px">
+<div class="image-frame">
+<svg aria-label="Core-hole and supercell schematic" viewBox="0 0 900 560" width="100%" height="100%" role="img">
+<rect x="0" y="0" width="900" height="560" fill="#f8fafc"/>
+<text x="55" y="55" font-size="30" font-weight="700" fill="#14213d">Unit cell</text>
+<text x="505" y="55" font-size="30" font-weight="700" fill="#14213d">2x2x2 supercell</text>
+<g transform="translate(54 90)">
+<rect x="0" y="0" width="310" height="310" fill="#ffffff" stroke="#2f3e46" stroke-width="4"/>
+<g stroke="#cbd5e1" stroke-width="2">
+<line x1="103" y1="0" x2="103" y2="310"/><line x1="206" y1="0" x2="206" y2="310"/>
+<line x1="0" y1="103" x2="310" y2="103"/><line x1="0" y1="206" x2="310" y2="206"/>
+</g>
+<g fill="#94a3b8">
+<circle cx="52" cy="52" r="12"/><circle cx="155" cy="52" r="12"/><circle cx="258" cy="52" r="12"/>
+<circle cx="52" cy="155" r="12"/><circle cx="258" cy="155" r="12"/>
+<circle cx="52" cy="258" r="12"/><circle cx="155" cy="258" r="12"/><circle cx="258" cy="258" r="12"/>
+</g>
+<g>
+<circle cx="155" cy="155" r="28" fill="#fee2e2" stroke="#dc2626" stroke-width="4"/>
+<text x="143" y="165" font-size="26" font-weight="700" fill="#dc2626">h</text>
+</g>
+<path d="M155 155 C95 110, 95 205, 155 155 C215 110, 215 205, 155 155" fill="none" stroke="#dc2626" stroke-width="4" stroke-dasharray="8 8"/>
+<text x="4" y="356" font-size="21" fill="#334155">Core-hole repeats every unit cell</text>
+<text x="4" y="386" font-size="21" fill="#dc2626">artificial image interaction is large</text>
+</g>
+<g transform="translate(505 90)">
+<rect x="0" y="0" width="310" height="310" fill="#ffffff" stroke="#2f3e46" stroke-width="4"/>
+<g stroke="#cbd5e1" stroke-width="2">
+<line x1="155" y1="0" x2="155" y2="310"/><line x1="0" y1="155" x2="310" y2="155"/>
+</g>
+<g fill="#94a3b8">
+<circle cx="52" cy="52" r="12"/><circle cx="155" cy="52" r="12"/><circle cx="258" cy="52" r="12"/>
+<circle cx="52" cy="155" r="12"/><circle cx="258" cy="155" r="12"/>
+<circle cx="52" cy="258" r="12"/><circle cx="155" cy="258" r="12"/><circle cx="258" cy="258" r="12"/>
+</g>
+<circle cx="155" cy="155" r="28" fill="#fee2e2" stroke="#dc2626" stroke-width="4"/>
+<text x="143" y="165" font-size="26" font-weight="700" fill="#dc2626">h</text>
+<circle cx="15" cy="15" r="18" fill="#fee2e2" stroke="#dc2626" stroke-width="3" opacity="0.28"/>
+<circle cx="295" cy="15" r="18" fill="#fee2e2" stroke="#dc2626" stroke-width="3" opacity="0.28"/>
+<circle cx="15" cy="295" r="18" fill="#fee2e2" stroke="#dc2626" stroke-width="3" opacity="0.28"/>
+<circle cx="295" cy="295" r="18" fill="#fee2e2" stroke="#dc2626" stroke-width="3" opacity="0.28"/>
+<path d="M155 155 L15 15 M155 155 L295 15 M155 155 L15 295 M155 155 L295 295" stroke="#64748b" stroke-width="3" stroke-dasharray="7 9"/>
+<text x="4" y="356" font-size="21" fill="#334155">Same core-hole, farther periodic images</text>
+<text x="4" y="386" font-size="21" fill="#0f766e">more realistic isolated excitation</text>
+</g>
+<g transform="translate(260 450)">
+<line x1="0" y1="45" x2="420" y2="45" stroke="#14213d" stroke-width="5" marker-end="url(#arrowhead)"/>
+<text x="78" y="30" font-size="24" font-weight="700" fill="#14213d">increase cell size</text>
+<text x="8" y="92" font-size="20" fill="#475569">less artificial core-hole - core-hole interaction</text>
+</g>
+<defs><marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#14213d"/></marker></defs>
+</svg>
+</div>
+<div class="card strong">
+<h3>해석 기준</h3>
+<ul class="clean" style="margin-top:24px">
+<li>Core-hole 계산은 흡수 뒤 전자들이 core-hole potential에 반응한 final-state를 흉내냅니다.</li>
+<li>FCH는 hole을 크게 넣고, HCH는 initial/final state 사이의 절충으로 봅니다.</li>
+<li>주기 경계에서는 core-hole도 주기적으로 반복되므로 cell이 작으면 hole-image 상호작용이 생깁니다.</li>
+<li>Supercell은 이 인공 상호작용을 줄이기 위한 수렴성 점검입니다.</li>
+</ul>
+</div>
+</div>
+</section>
 <section class="slide plot-slide" data-title="EELS와 비교">
 <div class="slide-header"><span class="section-tag">비교</span><span>실험 vs 계산</span></div>
 <h2>에너지 정렬 없이 절대 에너지를 맞추려 하지 말고, 모양과 경향부터 비교하세요.</h2>
