@@ -67,7 +67,7 @@ export EXAMPLE_PSEUDO_DIR=$HOME/q-e/XSpectra/examples/pseudo
 
 ```bash
 source env.sh
-bash check_setup.sh
+./check_setup.sh
 ```
 
 ## 주의: QE 전체 source를 이 튜토리얼 repo 안에 넣지 마세요

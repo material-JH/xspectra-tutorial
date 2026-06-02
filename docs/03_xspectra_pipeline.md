@@ -10,7 +10,7 @@ $TOOLS_DIR/upf2plotcore.sh O.pbe-n-kjpaw_psl.0.1.UPF > O.wfc
 
 이 명령은 XSpectra가 사용할 초기 코어 오비탈을 만듭니다.
 
-중요: FCH/HCH 계산에서도 `filecore`는 원래의 non-core-hole 유사퍼텐셜에서 추출합니다.
+FCH/HCH 계산에서도 `filecore`는 원래의 non-core-hole 유사퍼텐셜에서 추출합니다.
 
 ## 2단계: `pw.x`로 SCF 계산 실행
 

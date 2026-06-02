@@ -17,7 +17,7 @@ cp env.sh.example env.sh
 vim env.sh        # Nurion 기본 module 줄은 설정되어 있습니다. 다른 클러스터면 수정하세요.
 git clone --depth 1 --branch develop https://github.com/QEF/q-e.git ~/q-e
 source env.sh     # 감지된 실행 파일과 $HOME/q-e/XSpectra/tools 경로가 출력됩니다.
-bash check_setup.sh
+./check_setup.sh
 ```
 
 QE source tree는 이 튜토리얼 repo 안에 넣지 않습니다. 새 계정에서는 각자 `$HOME/q-e` 같은 별도 위치에 내려받고, `env.sh`는 그 안의 `XSpectra/tools`를 `TOOLS_DIR`로 사용합니다.

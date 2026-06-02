@@ -56,7 +56,7 @@ The notes below are kept as the original review record.
 3. Lesson order differs from the README.
    - README order: Ti L-edge -> Core-hole methods -> EELS comparison -> Supercell/MPI -> Troubleshooting.
    - Deck order: O K-edge -> Core-hole comparison -> EELS comparison -> Ti L-edge -> Output/Troubleshooting -> Advanced topics.
-   - Suggested update: either match the README order or keep the current order but label it as an instructional reordering for a short live session.
+   - Suggested update: either match the README order or keep the current order but label it as an instructional reordering for the presentation.
 
 4. Linux/QE input basics are compressed out of the deck.
    - Current tutorial has explicit chapters for Linux basics, QE namelists/cards, and XSpectra pipeline.

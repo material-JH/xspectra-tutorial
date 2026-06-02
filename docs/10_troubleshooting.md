@@ -23,10 +23,10 @@ bash env.sh.example     # 빠른 확인용: 현재 shell 환경은 바꾸지 않
 cp env.sh.example env.sh
 vim env.sh
 source env.sh           # 감지된 pw.x, xspectra.x, QE_ROOT 등이 출력됩니다.
-bash check_setup.sh
+./check_setup.sh
 ```
 
-`bash env.sh`처럼 실행하면 화면에는 상태가 보이지만, 그 안에서 설정한 환경변수는 명령이 끝난 뒤 현재 shell에 남지 않습니다. 그래서 직접 확인할 때는 `source env.sh`, 최종 검사는 `bash check_setup.sh`를 사용하세요.
+`bash env.sh`처럼 실행하면 화면에는 상태가 보이지만, 그 안에서 설정한 환경변수는 명령이 끝난 뒤 현재 shell에 남지 않습니다. 그래서 직접 확인할 때는 `source env.sh`, 최종 검사는 `./check_setup.sh`를 사용하세요.
 
 ## `pw.x: command not found` 또는 `pw.x`가 없음
 
