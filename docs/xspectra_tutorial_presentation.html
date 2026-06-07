@@ -860,6 +860,96 @@ Energy,Intensity
 <div class="card warn"><h3>3. O absorber</h3><p class="small">산소 하나를 `Oh` species로 분리하고 `xiabs`가 그 species 번호를 가리키는지 확인합니다. 결과는 SrTiO3 O K-edge와 정성 비교합니다.</p></div>
 </div>
 </section>
+<section class="slide" data-title="TiO2 파일 준비">
+<div class="slide-header"><span class="section-tag">심화 실습</span><span>파일 배치</span></div>
+<h2>새 산화물 실습은 별도 폴더에서 시작하고, SrTiO3의 Ti/O UPF를 재사용합니다.</h2>
+<div class="grid-2" style="margin-top:44px">
+<div class="terminal"><span class="prompt">$</span> cd /scratch/$USER/xspectra-tutorial
+<span class="prompt">$</span> mkdir -p TiO2_rutile/O_Kedge TiO2_rutile/pseudo
+<span class="prompt">$</span> cp SrTiO3/pseudo/Ti.pbe-spn-kjpaw_psl.1.0.0.UPF TiO2_rutile/pseudo/
+<span class="prompt">$</span> cp SrTiO3/pseudo/O.pbe-n-kjpaw_psl.0.1.UPF TiO2_rutile/pseudo/
+<span class="prompt">$</span> cp SrTiO3/O_Kedge/scf.in TiO2_rutile/O_Kedge/scf.in
+<span class="prompt">$</span> cp SrTiO3/O_Kedge/xspectra.in TiO2_rutile/O_Kedge/xspectra.in</div>
+<div class="card strong">
+<h3>최종적으로 만들 파일</h3>
+<ul class="clean" style="margin-top:22px">
+<li>`TiO2_rutile/TiO2_rutile.cif`</li>
+<li>`TiO2_rutile/pseudo/Ti...UPF`, `O...UPF`</li>
+<li>`TiO2_rutile/O_Kedge/scf.in`</li>
+<li>`TiO2_rutile/O_Kedge/xspectra.in`</li>
+<li>`TiO2_rutile/O_Kedge/O.wfc`</li>
+</ul>
+</div>
+</div>
+</section>
+<section class="slide" data-title="TiO2 CIF 다운로드">
+<div class="slide-header"><span class="section-tag">심화 실습</span><span>구조 파일</span></div>
+<h2>Rutile TiO2 CIF는 COD 9015662에서 받고, 먼저 격자와 space group을 확인합니다.</h2>
+<div class="grid-2" style="margin-top:44px">
+<div class="terminal"><span class="prompt">$</span> curl -L \
+    -o TiO2_rutile/TiO2_rutile.cif \
+    https://www.crystallography.net/cod/9015662.cif
+<span class="prompt">$</span> grep -E "_cell_length|_cell_angle|space_group" \
+    TiO2_rutile/TiO2_rutile.cif
+<span class="comment"># rutile, TiO2, P 42/m n m, a=b≈4.59 Å, c≈2.96 Å</span></div>
+<div class="card warn">
+<h3>다운로드 기준</h3>
+<ul class="clean" style="margin-top:22px">
+<li>수업에서는 같은 CIF entry를 사용해야 결과 비교가 쉽습니다.</li>
+<li>Materials Project 같은 DB는 로그인/API가 필요할 수 있으므로 라이브 실습용 기본값으로 쓰지 않습니다.</li>
+<li>출처와 COD 번호를 노트에 남겨 둡니다.</li>
+</ul>
+</div>
+</div>
+</section>
+<section class="slide" data-title="TiO2 QE 입력 수정">
+<div class="slide-header"><span class="section-tag">심화 실습</span><span>scf.in/xspectra.in</span></div>
+<h2>자동 변환보다 중요한 것은 어떤 줄을 바꿔야 하는지 아는 것입니다.</h2>
+<div class="grid-2" style="margin-top:44px">
+<div class="terminal"><span class="prompt">$</span> vim TiO2_rutile/O_Kedge/scf.in
+<span class="comment"># prefix='TiO2_rutile_OK'</span>
+<span class="comment"># pseudo_dir='../pseudo/'</span>
+<span class="comment"># CELL_PARAMETERS: CIF의 rutile cell</span>
+<span class="comment"># ATOMIC_SPECIES: Ti, O, Oh</span>
+<span class="comment"># ATOMIC_POSITIONS: O 하나만 Oh로 바꾸기</span>
+
+<span class="prompt">$</span> vim TiO2_rutile/O_Kedge/xspectra.in
+<span class="comment"># prefix='TiO2_rutile_OK'</span>
+<span class="comment"># filecore='O.wfc'</span>
+<span class="comment"># xiabs = Oh species 번호</span></div>
+<div class="card strong">
+<h3>체크포인트</h3>
+<ul class="clean" style="margin-top:22px">
+<li>`scf.in`의 원자 수가 TiO2 CIF와 맞나요?</li>
+<li>`Oh`가 `ATOMIC_SPECIES`와 `ATOMIC_POSITIONS`에 모두 있나요?</li>
+<li>`xspectra.in`의 `xiabs`가 `Oh` species 번호와 맞나요?</li>
+<li>`nbnd`, cutoff, k-point는 첫 실행용으로 작게 시작합니다.</li>
+</ul>
+</div>
+</div>
+</section>
+<section class="slide" data-title="TiO2 실행과 확인">
+<div class="slide-header"><span class="section-tag">심화 실습</span><span>run/check</span></div>
+<h2>처음 실행은 작은 단위로 나누고, 실패하면 바로 마지막 로그를 읽습니다.</h2>
+<div class="grid-2" style="margin-top:44px">
+<div class="terminal"><span class="prompt">$</span> cd TiO2_rutile/O_Kedge
+<span class="prompt">$</span> "$TOOLS_DIR/upf2plotcore.sh" \
+    ../pseudo/O.pbe-n-kjpaw_psl.0.1.UPF &gt; O.wfc
+<span class="prompt">$</span> pw.x &lt; scf.in &gt; scf.out 2&gt; scf.err
+<span class="prompt">$</span> tail -80 scf.out
+<span class="prompt">$</span> xspectra.x &lt; xspectra.in &gt; xspectra.out 2&gt; xspectra.err
+<span class="prompt">$</span> tail -80 xspectra.out
+<span class="prompt">$</span> ls *.dat</div>
+<div class="card warn">
+<h3>계산 노드에서 실행</h3>
+<ul class="clean" style="margin-top:22px">
+<li>로그인 노드에서 `pw.x`, `xspectra.x`를 오래 돌리지 않습니다.</li>
+<li>라이브 수업에서는 대화형 계산 노드나 PBS script 안에서 실행합니다.</li>
+<li>성공하면 SrTiO3 O K-edge와 onset, peak 순서, broadening 전 모양을 비교합니다.</li>
+</ul>
+</div>
+</div>
+</section>
 <section class="slide" data-title="문제 해결">
 <div class="slide-header"><span class="section-tag">문제 해결</span><span>가장 먼저 확인할 체크리스트</span></div>
 <h2>작업이 실패하면 지루하지만 확실한 체크리스트를 따라가세요.</h2>
