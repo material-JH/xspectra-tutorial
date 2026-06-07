@@ -516,7 +516,7 @@
 <div class="flow-list" style="margin-top:42px">
 <div class="flow-row"><div class="label">docs/00_*</div><div class="text">슈퍼컴퓨터 접속, QE source tree, bundled pseudopotential 준비를 먼저 확인합니다.</div></div>
 <div class="flow-row"><div class="label">docs/01-03</div><div class="text">리눅스 기본 명령, QE 입력 파일 구조, XSpectra pipeline은 수업 전 읽기 자료입니다.</div></div>
-<div class="flow-row"><div class="label">docs/04-08</div><div class="text">Live 순서: core-hole 개념 → Diamond → SrTiO3 O K-edge → supercell → EELS 비교.</div></div>
+<div class="flow-row"><div class="label">docs/04-08</div><div class="text">Live 순서: core-hole 개념 → Diamond → SrTiO3 O K-edge → TiO2 rutile 심화 → EELS 비교.</div></div>
 <div class="flow-row"><div class="label">docs/09-10</div><div class="text">Supercell/MPI와 문제 해결은 계산 자원이 준비된 뒤 따라갈 참고 자료입니다.</div></div>
 </div>
 <p class="subtitle">라이브 슬라이드는 O K-edge 해석 흐름에만 집중하도록 core-hole/EELS 비교까지 한 번에 묶습니다.</p>
@@ -538,7 +538,7 @@
 <h2>슈퍼컴퓨터에서 가장 중요한 규칙</h2>
 <div class="grid-2" style="margin-top:54px">
 <div class="card warn"><h3>로그인 노드</h3><ul class="clean" style="margin-top:22px"><li>파일 편집</li><li>`git`, `more`, `vim` 실행</li><li>`./check_setup.sh` 실행</li><li>작은 출력 파일 확인</li></ul></div>
-<div class="card strong"><h3>계산 노드 / 스케줄러</h3><ul class="clean" style="margin-top:22px"><li>`pw.x` 실행</li><li>`xspectra.x` 실행</li><li>MPI rank 사용</li><li>SrTiO3와 supercell 예제 실행</li></ul></div>
+<div class="card strong"><h3>계산 노드 / 스케줄러</h3><ul class="clean" style="margin-top:22px"><li>`pw.x` 실행</li><li>`xspectra.x` 실행</li><li>MPI rank 사용</li><li>SrTiO3와 TiO2 rutile 예제 실행</li></ul></div>
 </div>
 <p class="subtitle"><span class="danger">큰 MPI 계산은 로그인 노드에서 실행하지 마세요.</span> 이 환경에서는 PBS `qsub`/`qstat` 또는 대화형 계산 노드를 사용하세요.</p>
 </section>
@@ -714,7 +714,7 @@ Oh  0.50 0.50 0.00</div>
 <span class="prompt">$</span> python3 scripts/make_presentation_plots.py
 <span class="prompt">$</span> ls docs/assets/presentation_srtio3_eels_comparison.png</div>
 </div>
-<p class="subtitle">`pbs_srtio3_okedge.pbs`는 O K-edge no-core-hole, FCH, HCH unit-cell 계산을 모두 제출합니다. 작업이 도는 동안 supercell과 EELS 정렬 슬라이드를 읽고, 완료 뒤 `scripts/make_presentation_plots.py`로 EELS 비교 그림을 갱신합니다.</p>
+<p class="subtitle">`pbs_srtio3_okedge.pbs`는 O K-edge no-core-hole, FCH, HCH unit-cell 계산을 모두 제출합니다. 작업이 도는 동안 새 산화물 적용과 EELS 정렬 슬라이드를 읽고, 완료 뒤 `scripts/make_presentation_plots.py`로 EELS 비교 그림을 갱신합니다.</p>
 </section>
 <section class="slide" data-title="Core-hole과 supercell">
 <div class="slide-header"><span class="section-tag">물리 모델</span><span>왜 큰 cell이 필요한가</span></div>
@@ -785,7 +785,7 @@ Oh  0.50 0.50 0.00</div>
 <section class="slide" data-title="EELS 입력과 정렬">
 <div class="slide-header"><span class="section-tag">비교 준비</span><span>EELS preprocessing</span></div>
 <h2>실험 EELS를 넣을 때는 background 처리, energy calibration, normalization, rigid shift를 분리해서 생각합니다.</h2>
-<div class="grid-2" style="margin-top:46px">
+<div class="grid-2" style="margin-top:36px">
 <div class="terminal"><span class="comment"># 이 슬라이드 그림에 쓰는 실험 파일</span>
 <span class="prompt">$</span> head SrTiO3/O-K/data_blue_clean.csv
 Energy,Intensity
@@ -851,13 +851,13 @@ Energy,Intensity
 </div>
 </div>
 </section>
-<section class="slide" data-title="Supercell과 MPI">
-<div class="slide-header"><span class="section-tag">심화 실습</span><span>docs/09_supercell_and_mpi.md</span></div>
-<h2>Supercell 예제는 계산 자원과 병렬 설정을 먼저 확인한 뒤 실행합니다.</h2>
+<section class="slide" data-title="TiO2 rutile 심화 실습">
+<div class="slide-header"><span class="section-tag">심화 실습</span><span>새 산화물 O K-edge</span></div>
+<h2>SrTiO3에서 배운 O K-edge 흐름을 TiO2 rutile 구조에 옮겨 적용합니다.</h2>
 <div class="grid-3" style="margin-top:54px">
-<div class="card strong"><h3>HCH supercell</h3><p class="small">SrTiO3 2x2x2 supercell은 원자 40개입니다. 흡수 원자 하나는 HCH UPF를 쓰고 `tot_charge = +0.5`를 유지합니다.</p></div>
-<div class="card"><h3>MPI 옵션</h3><p class="small">XSpectra는 k-point pool 병렬화로 `-nk 4`를 사용합니다. SCF 예제는 이 튜토리얼 환경에서 `-nd 1`로 diagonalization 실패를 피합니다.</p></div>
-<div class="card warn"><h3>스케줄러 전용</h3><p class="small">Supercell은 로그인 노드에서 실행하지 않습니다. 첫 실습에서는 제출하지 않고 `reference_output/`의 결과로 비교합니다.</p></div>
+<div class="card strong"><h3>1. SrTiO3 template</h3><p class="small">`SrTiO3/O_Kedge` 입력 구조를 복사한 뒤 `TiO2_rutile/O_Kedge`로 바꿉니다. 계산 흐름은 SCF → core wavefunction → XSpectra입니다.</p></div>
+<div class="card"><h3>2. 구조 + UPF</h3><p class="small">`TiO2_rutile.cif`에서 lattice와 원자 위치를 확인하고, 검증된 Ti/O UPF만 사용합니다. 수업 중 임의의 pseudo 선택은 피합니다.</p></div>
+<div class="card warn"><h3>3. O absorber</h3><p class="small">산소 하나를 `Oh` species로 분리하고 `xiabs`가 그 species 번호를 가리키는지 확인합니다. 결과는 SrTiO3 O K-edge와 정성 비교합니다.</p></div>
 </div>
 </section>
 <section class="slide" data-title="문제 해결">
