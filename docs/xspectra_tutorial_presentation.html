@@ -882,22 +882,22 @@ Energy,Intensity
 </div>
 </div>
 </section>
-<section class="slide" data-title="TiO2 CIF 다운로드">
+<section class="slide" data-title="TiO2 CIF 다운로드와 업로드">
 <div class="slide-header"><span class="section-tag">심화 실습</span><span>구조 파일</span></div>
-<h2>Rutile TiO2 CIF는 COD 9015662에서 받고, 먼저 격자와 space group을 확인합니다.</h2>
+<h2>CIF는 개인 노트북 브라우저에서 내려받고, Termius SFTP로 누리온에 올립니다.</h2>
 <div class="grid-2" style="margin-top:44px">
-<div class="terminal"><span class="prompt">$</span> curl -L \
-    -o TiO2_rutile/TiO2_rutile.cif \
-    https://www.crystallography.net/cod/9015662.cif
+<div class="terminal"><span class="comment"># 업로드가 끝난 뒤 누리온에서 확인</span>
+<span class="prompt">$</span> ls TiO2_rutile/TiO2_rutile.cif
 <span class="prompt">$</span> grep -E "_cell_length|_cell_angle|space_group" \
     TiO2_rutile/TiO2_rutile.cif
 <span class="comment"># rutile, TiO2, P 42/m n m, a=b≈4.59 Å, c≈2.96 Å</span></div>
 <div class="card warn">
-<h3>다운로드 기준</h3>
+<h3>노트북에서 할 일</h3>
 <ul class="clean" style="margin-top:22px">
-<li>수업에서는 같은 CIF entry를 사용해야 결과 비교가 쉽습니다.</li>
-<li>Materials Project 같은 DB는 로그인/API가 필요할 수 있으므로 라이브 실습용 기본값으로 쓰지 않습니다.</li>
-<li>출처와 COD 번호를 노트에 남겨 둡니다.</li>
+<li>브라우저에서 `https://www.crystallography.net/cod/9015662.html` 접속.</li>
+<li>`Coordinates 9015662.cif` 링크를 눌러 CIF 저장.</li>
+<li>파일 이름을 `TiO2_rutile.cif`로 맞춥니다.</li>
+<li>Termius SFTP로 `/scratch/$USER/xspectra-tutorial/TiO2_rutile/`에 업로드합니다.</li>
 </ul>
 </div>
 </div>
