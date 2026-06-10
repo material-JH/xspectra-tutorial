@@ -6,8 +6,6 @@
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>XSpectra 튜토리얼 가이드 — TEM/EELS 학생을 위한 Quantum ESPRESSO 실습</title>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&family=Roboto:wght@400;500;700;900&display=swap');
-
     :root {
       --bg: #eef4fa;
       --bg-2: #f8fbfe;
@@ -29,7 +27,7 @@
       --terminal-ink: #e7f6ff;
       --shadow: 0 26px 70px rgba(0, 45, 90, .16);
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: Roboto, "Noto Sans KR", NanumSquare, Arial, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --sans: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans CJK KR", "Noto Sans KR", NanumSquare, Arial, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       --slide-width: 1920px;
       --slide-height: 1080px;
       --slide-margin-x: 110px;
@@ -419,17 +417,6 @@
 
     .speaker-note { display: none; }
 
-    @media (prefers-reduced-motion: no-preference) {
-      .slide.active h1, .slide.active h2, .slide.active .subtitle, .slide.active .card,
-      .slide.active .terminal, .slide.active .pipeline, .slide.active .flow-row, .slide.active .image-frame, .slide.active .timeline {
-        animation: enter .42s ease both;
-      }
-      .slide.active .card:nth-child(2), .slide.active .flow-row:nth-child(2) { animation-delay: .04s; }
-      .slide.active .card:nth-child(3), .slide.active .flow-row:nth-child(3) { animation-delay: .08s; }
-      .slide.active .card:nth-child(4), .slide.active .flow-row:nth-child(4) { animation-delay: .12s; }
-      @keyframes enter { from { transform: translateY(18px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    }
-
     @media print {
       @page { size: 16in 9in; margin: 0; }
       html { width: 16in; margin: 0; background: white; }
@@ -442,12 +429,12 @@
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
       }
-      .viewport { display: block; width: 16in; height: auto; padding: 0; overflow: visible; }
-      .deck {
+      body .viewport { display: block; width: 16in; height: auto; padding: 0; overflow: visible; }
+      .viewport .deck {
         position: relative;
         left: auto;
         top: auto;
-        transform: none !important;
+        transform: none;
         transform-origin: top left;
         width: var(--slide-width);
         height: auto;
@@ -457,8 +444,8 @@
         overflow: visible;
         zoom: var(--print-scale);
       }
-      .slide {
-        display: block !important;
+      .deck .slide {
+        display: block;
         position: relative;
         inset: auto;
         width: var(--slide-width);
@@ -468,8 +455,8 @@
         background: var(--surface);
         overflow: hidden;
       }
-      .slide:last-of-type { page-break-after: auto; break-after: auto; }
-      .footer, .controls, .nav-help { display: none; }
+      .deck .slide:last-of-type { page-break-after: auto; break-after: auto; }
+      body .footer, body .controls, body .nav-help { display: none; }
     }
   </style>
 </head>
@@ -1034,8 +1021,8 @@ Energy,Intensity
 </div>
 <div class="nav-help">←/→ 또는 Space · F 전체화면 · Home/End · PDF 인쇄 지원</div>
 <div aria-label="Slide controls" class="controls">
-<button aria-label="이전 슬라이드" id="prevBtn" title="이전 슬라이드">‹</button>
-<button aria-label="다음 슬라이드" id="nextBtn" title="다음 슬라이드">›</button>
+<button aria-label="이전 슬라이드" id="prevBtn" title="이전 슬라이드" type="button">‹</button>
+<button aria-label="다음 슬라이드" id="nextBtn" title="다음 슬라이드" type="button">›</button>
 </div>
 <script>
     (() => {
@@ -1047,18 +1034,32 @@ Energy,Intensity
       const prev = document.getElementById('prevBtn');
       const next = document.getElementById('nextBtn');
       const STORAGE_KEY = 'xspectra-tutorial-presentation-slide';
+      let isPrinting = false;
       let current = Number(localStorage.getItem(STORAGE_KEY) || 0);
       if (!Number.isFinite(current) || current < 0 || current >= slides.length) current = 0;
 
       function scaleDeck() {
+        if (isPrinting) return;
         const margin = 40;
         const scale = Math.min((window.innerWidth - margin) / 1920, (window.innerHeight - margin) / 1080);
         deck.style.transform = `translate(-50%, -50%) scale(${Math.max(0.1, scale)})`;
       }
 
+      function preparePrint() {
+        isPrinting = true;
+        deck.style.transform = 'none';
+      }
+
+      function restoreScreen() {
+        isPrinting = false;
+        scaleDeck();
+      }
+
       function show(index) {
         current = Math.max(0, Math.min(slides.length - 1, index));
-        slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('active', i === current);
+        });
         title.textContent = slides[current].dataset.title || `슬라이드 ${current + 1}`;
         count.textContent = `${current + 1} / ${slides.length}`;
         progress.style.width = `${((current + 1) / slides.length) * 100}%`;
@@ -1083,6 +1084,8 @@ Energy,Intensity
       prev.addEventListener('click', () => go(-1));
       next.addEventListener('click', () => go(1));
       window.addEventListener('resize', scaleDeck);
+      window.addEventListener('beforeprint', preparePrint);
+      window.addEventListener('afterprint', restoreScreen);
       scaleDeck();
       show(current);
     })();
