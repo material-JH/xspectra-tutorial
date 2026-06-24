@@ -87,6 +87,40 @@ move_xanes_or_fail() {
     mv xanes.dat "$destination"
 }
 
+require_scheduler_for_calculation() {
+    local work_dir="${1:-$(pwd)}"
+
+    if [ -n "${SLURM_JOB_ID:-}" ] || [ -n "${PBS_JOBID:-}" ]; then
+        return
+    fi
+
+    if [ "${XSPECTRA_ALLOW_LOGIN_RUN:-0}" = "1" ]; then
+        print_cluster_warning
+        return
+    fi
+
+    cat >&2 <<EOF
+ERROR: QE/XSpectra calculation was started outside a scheduler job.
+
+This tutorial is meant for batch execution on a compute node, not for direct
+MPI execution on a login node. Beginners should run it from scratch with qsub:
+
+  cd /scratch/\$USER/xspectra-tutorial
+  cp env.sh.example env.sh        # only once
+  ./check_setup.sh
+  qsub scheduler/pbs_diamond.pbs
+  qstat -u "\$USER"
+
+Current directory:
+  $work_dir
+
+Do not run 'bash run_all_examples.sh' directly on the login node.
+If an instructor intentionally gave you an interactive compute allocation, set:
+  XSPECTRA_ALLOW_LOGIN_RUN=1
+EOF
+    exit 1
+}
+
 print_cluster_warning() {
     if [ -z "${SLURM_JOB_ID:-}" ] && [ -z "${PBS_JOBID:-}" ] && [ "${NPROCS:-1}" -gt 8 ]; then
         cat >&2 <<EOF

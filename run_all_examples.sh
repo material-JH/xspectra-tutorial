@@ -36,7 +36,7 @@ PW_COMMAND="$PW_CMD"
 X_COMMAND="$XS_CMD"
 
 cd "$WORK_DIR"
-print_cluster_warning
+require_scheduler_for_calculation "$WORK_DIR"
 
 echo "============================================"
 echo "  XSpectra Tutorial - Curated Examples"

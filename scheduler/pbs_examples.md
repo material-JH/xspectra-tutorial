@@ -10,10 +10,12 @@ qstat -u "$USER"
 ```
 
 On systems that reject jobs from home directories, clone or copy this tutorial
-under `/scratch/$USER` before running `qsub`. The PBS templates use the
-`norm_skl` queue and run 16 MPI ranks with `mpirun -np 16`. On Nurion this queue
-can allocate a full 40-core SKL node, so 16 ranks is a better tutorial default
-than 4 ranks for the charged allocation.
+under `/scratch/$USER` before running `qsub`. Submit from the scratch copy, not
+from `$HOME`, because the PBS job starts in `PBS_O_WORKDIR`.
+
+Do not run `bash run_all_examples.sh` directly on the login node. The script now
+stops outside PBS/Slurm unless an instructor explicitly sets
+`XSPECTRA_ALLOW_LOGIN_RUN=1`.
 
 The Diamond template is:
 
@@ -21,15 +23,19 @@ The Diamond template is:
 #!/usr/bin/env bash
 #PBS -N xspectra-diamond
 #PBS -A qe
-#PBS -q norm_skl
+#PBS -q gachon
 #PBS -l select=1:ncpus=16:mpiprocs=16
 #PBS -l walltime=00:30:00
 #PBS -j oe
 
 set -euo pipefail
+
 cd "$PBS_O_WORKDIR"
+export XSPECTRA_CRAY_TARGET_MODULE=craype-mic-knl
 source ./env.sh
 
+# The gachon account runs on KNL nodes. Use 16 MPI ranks for the tutorial
+# calculation while loading the matching mic-knl QE build above.
 export NPROCS=16
 export MPI_RUN="mpirun -np $NPROCS"
 
@@ -40,7 +46,7 @@ Submit with:
 
 ```bash
 cd /scratch/$USER/xspectra-tutorial
-qsub job.pbs
+qsub scheduler/pbs_diamond.pbs
 qstat -u "$USER"
 ```
 
