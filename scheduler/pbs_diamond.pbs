@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #PBS -N xspectra-diamond
 #PBS -A qe
-#PBS -q norm_skl
+#PBS -q gachon
 #PBS -l select=1:ncpus=16:mpiprocs=16
 #PBS -l walltime=00:30:00
 #PBS -j oe
@@ -9,11 +9,11 @@
 set -euo pipefail
 
 cd "$PBS_O_WORKDIR"
+export XSPECTRA_CRAY_TARGET_MODULE=craype-mic-knl
 source ./env.sh
 
-# Nurion norm_skl may allocate a full 40-core node for this job class. Use 16
-# MPI ranks for the tutorial calculation instead of leaving most of the charged
-# allocation idle.
+# The gachon account runs on KNL nodes. Use 16 MPI ranks for the tutorial
+# calculation while loading the matching mic-knl QE build above.
 export NPROCS=16
 export MPI_RUN="mpirun -np $NPROCS"
 

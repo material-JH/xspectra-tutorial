@@ -13,7 +13,64 @@ The SrTiO3 plots are generated separately with:
     cd SrTiO3 && python3 plot_spectra.py
 """
 from pathlib import Path
+import os
 import sys
+import subprocess
+
+
+
+def _filter_cluster_loader_warning(stderr: str) -> str:
+    lines = []
+    for line in stderr.splitlines():
+        if "libuuid.so.1: no version information available" in line:
+            continue
+        lines.append(line)
+    return "\n".join(lines)
+
+
+def _prefer_python_shared_libs() -> None:
+    """Restart with Python's shared libraries first on module-based HPC Python.
+
+    Some clusters put /usr/lib64 before the Python module's lib directory in
+    LD_LIBRARY_PATH. Matplotlib's libpng can then load the system zlib, which is
+    too old for the wheel. Put the active Python installation's lib directory
+    first before importing matplotlib. The child stderr is filtered only for the
+    known non-fatal cluster libuuid loader warning; real errors still print.
+    """
+    python_lib = Path(sys.executable).resolve().parent.parent / "lib"
+    if os.environ.get("XSPECTRA_PLOT_LD_REEXEC") == "1":
+        return
+    if not (python_lib / "libz.so.1").exists():
+        return
+
+    current_paths = [path for path in os.environ.get("LD_LIBRARY_PATH", "").split(":") if path]
+    python_lib_path = str(python_lib)
+    if current_paths[:1] == [python_lib_path]:
+        return
+
+    child_env = os.environ.copy()
+    child_env["LD_LIBRARY_PATH"] = ":".join(
+        [python_lib_path] + [path for path in current_paths if path != python_lib_path]
+    )
+    child_env["XSPECTRA_PLOT_LD_REEXEC"] = "1"
+
+    completed = subprocess.run(
+        [sys.executable] + sys.argv,
+        env=child_env,
+        stderr=subprocess.PIPE,
+        universal_newlines=True,
+    )
+    filtered_stderr = _filter_cluster_loader_warning(completed.stderr)
+    if filtered_stderr:
+        print(filtered_stderr, file=sys.stderr)
+    raise SystemExit(completed.returncode)
+
+
+_prefer_python_shared_libs()
+import matplotlib
+
+if "--show" not in sys.argv:
+    matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
 import numpy as np
