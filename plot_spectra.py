@@ -28,6 +28,55 @@ def _filter_cluster_loader_warning(stderr: str) -> str:
     return "\n".join(lines)
 
 
+def _reexec_with_plot_python_if_needed() -> None:
+    """Restart with a Python that has the plotting packages installed.
+
+    Login shells on some clusters start with /usr/bin/python3, while the
+    matplotlib/numpy stack lives in the python/3.7 module. Make the beginner
+    command `python3 plot_spectra.py` work by finding that module Python.
+    """
+    if os.environ.get("XSPECTRA_PLOT_PYTHON_REEXEC") == "1":
+        return
+
+    try:
+        import importlib.util
+
+        if importlib.util.find_spec("matplotlib") and importlib.util.find_spec("numpy"):
+            return
+    except ImportError:
+        pass
+
+    candidates = [
+        os.environ.get("XSPECTRA_PLOT_PYTHON"),
+        "/apps/applications/PYTHON/3.7/bin/python3",
+    ]
+    for candidate in candidates:
+        if not candidate:
+            continue
+        candidate_path = Path(candidate)
+        if not candidate_path.exists() or not os.access(str(candidate_path), os.X_OK):
+            continue
+        if candidate_path.resolve() == Path(sys.executable).resolve():
+            continue
+
+        completed = subprocess.run(
+            [str(candidate_path), "-c", "import matplotlib, numpy"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
+        )
+        if completed.returncode == 0:
+            child_env = os.environ.copy()
+            child_env["XSPECTRA_PLOT_PYTHON_REEXEC"] = "1"
+            os.execve(str(candidate_path), [str(candidate_path)] + sys.argv, child_env)
+
+    raise SystemExit(
+        "ERROR: matplotlib/numpy are not available in this Python.\n"
+        "Fix: load the plotting Python module first, e.g. 'module load python/3.7',\n"
+        "or set XSPECTRA_PLOT_PYTHON=/path/to/python3."
+    )
+
+
 def _prefer_python_shared_libs() -> None:
     """Restart with Python's shared libraries first on module-based HPC Python.
 
@@ -66,6 +115,7 @@ def _prefer_python_shared_libs() -> None:
     raise SystemExit(completed.returncode)
 
 
+_reexec_with_plot_python_if_needed()
 _prefer_python_shared_libs()
 import matplotlib
 
