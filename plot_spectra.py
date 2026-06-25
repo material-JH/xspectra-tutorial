@@ -163,11 +163,14 @@ def main() -> None:
     ax1.set_xlim(-5, 30)
     ax1.legend(fontsize=8)
 
-    ax2.plot(no_hole[:, 0], no_hole[:, 1], color="C0", label="No core-hole")
-    ax2.plot(full_hole[:, 0], full_hole[:, 1], color="C3", label="Full core-hole")
-    ax2.set_title("Core-hole effect")
+    common_energy = no_hole[:, 0]
+    full_hole_interp = np.interp(common_energy, full_hole[:, 0], full_hole[:, 1])
+    diff = full_hole_interp - no_hole[:, 1]
+    ax2.plot(common_energy, diff, color="k", label="Core-hole – no core-hole")
+    ax2.axhline(0, color="gray", linewidth=0.5)
+    ax2.set_title("Difference (core-hole – no core-hole)")
     ax2.set_xlabel("Energy (eV)")
-    ax2.set_ylabel("Absorption cross-section (arb. units)")
+    ax2.set_ylabel("Δ absorption (arb. units)")
     ax2.set_xlim(-2, 25)
     ax2.legend(fontsize=8)
 
