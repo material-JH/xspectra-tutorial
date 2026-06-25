@@ -27,6 +27,13 @@ slurm-*.out
 *.o[0-9]*
 *.e[0-9]*
 
+# Generated QE output files (regenerable)
+*.out
+*.dat
+
+# Generated plots
+*.png
+
 # Additional QE generated files
 *.xml
 *.save/

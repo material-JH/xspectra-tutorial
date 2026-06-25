@@ -1,4 +1,6 @@
-! Template note: run_all_examples.sh rewrites pseudo_dir from EXAMPLE_PSEUDO_DIR (defaults to diamond/pseudo).
+! Template note: run_all_examples.sh rewrites pseudo_dir from EXAMPLE_PSEUDO_DIR.
+! To run manually, set pseudo_dir to the correct path, e.g.:
+!   pseudo_dir = './pseudo/',
  &control
     calculation='scf',
     pseudo_dir = './pseudo-set-by-run-script/',

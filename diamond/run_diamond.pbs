@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+#PBS -N diamond-xanes
+#PBS -A etc
+#PBS -q normal
+#PBS -l select=1:ncpus=16:mpiprocs=16
+#PBS -l walltime=04:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+cd "$PBS_O_WORKDIR"
+export XSPECTRA_CRAY_TARGET_MODULE=craype-mic-knl
+source ../env.sh
+
+export NPROCS=16
+export MPI_RUN="mpirun -np $NPROCS"
+
+# Step 0: extract core wavefunction
+mkdir -p tmp
+$TOOLS_DIR/upf2plotcore.sh pseudo/C_PBE_TM_2pj.UPF > C.wfc
+
+# Step 1: SCF (no core-hole)
+echo "=== Step 1: SCF no core-hole ==="
+$MPI_RUN $PW_BIN -nk 4 < diamond.scf.in > diamond.scf.out 2>&1
+
+# Step 2: XSpectra (no hole, occ included)
+echo "=== Step 2: XSpectra no hole ==="
+$MPI_RUN $XSPECTRA_BIN -nk 4 < diamond.xspectra.in > diamond.xspectra.out 2>&1
+mv xanes.dat diamond.xspectra.dat
+
+# Step 3: XSpectra replot (occ cut)
+echo "=== Step 3: XSpectra replot ==="
+$MPI_RUN $XSPECTRA_BIN -nk 4 < diamond.xspectra_replot.in > diamond.xspectra_replot.out 2>&1
+mv xanes.dat diamond.xspectra_replot.dat
+
+# Step 4: SCF (core-hole)
+echo "=== Step 4: SCF core-hole ==="
+rm -rf tmp/*
+$MPI_RUN $PW_BIN -nk 4 < diamondh.scf.in > diamondh.scf.out 2>&1
+
+# Step 5: XSpectra (core-hole, occ cut)
+echo "=== Step 5: XSpectra core-hole ==="
+$MPI_RUN $XSPECTRA_BIN -nk 4 < diamondh.xspectra.in > diamondh.xspectra.out 2>&1
+mv xanes.dat diamondh.xspectra.dat
+
+echo "=== Diamond XANES complete ==="
