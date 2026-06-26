@@ -3,15 +3,77 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0; url=xspectra_tutorial_presentation.html">
-  <title>XSpectra 튜토리얼</title>
+  <title>XSpectra 튜토리얼 자료</title>
   <style>
-    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Noto Sans KR", "Malgun Gothic", sans-serif; margin: 3rem; line-height: 1.6; }
-    a { color: #004098; }
+    :root {
+      --bg: #eef4fa;
+      --surface: #ffffff;
+      --ink: #151515;
+      --muted: #52606d;
+      --accent: #004098;
+      --accent-2: #00aeef;
+      --line: #d8e2ec;
+      --shadow: 0 24px 70px rgba(0, 45, 90, .13);
+      --sans: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans CJK KR", "Noto Sans KR", Arial, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at 8% 10%, rgba(0,174,239,.20), transparent 30%),
+        radial-gradient(circle at 88% 10%, rgba(0,64,152,.15), transparent 30%),
+        linear-gradient(135deg, #f7fbff 0%, var(--bg) 100%);
+      line-height: 1.65;
+    }
+    main { width: min(980px, calc(100vw - 40px)); margin: 0 auto; padding: 74px 0; }
+    h1 { margin: 0 0 14px; font-size: clamp(42px, 7vw, 76px); line-height: 1; letter-spacing: -.05em; }
+    p { margin: 0; color: var(--muted); font-size: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 34px; }
+    a.card {
+      display: block;
+      min-height: 220px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow);
+      color: inherit;
+      text-decoration: none;
+    }
+    a.card::before {
+      content: "";
+      display: block;
+      width: 88px;
+      height: 7px;
+      margin-bottom: 28px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+    .card h2 { margin: 0 0 10px; font-size: 30px; line-height: 1.15; letter-spacing: -.03em; }
+    .card p { font-size: 17px; }
+    .meta { margin-top: 30px; font-size: 15px; }
+    .meta a { color: var(--accent); }
+    @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
-  <h1>XSpectra 튜토리얼</h1>
-  <p>학생용 발표 자료로 이동합니다: <a href="xspectra_tutorial_presentation.html">xspectra_tutorial_presentation.html</a></p>
+  <main>
+    <h1>XSpectra 튜토리얼 자료</h1>
+    <p>학생용 실습 발표 자료와 Oh My QE 플러그인 가이드를 함께 제공합니다.</p>
+    <div class="grid">
+      <a class="card" href="xspectra_tutorial_presentation.html">
+        <h2>학생용 HTML 발표 자료</h2>
+        <p>Quantum ESPRESSO + XSpectra 실습 흐름, Diamond/SrTiO3 예제, EELS 비교, 문제 해결.</p>
+      </a>
+      <a class="card" href="oh-my-qe.html">
+        <h2>Oh My QE 플러그인 가이드</h2>
+        <p>OpenCode slash command, scheduler-first 안전 규칙, 랩 노트, manuscript convergence test 요약.</p>
+      </a>
+    </div>
+    <p class="meta">소스 저장소: <a href="https://github.com/material-JH/xspectra-tutorial">material-JH/xspectra-tutorial</a></p>
+  </main>
 </body>
 </html>

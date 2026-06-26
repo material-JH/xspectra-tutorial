@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Oh My QE 플러그인 가이드와 XSpectra convergence note</title>
+  <style>
+    :root {
+      --bg: #eef4fa;
+      --surface: #ffffff;
+      --surface-2: #f6fafe;
+      --ink: #151515;
+      --muted: #52606d;
+      --accent: #004098;
+      --accent-2: #00aeef;
+      --accent-soft: #d9f3ff;
+      --warm: #c98300;
+      --danger: #d92d20;
+      --ok: #157a3f;
+      --line: #d8e2ec;
+      --line-strong: #b8c9d9;
+      --terminal: #101923;
+      --terminal-ink: #e7f6ff;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans CJK KR", "Noto Sans KR", Arial, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --shadow: 0 24px 70px rgba(0, 45, 90, .13);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.65;
+      background:
+        linear-gradient(90deg, rgba(0,64,152,.045) 1px, transparent 1px),
+        linear-gradient(rgba(0,64,152,.04) 1px, transparent 1px),
+        radial-gradient(circle at 8% 2%, rgba(0,174,239,.22), transparent 30%),
+        radial-gradient(circle at 90% 8%, rgba(0,64,152,.16), transparent 28%),
+        linear-gradient(135deg, #f7fbff 0%, var(--bg) 100%);
+      background-size: 42px 42px, 42px 42px, auto, auto, auto;
+    }
+    a { color: var(--accent); text-decoration-thickness: .09em; text-underline-offset: .18em; }
+    .wrap { width: min(1180px, calc(100vw - 40px)); margin: 0 auto; }
+    header.hero { padding: 72px 0 46px; }
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line-strong);
+      border-radius: 28px;
+      background: rgba(255,255,255,.92);
+      box-shadow: var(--shadow);
+      padding: 46px;
+    }
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 9px;
+      background: linear-gradient(90deg, var(--accent) 0 18%, var(--accent-2) 18% 28%, transparent 28%);
+    }
+    .eyebrow { color: var(--accent); font-weight: 900; letter-spacing: .08em; text-transform: uppercase; font-size: 15px; }
+    h1 { margin: 10px 0 18px; font-size: clamp(42px, 7vw, 86px); line-height: .98; letter-spacing: -.055em; text-wrap: balance; }
+    h2 { margin: 0 0 20px; font-size: clamp(30px, 4vw, 46px); line-height: 1.13; letter-spacing: -.035em; text-wrap: balance; }
+    h3 { margin: 0 0 10px; font-size: 22px; line-height: 1.25; }
+    p { margin: 0 0 16px; }
+    .lead { max-width: 870px; color: var(--muted); font-size: 22px; word-break: keep-all; }
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 13px; border-radius: 999px; background: var(--accent-soft); color: #073763; font-weight: 800; font-size: 14px; }
+    nav.toc { position: sticky; top: 0; z-index: 10; border-block: 1px solid var(--line); background: rgba(246,250,254,.94); backdrop-filter: blur(12px); }
+    nav.toc .wrap { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 0; }
+    nav.toc a { border-radius: 999px; padding: 7px 12px; color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 800; }
+    nav.toc a:hover { background: #fff; color: var(--accent); }
+    main { padding: 38px 0 70px; }
+    section { margin: 44px 0; padding: 38px; border: 1px solid var(--line); border-radius: 26px; background: rgba(255,255,255,.92); box-shadow: 0 12px 38px rgba(0,45,90,.06); }
+    .grid-2, .grid-3, .grid-4 { display: grid; gap: 18px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .card { border: 1px solid var(--line); border-radius: 20px; padding: 20px; background: var(--surface-2); }
+    .card.strong { border-color: rgba(0,64,152,.32); background: linear-gradient(180deg, #f8fcff, #eaf6ff); }
+    .card.warn { border-color: rgba(201,131,0,.36); background: #fff7e6; }
+    .card.danger { border-color: rgba(217,45,32,.24); background: #fff1ef; }
+    .card.ok { border-color: rgba(21,122,63,.28); background: #effaf3; }
+    .muted { color: var(--muted); }
+    .mono, code, pre { font-family: var(--mono); }
+    code { border-radius: 6px; background: #edf5fb; padding: .1em .35em; }
+    pre.terminal { overflow-x: auto; margin: 0; border-radius: 18px; padding: 20px; background: linear-gradient(180deg, var(--terminal), #162536); color: var(--terminal-ink); font-size: 16px; line-height: 1.55; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
+    .prompt { color: #7ee787; }
+    .comment { color: #9bb0c4; }
+    table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 18px; background: #fff; font-size: 15px; }
+    th, td { padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; text-align: left; }
+    th { background: #edf5fb; color: #073763; font-weight: 900; }
+    tr:last-child td { border-bottom: 0; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .tag { display: inline-block; border-radius: 8px; padding: 2px 8px; background: #eaf6ff; color: var(--accent); font-size: 12px; font-weight: 900; }
+    .tag.warn { background: #fff1c7; color: #7c4d00; }
+    .tag.ok { background: #dff7e8; color: #145c32; }
+    figure { margin: 0; }
+    figure img { display: block; width: 100%; height: auto; border: 1px solid var(--line-strong); border-radius: 18px; background: #fff; }
+    figcaption { margin-top: 9px; color: var(--muted); font-size: 13px; }
+    .wide-figure { margin-top: 18px; }
+    .steps { display: grid; gap: 14px; counter-reset: step; }
+    .step { position: relative; padding: 17px 18px 17px 62px; border: 1px solid var(--line); border-radius: 18px; background: #fff; }
+    .step::before { counter-increment: step; content: counter(step); position: absolute; left: 17px; top: 17px; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 900; }
+    .callout { border-left: 6px solid var(--accent); padding: 16px 20px; border-radius: 14px; background: #f5fbff; }
+    .callout.warn { border-left-color: var(--warm); background: #fff8ea; }
+    .callout.danger { border-left-color: var(--danger); background: #fff3f0; }
+    .metric { font-size: 34px; font-weight: 950; letter-spacing: -.04em; color: var(--accent); }
+    .source-list { margin: 0; padding-left: 1.2em; color: var(--muted); }
+    footer { padding: 30px 0 60px; color: var(--muted); font-size: 14px; }
+    @media (max-width: 900px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .hero-card, section { padding: 26px; }
+      pre.terminal { font-size: 14px; }
+    }
+    @media print {
+      nav.toc { position: static; }
+      body { background: #fff; }
+      section, .hero-card { break-inside: avoid; box-shadow: none; }
+      a { color: #000; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap hero-card">
+      <div class="eyebrow">Oh My QE × XSpectra tutorial</div>
+      <h1>OpenCode에서 QE 계산을 안전하게 안내하는 플러그인</h1>
+      <p class="lead">Oh My QE는 Quantum ESPRESSO/XSpectra 실습을 slash command로 묶고, 로그인 노드 실행 방지·입력 검증·랩 노트 기록을 기본값으로 강제하는 교육용 OpenCode 플러그인입니다. 이 페이지에는 설치/사용 흐름과 manuscript의 O K-edge convergence test 요약을 함께 정리했습니다.</p>
+      <div class="pills">
+        <span class="pill">/qe command hub</span>
+        <span class="pill">scheduler-first safety</span>
+        <span class="pill">QE input validation</span>
+        <span class="pill">persistent lab notebook</span>
+        <span class="pill">XSpectra convergence notes</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="문서 목차">
+    <div class="wrap">
+      <a href="#install">설치</a>
+      <a href="#commands">명령어</a>
+      <a href="#workflow">실습 흐름</a>
+      <a href="#xspectra">XSpectra 예시</a>
+      <a href="#convergence">Convergence</a>
+      <a href="#teaching">수업 운영 메모</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section id="install">
+      <h2>1. 설치: OpenCode 위에 QE 실습 레이어를 얹습니다</h2>
+      <div class="grid-2">
+        <div>
+          <p>먼저 OpenCode를 설치한 뒤, Oh My QE 저장소를 받아 설치 스크립트를 실행합니다. 설치 후에는 OpenCode의 <code>/</code> command palette에서 <code>/qe</code> 계열 명령이 보입니다.</p>
+          <pre class="terminal"><span class="prompt">$</span> git clone https://github.com/material-JH/oh-my-qe.git
+<span class="prompt">$</span> ./oh-my-qe/install.sh
+<span class="comment"># 필요하면 PATH 추가</span>
+<span class="prompt">$</span> export PATH="$HOME/.local/bin:$PATH"
+<span class="prompt">$</span> cd /scratch/$USER/xspectra-tutorial
+<span class="prompt">$</span> opencode</pre>
+        </div>
+        <figure>
+          <img src="assets/oh-my-qe-opencode-install.png" alt="OpenCode 설치 화면">
+          <figcaption>OpenCode는 모델 연결이 가능한 터미널 기반 코딩 에이전트입니다.</figcaption>
+        </figure>
+      </div>
+      <div class="grid-4" style="margin-top:18px">
+        <div class="card"><h3>commands</h3><p class="muted"><code>~/.config/opencode/commands/qe*.md</code>에 slash command를 설치합니다.</p></div>
+        <div class="card"><h3>plugin hook</h3><p class="muted"><code>oh-my-qe.js</code>가 QE 실행 안전 규칙과 랩 노트 기록을 처리합니다.</p></div>
+        <div class="card"><h3>validator agent</h3><p class="muted"><code>qe-input-validator</code>가 QE 입력의 BLOCKER/WARN 항목을 읽기 전용으로 검사합니다.</p></div>
+        <div class="card"><h3>omq helper</h3><p class="muted"><code>~/.local/bin/omq</code>가 check, submit, plot, lab, validate 작업을 수행합니다.</p></div>
+      </div>
+      <figure class="wide-figure">
+        <img src="assets/oh-my-qe-repository.png" alt="Oh My QE GitHub 저장소 구조">
+        <figcaption>저장소는 OpenCode commands, plugin, validator agent, shell helper로 구성됩니다.</figcaption>
+      </figure>
+    </section>
+
+    <section id="commands">
+      <h2>2. Slash command: 10개 top-level 명령 + /qe hub</h2>
+      <p>OpenCode의 <code>/</code> autocomplete가 보여 주는 항목 수가 제한될 수 있으므로, 자주 쓰는 명령은 top-level로 두고 나머지는 <code>/qe &lt;subcommand&gt;</code> hub에 넣었습니다.</p>
+      <figure class="wide-figure">
+        <img src="assets/oh-my-qe-slash-autocomplete.png" alt="Oh My QE slash command autocomplete">
+        <figcaption><code>/qe</code>를 입력하면 QE 실습 명령이 command palette에 나타납니다.</figcaption>
+      </figure>
+      <div class="grid-2" style="margin-top:22px">
+        <div>
+          <h3>Top-level slash commands</h3>
+          <table>
+            <thead><tr><th>명령</th><th>역할</th></tr></thead>
+            <tbody>
+              <tr><td><code>/qe</code></td><td>덜 자주 쓰는 워크플로를 모아 둔 command hub</td></tr>
+              <tr><td><code>/qe-help</code></td><td>명령어 안내 출력</td></tr>
+              <tr><td><code>/qe-check [DIR]</code></td><td>QE 실행파일, Python, 스케줄러, project 쓰기 권한 확인</td></tr>
+              <tr><td><code>/qe-plan [DIR]</code></td><td>현재 파일 기준으로 안전한 실행 계획 작성</td></tr>
+              <tr><td><code>/qe-submit &lt;SCRIPT&gt; [DIR]</code></td><td><code>.sbatch</code>, <code>.slurm</code>, <code>.pbs</code> 스크립트 제출</td></tr>
+              <tr><td><code>/qe-status</code></td><td>Slurm/PBS 큐 상태 확인</td></tr>
+              <tr><td><code>/qe-debug [DIR]</code></td><td>최근 출력과 scheduler log를 읽고 실패 원인 설명</td></tr>
+              <tr><td><code>/qe-plot [DIR]</code></td><td>기존 plotting script 또는 2-column <code>.dat</code> 시각화</td></tr>
+              <tr><td><code>/qe-lab-init [DIR]</code></td><td><code>.oh-my-qe/lab/</code> 랩 노트 생성</td></tr>
+              <tr><td><code>/qe-lab-view [DIR] [QUERY]</code></td><td>랩 노트 보기/검색</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h3>Hub subcommands</h3>
+          <table>
+            <thead><tr><th>Subcommand</th><th>역할</th></tr></thead>
+            <tbody>
+              <tr><td><code>resources [pseudo|structure|cif|all]</code></td><td>검증된 pseudo/구조 DB 링크</td></tr>
+              <tr><td><code>files [DIR]</code></td><td>입력, 출력, pseudo, scheduler, plot 파일 목록</td></tr>
+              <tr><td><code>env [DIR]</code></td><td>host, scheduler, MPI, QE path, Python, disk 요약</td></tr>
+              <tr><td><code>mode [expert|beginner]</code></td><td>초보자/전문가 응답 모드 전환</td></tr>
+              <tr><td><code>expert &lt;REQUEST&gt;</code></td><td>짧은 전문가 모드 답변 요청</td></tr>
+              <tr><td><code>explain-input &lt;FILE&gt;</code></td><td>QE 입력 파일 설명</td></tr>
+              <tr><td><code>validate-input &lt;FILE|DIR&gt;</code></td><td>QE 입력 정적 검사</td></tr>
+              <tr><td><code>defect-plan [DIR]</code></td><td>결함 계산 계획</td></tr>
+              <tr><td><code>xspectra-plan [DIR]</code></td><td>XSpectra 계산 계획</td></tr>
+              <tr><td><code>lab-update [DIR]</code></td><td>프로젝트 상태에서 랩 노트 synthesis 갱신</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:18px">
+        <figure><img src="assets/oh-my-qe-top-commands.png" alt="Oh My QE top-level command table"><figcaption>Top-level command 출력 예시.</figcaption></figure>
+        <figure><img src="assets/oh-my-qe-hub-subcommands.png" alt="Oh My QE hub subcommand table"><figcaption>Hub subcommand 출력 예시.</figcaption></figure>
+      </div>
+    </section>
+
+    <section id="workflow">
+      <h2>3. 기본 워크플로: 확인 → 계획 → 검증 → 제출 → 기록</h2>
+      <div class="steps">
+        <div class="step"><strong><code>/qe-check</code></strong>로 <code>pw.x</code>, <code>xspectra.x</code>, Python, queue command, <code>env.sh</code>, project 쓰기 권한을 확인합니다.</div>
+        <div class="step"><strong><code>/qe-lab-init</code></strong>로 <code>.oh-my-qe/lab/index.md</code>, <code>notes.md</code>, <code>log.md</code>를 만듭니다. 원시 QE 입력/출력은 source of truth이고, 랩 노트는 유지되는 synthesis layer입니다.</div>
+        <div class="step"><strong><code>/qe-plan</code></strong> 또는 <strong><code>/qe xspectra-plan</code></strong>으로 무거운 계산을 바로 실행하지 않는 계획을 만듭니다.</div>
+        <div class="step">입력 파일을 만들거나 바꾼 뒤 <strong><code>/qe validate-input</code></strong> 또는 validator agent로 BLOCKER/WARN을 확인합니다.</div>
+        <div class="step"><strong><code>/qe-submit</code></strong>은 기존 scheduler script만 제출합니다. heavy QE 실행은 Slurm/PBS queue를 거칩니다.</div>
+        <div class="step"><strong><code>/qe-status</code></strong>, <strong><code>/qe-debug</code></strong>, <strong><code>/qe-plot</code></strong>, <strong><code>/qe-lab-view</code></strong>로 상태·오류·그림·기록을 닫습니다.</div>
+      </div>
+      <div class="callout danger" style="margin-top:20px">
+        <strong>안전 규칙.</strong> active allocation(<code>SLURM_JOB_ID</code>, <code>PBS_JOBID</code>, <code>PBS_JOB_ID</code>)이 없으면 <code>pw.x</code>, <code>xspectra.x</code> 같은 QE executable을 로그인 노드에서 직접 실행하지 않습니다. cluster policy, queue, account, walltime이 불명확하면 값을 만들어 내지 말고 instructor/admin에게 확인합니다.
+      </div>
+      <figure class="wide-figure">
+        <img src="assets/oh-my-qe-lab-init.png" alt="Oh My QE lab notebook initialization output">
+        <figcaption>랩 노트는 계산 제출·plot·debug·QE shell activity를 시간순으로 남기는 장치입니다.</figcaption>
+      </figure>
+    </section>
+
+    <section id="xspectra">
+      <h2>4. XSpectra 튜토리얼에서 쓰는 방식</h2>
+      <div class="grid-2">
+        <div class="card strong">
+          <h3>Diamond C K-edge</h3>
+          <p class="muted">처음에는 짧은 diamond 예제로 <code>SCF → XSpectra → replot → core-hole SCF → core-hole XSpectra</code> 흐름을 익힙니다. Oh My QE는 현재 파일을 읽고 어떤 입력과 scheduler script를 써야 하는지 초보자용 순서로 풀어 줍니다.</p>
+        </div>
+        <div class="card">
+          <h3>SrTiO3 O K-edge</h3>
+          <p class="muted">흡수 원자를 별도 species(<code>Oh</code>)로 분리하고 <code>xiabs</code>, HCH/FCH pseudo, <code>tot_charge</code>, supercell, k mesh를 확인합니다. 논문 수준 해석 전에는 아래 convergence 기준으로 production setting을 재검토합니다.</p>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:18px">
+        <figure><img src="assets/oh-my-qe-diamond-plan.png" alt="Diamond C K-edge calculation plan from Oh My QE"><figcaption><code>/qe-plan C-K edge diamond</code> 출력 예시.</figcaption></figure>
+        <figure><img src="assets/oh-my-qe-submit-log.png" alt="Job submission log captured in lab notebook"><figcaption>작업 제출 후 job id와 상태가 랩 노트에 기록됩니다.</figcaption></figure>
+      </div>
+      <figure class="wide-figure">
+        <img src="assets/oh-my-qe-diamond-plot.png" alt="Diamond C K-edge plot from tutorial output">
+        <figcaption>실습의 첫 성공 지표는 로그의 <code>JOB DONE</code>과 생성된 spectrum 파일, 그리고 plot입니다.</figcaption>
+      </figure>
+    </section>
+
+    <section id="convergence">
+      <h2>5. Manuscript convergence test: 빠른 실습값과 production 해석값을 분리합니다</h2>
+      <p>Supplemental Material의 O K-edge HCH convergence test는 wavefunction cutoff, k-point mesh, Lanczos iteration을 독립적으로 바꾸며 <code>t2g–eg</code> peak spacing <code>ΔE</code>와 peak-height ratio <code>I(t2g)/I(eg)</code>를 추적했습니다. 결론은 단순합니다: cutoff와 Lanczos는 안정적이지만, k mesh는 실제 해석 품질을 좌우합니다.</p>
+      <div class="grid-4">
+        <div class="card ok"><div class="metric">55 Ry</div><h3>ecutwfc</h3><p class="muted">40/55/70 Ry에서 <code>ΔE=5.86 eV</code>, intensity ratio도 0.780 전후로 안정적입니다.</p></div>
+        <div class="card ok"><div class="metric">2000</div><h3>Lanczos</h3><p class="muted">500/1000/2000 iteration에서 두 지표가 변하지 않아 production 값으로 충분합니다.</p></div>
+        <div class="card warn"><div class="metric">8³</div><h3>Unit-cell k mesh</h3><p class="muted">2³는 부적절하고 4³도 line shape 차이가 남습니다. 6³ 이후 안정, production은 8³.</p></div>
+        <div class="card warn"><div class="metric">4³</div><h3>Supercell k mesh</h3><p class="muted">2³ supercell은 under-sampled. 3³부터 주요 feature가 안정되고 4³는 5³ reference에 가깝습니다.</p></div>
+      </div>
+      <div class="callout warn" style="margin-top:18px">
+        <strong>수업용 입력과 논문용 입력은 목적이 다릅니다.</strong> 튜토리얼의 작은 mesh는 반나절 실습에서 흐름을 익히기 위한 빠른 설정일 수 있습니다. peak 위치, intensity ratio, 결함 농도 해석을 논문 수준으로 말하려면 아래 production 기준으로 재계산해야 합니다.
+      </div>
+
+      <h3 style="margin-top:30px">Table S6 요약: scalar feature convergence</h3>
+      <table>
+        <thead><tr><th>Parameter</th><th>Value</th><th class="num">ΔE (eV)</th><th class="num">I(t2g)/I(eg)</th><th>판정</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="3">Wavefunction cutoff</td><td>40 Ry</td><td class="num">5.86</td><td class="num">0.782</td><td><span class="tag ok">stable</span></td></tr>
+          <tr><td>55 Ry</td><td class="num">5.86</td><td class="num">0.780</td><td><span class="tag ok">baseline</span></td></tr>
+          <tr><td>70 Ry</td><td class="num">5.86</td><td class="num">0.781</td><td><span class="tag ok">stable</span></td></tr>
+          <tr><td rowspan="6">Unit-cell k-grid</td><td>2 × 2 × 2</td><td class="num">5.71</td><td class="num">0.599</td><td><span class="tag warn">inadequate</span></td></tr>
+          <tr><td>4 × 4 × 4</td><td class="num">5.86</td><td class="num">0.780</td><td><span class="tag warn">visible line-shape difference</span></td></tr>
+          <tr><td>6 × 6 × 6</td><td class="num">5.81</td><td class="num">0.770</td><td><span class="tag ok">mostly stable</span></td></tr>
+          <tr><td>8 × 8 × 8</td><td class="num">5.81</td><td class="num">0.765</td><td><span class="tag ok">production</span></td></tr>
+          <tr><td>10 × 10 × 10</td><td class="num">5.81</td><td class="num">0.765</td><td><span class="tag ok">stable</span></td></tr>
+          <tr><td>12 × 12 × 12</td><td class="num">5.81</td><td class="num">0.765</td><td><span class="tag ok">reference</span></td></tr>
+          <tr><td rowspan="3">Lanczos iterations</td><td>500</td><td class="num">5.86</td><td class="num">0.780</td><td><span class="tag ok">stable</span></td></tr>
+          <tr><td>1000</td><td class="num">5.86</td><td class="num">0.780</td><td><span class="tag ok">stable</span></td></tr>
+          <tr><td>2000</td><td class="num">5.86</td><td class="num">0.780</td><td><span class="tag ok">production</span></td></tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top:30px">Table S7 요약: extended k-point line-shape difference</h3>
+      <table>
+        <thead><tr><th>System</th><th>Mesh</th><th class="num">RMS vs reference</th><th class="num">Max abs. vs reference</th><th>읽는 법</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="5">Unit cell, reference 12³</td><td>2³</td><td class="num">0.2141</td><td class="num">0.5020</td><td><span class="tag warn">not usable</span></td></tr>
+          <tr><td>4³</td><td class="num">0.0652</td><td class="num">0.1408</td><td><span class="tag warn">training-only speed setting</span></td></tr>
+          <tr><td>6³</td><td class="num">0.0261</td><td class="num">0.0527</td><td><span class="tag ok">acceptable trend</span></td></tr>
+          <tr><td>8³</td><td class="num">0.0113</td><td class="num">0.0301</td><td><span class="tag ok">production choice</span></td></tr>
+          <tr><td>10³</td><td class="num">0.0043</td><td class="num">0.0132</td><td><span class="tag ok">near reference</span></td></tr>
+          <tr><td rowspan="3">Pristine 2×2×2 supercell, reference 5³</td><td>2³</td><td class="num">0.0508</td><td class="num">0.1460</td><td><span class="tag warn">under-sampled</span></td></tr>
+          <tr><td>3³</td><td class="num">0.0195</td><td class="num">0.0700</td><td><span class="tag ok">main features stable</span></td></tr>
+          <tr><td>4³</td><td class="num">0.0072</td><td class="num">0.0286</td><td><span class="tag ok">production choice</span></td></tr>
+          <tr><td rowspan="3">δ = 0.125 vacancy supercell, reference 5³</td><td>2³</td><td class="num">0.0359</td><td class="num">0.1027</td><td><span class="tag warn">under-sampled</span></td></tr>
+          <tr><td>3³</td><td class="num">0.0143</td><td class="num">0.0334</td><td><span class="tag ok">main features stable</span></td></tr>
+          <tr><td>4³</td><td class="num">0.0040</td><td class="num">0.0127</td><td><span class="tag ok">production choice</span></td></tr>
+        </tbody>
+      </table>
+
+      <h3 style="margin-top:30px">Method-sensitivity checks</h3>
+      <div class="grid-3">
+        <div class="card"><h3>Broadening</h3><p class="muted">δ≈0.25 O K-edge에서 γ=0.8/1.2 eV broadening을 바꿔도 broad high-post-edge plateau가 생기지 않습니다.</p></div>
+        <div class="card"><h3>DFT+U</h3><p class="muted">Ti-only Dudarev <code>U=2</code>, <code>4 eV</code> scan은 near-stoichiometric 기준과 high-δ vacancy line shape mismatch를 해결하지 못했습니다.</p></div>
+        <div class="card"><h3>Empty states</h3><p class="muted">Stoichiometric <code>nbnd=30/45/60</code>, vacancy <code>nbnd=240/320/400</code> 범위에서 manuscript metric window의 line shape는 안정적입니다.</p></div>
+      </div>
+    </section>
+
+    <section id="teaching">
+      <h2>6. 수업 운영 메모</h2>
+      <div class="grid-3">
+        <div class="card strong"><h3>처음 10분</h3><p class="muted"><code>/qe-check</code>와 <code>/qe-lab-init</code>만 성공시키면 이후 오류 추적이 쉬워집니다. 학생별 환경 차이는 이 단계에서 드러납니다.</p></div>
+        <div class="card warn"><h3>계산 제출 전</h3><p class="muted">입력 변경 후에는 <code>/qe validate-input</code> 결과의 BLOCKER를 먼저 닫습니다. BLOCKER가 남은 제출은 instructor override 없이는 진행하지 않습니다.</p></div>
+        <div class="card"><h3>결과 해석 전</h3><p class="muted">실습용 빠른 mesh 결과는 “workflow 성공” 증거입니다. peak spacing, intensity ratio, vacancy fraction 같은 물리 결론은 convergence setting으로 재계산한 뒤 말합니다.</p></div>
+      </div>
+      <div class="callout" style="margin-top:20px">
+        <strong>추천 실습 문장.</strong> “오늘은 계산을 빨리 끝내기 위해 작은 mesh를 쓰지만, manuscript에서는 unit cell 8³, supercell 4³ mesh로 production spectra를 다시 계산했다. 작은 mesh 결과로 물리 결론을 내리지 않는다.”
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <p><strong>Sources used for this page</strong></p>
+    <ul class="source-list">
+      <li><code>oh-my-qe.pptx</code> screenshots and command examples.</li>
+      <li><a href="https://github.com/material-JH/oh-my-qe">https://github.com/material-JH/oh-my-qe</a> plugin source, command docs, install script, and safety rules.</li>
+      <li><code>manuscript_prl.pdf</code> and <code>supplement_prl.pdf</code> O K-edge convergence/method-sensitivity sections.</li>
+    </ul>
+  </footer>
+</body>
+</html>
