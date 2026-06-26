@@ -469,45 +469,41 @@
 
 <section class="slide plot-slide" data-title="랩 노트">
   <div class="slide-header"><span class="section-tag">기록</span><span>persistent lab notebook</span></div>
-  <h2>원본 계산 파일은 그대로 두고, 해석과 진행 상황은 노트에 남깁니다.</h2>
+  <h2>랩 노트는 먼저 만들고, 필요할 때 바로 봅니다.</h2>
   <div class="grid-2" style="margin-top:48px">
+    <div class="terminal compact"><span class="comment"># OpenCode command palette에서 실행</span>
+<span class="prompt">/</span>qe-lab-init .
+<span class="prompt">/</span>qe-lab-view .
+<span class="prompt">/</span>qe-lab-view . Diamond
+<span class="prompt">/</span>qe lab-update .</div>
     <div class="image-frame"><img src="assets/oh-my-qe-lab-init.png" alt="Oh My QE lab init output"></div>
-    <div class="card strong">
-      <h3>생성되는 파일</h3>
-      <ul class="clean" style="margin-top:24px">
-        <li><span class="mono">index.md</span> — 중요한 페이지 목록</li>
-        <li><span class="mono">notes.md</span> — 현재 synthesis</li>
-        <li><span class="mono">log.md</span> — 제출/plot/debug 기록</li>
-      </ul>
-    </div>
   </div>
+  <p class="subtitle">핵심은 파일 이름이 아니라, 계산 전후에 같은 명령으로 기록을 여는 습관입니다.</p>
 </section>
 
 <section class="slide plot-slide" data-title="Diamond 계획">
   <div class="slide-header"><span class="section-tag">예시</span><span>Diamond C K-edge</span></div>
-  <h2>첫 예제는 Diamond C K-edge로 전체 흐름만 확인합니다.</h2>
+  <h2>Diamond 예제는 먼저 계획 명령으로 실행 순서만 확인합니다.</h2>
   <div class="grid-2" style="margin-top:44px">
+    <div class="terminal compact"><span class="comment"># 실행 전 점검과 계획</span>
+<span class="prompt">/</span>qe-check .
+<span class="prompt">/</span>qe-plan C-K edge diamond
+<span class="prompt">/</span>qe validate-input diamond
+<span class="prompt">/</span>qe files diamond</div>
     <div class="image-frame"><img src="assets/oh-my-qe-diamond-plan.png" alt="Diamond C K-edge plan output"></div>
-    <div class="card strong">
-      <h3>학생이 확인할 것</h3>
-      <ul class="clean" style="margin-top:24px">
-        <li>입력 파일과 실행 파일의 대응</li>
-        <li>Slurm/PBS script 위치</li>
-        <li><span class="mono">JOB DONE</span> 확인 파일</li>
-        <li>plot script 실행 위치</li>
-      </ul>
-    </div>
   </div>
+  <p class="subtitle">무거운 계산은 아직 실행하지 않습니다. 어떤 입력, scheduler script, 성공 파일을 볼지만 정합니다.</p>
 </section>
 
 <section class="slide plot-slide" data-title="제출과 그림">
   <div class="slide-header"><span class="section-tag">결과 확인</span><span>submit + plot</span></div>
-  <h2>제출은 기록되고, 완료 뒤에는 기존 plot script로 그림을 만듭니다.</h2>
+  <h2>제출, 상태 확인, plot까지 같은 루틴으로 닫습니다.</h2>
   <div class="grid-2" style="margin-top:44px">
     <div>
-      <div class="image-frame short"><img src="assets/oh-my-qe-submit-log.png" alt="Oh My QE submit log output"></div>
-      <div class="terminal compact" style="margin-top:26px"><span class="prompt">$</span> qstat -u $(whoami)
-<span class="prompt">$</span> python3 plot_spectra.py</div>
+      <div class="terminal compact"><span class="comment"># 제출 후 확인</span>
+<span class="prompt">/</span>qe-submit scheduler/pbs_diamond.pbs .
+<span class="prompt">/</span>qe-status
+<span class="prompt">/</span>qe-plot .</div>
     </div>
     <div class="image-frame"><img src="assets/oh-my-qe-diamond-plot.png" alt="Diamond C K-edge plot"></div>
   </div>
