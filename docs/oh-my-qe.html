@@ -395,7 +395,7 @@
     border-radius: 6px;
     box-shadow: 0 18px 44px rgba(16,25,35,.20);
   }
-  .command-banner .prompt { color: #38d2ff; font-weight: 900; margin-right: 12px; }
+  .command-banner .prompt { color: #38d2ff; font-weight: 900; margin-right: 0; }
   .command-banner.small { height: 126px; align-items: flex-start; font-size: 26px; line-height: 1.35; white-space: pre-wrap; }
 
   .metric { font-size: 72px; line-height: .95; letter-spacing: -.05em; color: var(--accent); font-weight: 900; word-break: keep-all; }
@@ -549,12 +549,11 @@
   <h2>제출 명령의 출력과 plot 명령의 결과 그림을 나란히 둡니다.</h2>
   <div class="split-pairs">
     <div class="pair-stack">
-      <div class="command-banner small"><span class="prompt">/</span>qe-submit scheduler/pbs_diamond.pbs .
-<span class="prompt">/</span>qe-status</div>
+      <div class="command-banner"><span class="prompt">/</span>qe-submit</div>
       <div class="image-frame output-shot split-output"><img src="assets/oh-my-qe-submit-log.png" alt="Oh My QE submit output"></div>
     </div>
     <div class="pair-stack">
-      <div class="command-banner small"><span class="prompt">/</span>qe-plot .</div>
+      <div class="command-banner"><span class="prompt">/</span>qe-plot .</div>
       <div class="image-frame output-shot split-output"><img src="assets/oh-my-qe-diamond-plot.png" alt="Diamond C K-edge plot output"></div>
     </div>
   </div>
