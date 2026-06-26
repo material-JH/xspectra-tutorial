@@ -50,7 +50,7 @@ squeue -u "$USER"
 ### 자료
 
 - [학생용 HTML 발표 자료](https://material-jh.github.io/xspectra-tutorial/xspectra_tutorial_presentation.html)
-- [Oh My QE 플러그인 가이드 + convergence note](https://material-jh.github.io/xspectra-tutorial/oh-my-qe.html)
+- [Oh My QE 플러그인 가이드 + convergence note](https://material-jh.github.io/xspectra-tutorial/oh-my-qe.html) ([PDF](https://material-jh.github.io/xspectra-tutorial/oh-my-qe.pdf))
 - [강사용 체크리스트](docs/instructor_checklist.md)
 - [계산/데이터 출처](data_provenance.md)
 - [참고문헌](CITATION.md)
