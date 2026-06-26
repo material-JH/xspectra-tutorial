@@ -335,10 +335,68 @@
   .image-frame img { display: block; width: 100%; height: 100%; object-fit: contain; background: white; }
   .image-frame.short { min-height: 270px; height: 270px; }
   .image-frame.tall { min-height: 610px; height: 610px; }
+  .command-frame {
+    min-height: 0;
+    height: 96px;
+    padding: 10px 16px;
+    background: #101923;
+    border-top-color: var(--warm);
+  }
+  .command-frame img { object-fit: contain; background: #101923; }
+  .command-frame.wide { height: 124px; }
+  .output-frame {
+    min-height: 0;
+    height: 500px;
+    padding: 10px;
+    background: #ffffff;
+  }
+  .output-frame.short-output { height: 340px; }
+  .pair-stack { display: grid; gap: 20px; }
+  .command-terminal { font-size: 30px; line-height: 1.45; }
 
   .plot-slide .grid-2 { grid-template-columns: minmax(0, 1.28fr) minmax(360px, .72fr); align-items: start; gap: 34px; }
   .plot-slide .image-frame { height: 590px; min-height: 0; padding: 12px; background: white; }
   .plot-slide .image-frame img { border-radius: 2px; }
+  .plot-slide .cmd-output-wide { display: grid; gap: 14px; margin-top: 24px; }
+  .plot-slide .split-pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; margin-top: 24px; align-items: start; }
+  .plot-slide .command-shot {
+    height: 110px;
+    min-height: 0;
+    padding: 10px 18px;
+    background: #101923;
+    border-top-color: var(--warm);
+  }
+  .plot-slide .command-shot img { object-fit: contain; background: #101923; }
+  .plot-slide .output-shot {
+    height: 520px;
+    min-height: 0;
+    padding: 12px;
+    background: #ffffff;
+  }
+  .plot-slide .output-shot.short-wide { height: 330px; }
+  .plot-slide .output-shot.split-output { height: 320px; }
+  .plot-slide .output-shot.plan-output { height: 350px; }
+  .plot-slide .pair-stack { display: grid; gap: 18px; }
+  .plot-slide .pair-stack .command-terminal { min-height: 132px; }
+  .command-banner {
+    min-height: 0;
+    height: 94px;
+    display: flex;
+    align-items: center;
+    padding: 16px 30px;
+    font-family: var(--mono);
+    font-size: 42px;
+    line-height: 1.1;
+    color: var(--terminal-ink);
+    background: linear-gradient(160deg, var(--terminal-2), var(--terminal));
+    border: 1px solid rgba(0,174,239,.33);
+    border-left: 5px solid var(--accent-2);
+    border-top: 4px solid var(--warm);
+    border-radius: 6px;
+    box-shadow: 0 18px 44px rgba(16,25,35,.20);
+  }
+  .command-banner .prompt { color: #38d2ff; font-weight: 900; margin-right: 12px; }
+  .command-banner.small { height: 126px; align-items: flex-start; font-size: 26px; line-height: 1.35; white-space: pre-wrap; }
 
   .metric { font-size: 72px; line-height: .95; letter-spacing: -.05em; color: var(--accent); font-weight: 900; word-break: keep-all; }
   .metric-label { margin-top: 12px; font-size: 24px; line-height: 1.35; color: var(--muted); word-break: keep-all; }
@@ -469,43 +527,36 @@
 
 <section class="slide plot-slide" data-title="랩 노트">
   <div class="slide-header"><span class="section-tag">기록</span><span>persistent lab notebook</span></div>
-  <h2>랩 노트는 먼저 만들고, 필요할 때 바로 봅니다.</h2>
-  <div class="grid-2" style="margin-top:48px">
-    <div class="terminal compact"><span class="comment"># OpenCode command palette에서 실행</span>
-<span class="prompt">/</span>qe-lab-init .
-<span class="prompt">/</span>qe-lab-view .
-<span class="prompt">/</span>qe-lab-view . Diamond
-<span class="prompt">/</span>qe lab-update .</div>
-    <div class="image-frame"><img src="assets/oh-my-qe-lab-init.png" alt="Oh My QE lab init output"></div>
+  <h2>입력한 명령과 생성된 랩 노트 위치를 같이 봅니다.</h2>
+  <div class="cmd-output-wide">
+    <div class="command-banner"><span class="prompt">/</span>qe-lab-init</div>
+    <div class="image-frame output-shot short-wide"><img src="assets/oh-my-qe-lab-init.png" alt="Oh My QE lab init output"></div>
   </div>
-  <p class="subtitle">핵심은 파일 이름이 아니라, 계산 전후에 같은 명령으로 기록을 여는 습관입니다.</p>
+  <p class="subtitle">핵심은 어떤 파일이 생기는지가 아니라, 계산 전후에 같은 명령으로 기록을 여는 습관입니다.</p>
 </section>
 
 <section class="slide plot-slide" data-title="Diamond 계획">
   <div class="slide-header"><span class="section-tag">예시</span><span>Diamond C K-edge</span></div>
-  <h2>Diamond 예제는 먼저 계획 명령으로 실행 순서만 확인합니다.</h2>
-  <div class="grid-2" style="margin-top:44px">
-    <div class="terminal compact"><span class="comment"># 실행 전 점검과 계획</span>
-<span class="prompt">/</span>qe-check .
-<span class="prompt">/</span>qe-plan C-K edge diamond
-<span class="prompt">/</span>qe validate-input diamond
-<span class="prompt">/</span>qe files diamond</div>
-    <div class="image-frame"><img src="assets/oh-my-qe-diamond-plan.png" alt="Diamond C K-edge plan output"></div>
+  <h2>계산 전에는 plan 명령과 plan 출력 화면을 같이 확인합니다.</h2>
+  <div class="cmd-output-wide">
+    <div class="command-banner"><span class="prompt">/</span>qe-plan C-K edge diamond</div>
+    <div class="image-frame output-shot plan-output"><img src="assets/oh-my-qe-diamond-plan.png" alt="Diamond C K-edge plan output"></div>
   </div>
-  <p class="subtitle">무거운 계산은 아직 실행하지 않습니다. 어떤 입력, scheduler script, 성공 파일을 볼지만 정합니다.</p>
 </section>
 
 <section class="slide plot-slide" data-title="제출과 그림">
   <div class="slide-header"><span class="section-tag">결과 확인</span><span>submit + plot</span></div>
-  <h2>제출, 상태 확인, plot까지 같은 루틴으로 닫습니다.</h2>
-  <div class="grid-2" style="margin-top:44px">
-    <div>
-      <div class="terminal compact"><span class="comment"># 제출 후 확인</span>
-<span class="prompt">/</span>qe-submit scheduler/pbs_diamond.pbs .
-<span class="prompt">/</span>qe-status
-<span class="prompt">/</span>qe-plot .</div>
+  <h2>제출 명령의 출력과 plot 명령의 결과 그림을 나란히 둡니다.</h2>
+  <div class="split-pairs">
+    <div class="pair-stack">
+      <div class="command-banner small"><span class="prompt">/</span>qe-submit scheduler/pbs_diamond.pbs .
+<span class="prompt">/</span>qe-status</div>
+      <div class="image-frame output-shot split-output"><img src="assets/oh-my-qe-submit-log.png" alt="Oh My QE submit output"></div>
     </div>
-    <div class="image-frame"><img src="assets/oh-my-qe-diamond-plot.png" alt="Diamond C K-edge plot"></div>
+    <div class="pair-stack">
+      <div class="command-banner small"><span class="prompt">/</span>qe-plot .</div>
+      <div class="image-frame output-shot split-output"><img src="assets/oh-my-qe-diamond-plot.png" alt="Diamond C K-edge plot output"></div>
+    </div>
   </div>
 </section>
 
